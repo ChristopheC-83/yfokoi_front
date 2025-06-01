@@ -1,25 +1,92 @@
+import { useAuthStore } from "@/Context/useAuthStore";
 import { jwtDecode } from "jwt-decode";
 
+// Interface du contenu du token
 interface JwtPayload {
   exp: number;
-  iat?: number;
-  userId?: string;
+  name : string;
+  id: string;
   email?: string;
-  // ajoute ici les champs que tu inclus côté backend
+  // Ajoute ici d'autres champs côté back si nécessaire
 }
 
-export const decodeToken = (token: string) => {
+// Décoder le token et vérifier son expiration
+export function decodeToken(token: string): {
+  expired: boolean;
+  decoded: JwtPayload | null;
+} {
   try {
     const decoded = jwtDecode<JwtPayload>(token);
     const now = Math.floor(Date.now() / 1000);
 
-    if (typeof decoded.exp !== "number" || decoded.exp < now) {
-      return { expired: true, decoded: null };
-    } else {
-      return { expired: false, decoded };
-    }
+    const expired = !decoded.exp || decoded.exp < now;
+    return { expired, decoded: expired ? null : decoded };
   } catch (error) {
     console.error("Erreur lors du décodage du token:", error);
     return { expired: true, decoded: null };
   }
-};
+}
+
+// Vérifie si l'utilisateur est authentifié
+export function isAuthenticated(): boolean {
+  const token = localStorage.getItem("token");
+  return !!token && !decodeToken(token).expired;
+}
+
+// Vérifie si le token expire bientôt (ex: dans 20 min)
+export function shouldRefreshToken(token: string, marginInSeconds = 1200): boolean {
+  try {
+    const decoded = jwtDecode<JwtPayload>(token);
+    const now = Math.floor(Date.now() / 1000);
+    return !!decoded.exp && (decoded.exp - now < marginInSeconds);
+  } catch (error) {
+    console.error("Erreur lors du décodage du token:", error);
+    return false;
+  }
+}
+
+// Demande un nouveau token au backend
+export async function refreshToken(): Promise<string | null> {
+  const token = localStorage.getItem("token");
+  if (!token) return null;
+
+  try {
+    const response = await fetch("http://localhost/YOFOKOI/yfokoi_back/api_account/refresh", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) throw new Error("Échec du rafraîchissement du token");
+
+    const data = await response.json();
+    if (!data.token) throw new Error("Pas de token reçu");
+
+    localStorage.setItem("token", data.token);
+    return data.token;
+  } catch (err) {
+    console.error("Erreur lors du rafraîchissement du token :", err);
+    return null;
+  }
+}
+
+// Rafraîchit le token uniquement s'il est proche de l'expiration
+export async function refreshTokenIfNeeded(marginInSeconds = 1200): Promise<string | null> {
+  const token = localStorage.getItem("token");
+  if (!token) return null;
+
+  if (shouldRefreshToken(token, marginInSeconds)) {
+    return await refreshToken();
+  }
+
+  return token;
+}
+
+// Supprime le token local (déconnexion)
+export function logout(): void {
+  localStorage.removeItem("token");
+  useAuthStore.getState().setUser(null); 
+  useAuthStore.getState().setToken(null);
+}

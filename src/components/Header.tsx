@@ -1,9 +1,17 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { SiDiscourse } from "react-icons/si";
 import useViewport from "@/hooks/useIsDesktop";
+import { isAuthenticated, logout } from "@/services/authServices";
 
 export default function Header() {
   const viewport = useViewport();
+
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    logout();
+    navigate("/");
+  }
 
   return (
     <nav className="bg-slate-900  text-amber-100">
@@ -71,24 +79,50 @@ export default function Header() {
                 </li>{" "}
               </div>
             )}
-            <li>
-              <NavLink
-                to="login"
-                className="block py-2 px-3 hover:text-amber-300 duration-300"
-                aria-current="page"
-              >
-                Connexion
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="#"
-                className="block py-2 px-3 hover:text-amber-300 duration-300"
-                aria-current="page"
-              >
-                Inscription
-              </NavLink>
-            </li>
+
+            {isAuthenticated() ? ( <>
+                <li>
+                  <NavLink
+                    to="profil"
+                    className="block py-2 px-3 hover:text-amber-300 duration-300 "
+                    aria-current="page"
+                  >
+                    Profile
+                  </NavLink>
+                </li>
+                <li>
+                  <div
+                  onClick={handleLogout}
+                    className="block py-2 px-3 hover:text-amber-300 duration-300 cursor-pointer"
+                    aria-current="page"
+                  >
+                    Déconnexion
+                  </div>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <NavLink
+                    to="login"
+                    className="block py-2 px-3 hover:text-amber-300 duration-300"
+                    aria-current="page"
+                  >
+                    Connexion
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="#"
+                    className="block py-2 px-3 hover:text-amber-300 duration-300"
+                    aria-current="page"
+                  >
+                    Inscription
+                  </NavLink>
+                </li>
+              </>
+             
+            )}
           </ul>
         </div>
       </div>
