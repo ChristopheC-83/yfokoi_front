@@ -113,7 +113,7 @@ export default function Header() {
                 </li>
                 <li>
                   <NavLink
-                    to="#"
+                    to="register"
                     className="block py-2 px-3 hover:text-amber-300 duration-300"
                     aria-current="page"
                   >
