@@ -47,7 +47,7 @@ export default function useLogin() {
       setUser({
         id: decoded.id || "",
         name: decoded.name || "",
-        email: decoded.email || "",
+        email: decoded.email || "", 
       });
       navigate("/");
     } catch (err: unknown) {

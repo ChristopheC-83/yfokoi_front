@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 // Interface du contenu du token
 interface JwtPayload {
   exp: number;
-  name : string;
+  name: string;
   id: string;
   email?: string;
   // Ajoute ici d'autres champs côté back si nécessaire
@@ -34,11 +34,14 @@ export function isAuthenticated(): boolean {
 }
 
 // Vérifie si le token expire bientôt (ex: dans 20 min)
-export function shouldRefreshToken(token: string, marginInSeconds = 1200): boolean {
+export function shouldRefreshToken(
+  token: string,
+  marginInSeconds = 1200
+): boolean {
   try {
     const decoded = jwtDecode<JwtPayload>(token);
     const now = Math.floor(Date.now() / 1000);
-    return !!decoded.exp && (decoded.exp - now < marginInSeconds);
+    return !!decoded.exp && decoded.exp - now < marginInSeconds;
   } catch (error) {
     console.error("Erreur lors du décodage du token:", error);
     return false;
@@ -51,13 +54,16 @@ export async function refreshToken(): Promise<string | null> {
   if (!token) return null;
 
   try {
-    const response = await fetch("http://localhost/YOFOKOI/yfokoi_back/api_account/refresh", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      "http://localhost/YOFOKOI/yfokoi_back/api_account/refresh",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!response.ok) throw new Error("Échec du rafraîchissement du token");
 
@@ -73,7 +79,9 @@ export async function refreshToken(): Promise<string | null> {
 }
 
 // Rafraîchit le token uniquement s'il est proche de l'expiration
-export async function refreshTokenIfNeeded(marginInSeconds = 1200): Promise<string | null> {
+export async function refreshTokenIfNeeded(
+  marginInSeconds = 1200
+): Promise<string | null> {
   const token = localStorage.getItem("token");
   if (!token) return null;
 
@@ -87,6 +95,6 @@ export async function refreshTokenIfNeeded(marginInSeconds = 1200): Promise<stri
 // Supprime le token local (déconnexion)
 export function logout(): void {
   localStorage.removeItem("token");
-  useAuthStore.getState().setUser(null); 
+  useAuthStore.getState().setUser(null);
   useAuthStore.getState().setToken(null);
 }

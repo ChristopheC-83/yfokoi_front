@@ -30,7 +30,6 @@ export default function Login() {
         type="password"
         onChange={(e) => setPassword(e.target.value)}
       />
-      <input type="text" name="" id="" />
 
       <ButtonForm>Se Connecter</ButtonForm>
       {error && <p className="text-red-500 mt-2">{error}</p>}
