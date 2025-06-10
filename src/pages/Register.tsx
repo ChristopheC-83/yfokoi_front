@@ -10,14 +10,17 @@ export default function Register() {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const { register, error } = useRegister();
 
-  function handleRegister(e: React.FormEvent) {
+  async function handleRegister(e: React.FormEvent) {
     e.preventDefault();
 
-    console.log("name : ", name);
-    console.log("email : ", email);
-    console.log("password : ", password);
-    console.log("passwordConfirmation : ", passwordConfirmation);
-    register(name, email, password, passwordConfirmation);
+    const success = await register(name, email, password, passwordConfirmation);
+
+    if (success) {
+      setName("");
+      setEmail("");
+      setPassword("");
+      setPasswordConfirmation("");
+    }
   }
 
   return (

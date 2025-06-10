@@ -1,6 +1,5 @@
 import { useState } from "react";
-
-
+import { toast } from "sonner";
 
 export default function useRegister() {
   const [error, setError] = useState<string | null>(null);
@@ -9,8 +8,8 @@ export default function useRegister() {
     name: string,
     email: string,
     password: string,
-    passwordConfirmation: string,
-  ) {
+    passwordConfirmation: string
+  ): Promise<boolean> {
     setError(null);
 
     if (!name || !email || !password || !passwordConfirmation) {
@@ -19,12 +18,16 @@ export default function useRegister() {
       console.log("email : ", email);
       console.log("password : ", password);
       console.log("passwordConfirmation : ", passwordConfirmation);
-      return;
+      toast.error("Veuillez remplir tous les champs");
+
+      return false;
     }
 
     if (password !== passwordConfirmation) {
       setError("Les mots de passe ne correspondent pas");
-      return;
+      toast.error("Les mots de passe ne correspondent pas");
+
+      return false;
     }
 
     try {
@@ -41,15 +44,26 @@ export default function useRegister() {
 
       const data = await response.json();
 
-      if (!response.ok)
-        throw new Error(data.message || "Erreur lors de l'enregistrement");
+      if (!response.ok) {
+        toast.error("Erreur lors de l'enregistrement : " + data.message);
+        return false;
+      }
 
       console.log("Enregistrement réussi :", data);
+      toast.success("Enregistrement réussi ! Vous êtes connecté !");
+      return true;
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError("Erreur : " + err.message);
+        toast.error("L'enregistrement a échoué : " + err.message);
+
+        return false;
       } else {
         setError("Une erreur inconnue est survenue");
+        toast.error(
+          "Une erreur inconnue est survenue lors de l'enregistrement"
+        );
+        return false;
       }
     }
   }
