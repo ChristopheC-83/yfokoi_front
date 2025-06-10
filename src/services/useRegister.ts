@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+
+
 export default function useRegister() {
   const [error, setError] = useState<string | null>(null);
 
@@ -7,12 +9,16 @@ export default function useRegister() {
     name: string,
     email: string,
     password: string,
-    passwordConfirmation: string
+    passwordConfirmation: string,
   ) {
     setError(null);
 
     if (!name || !email || !password || !passwordConfirmation) {
       setError("Veuillez remplir tous les champs");
+      console.log("name : ", name);
+      console.log("email : ", email);
+      console.log("password : ", password);
+      console.log("passwordConfirmation : ", passwordConfirmation);
       return;
     }
 
