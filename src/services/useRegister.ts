@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { toast } from "sonner";
+import useLogin from "./useLogin";
 
 export default function useRegister() {
   const [error, setError] = useState<string | null>(null);
+  const { login } = useLogin();
 
   async function register(
     name: string,
@@ -14,10 +16,6 @@ export default function useRegister() {
 
     if (!name || !email || !password || !passwordConfirmation) {
       setError("Veuillez remplir tous les champs");
-      console.log("name : ", name);
-      console.log("email : ", email);
-      console.log("password : ", password);
-      console.log("passwordConfirmation : ", passwordConfirmation);
       toast.error("Veuillez remplir tous les champs");
 
       return false;
@@ -49,8 +47,9 @@ export default function useRegister() {
         return false;
       }
 
-      console.log("Enregistrement réussi :", data);
-      toast.success("Enregistrement réussi ! Vous êtes connecté !");
+
+      login(name, password);
+      toast.success("Enregistrement réussi ! ");
       return true;
     } catch (err: unknown) {
       if (err instanceof Error) {

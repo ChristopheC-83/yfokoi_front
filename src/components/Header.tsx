@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { SiDiscourse } from "react-icons/si";
 import useViewport from "@/hooks/useIsDesktop";
 import { isAuthenticated, logout } from "@/services/authServices";
+import { toast } from "sonner";
 
 export default function Header() {
   const viewport = useViewport();
@@ -9,8 +10,9 @@ export default function Header() {
   const navigate = useNavigate();
 
   function handleLogout() {
-    logout();
     navigate("/");
+    logout();
+    toast.success("Déconnexion réussie !");
   }
 
   return (

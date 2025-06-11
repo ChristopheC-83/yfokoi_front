@@ -16,7 +16,7 @@ interface AuthState {
   setToken: (token: NullableToken) => void;
   setUser: (user: NullableUser) => void;
   logout: () => void;
-
+  isInitialized: boolean;
   initUserFromToken: () => void;
 }
 
@@ -36,21 +36,26 @@ export const useAuthStore = create<AuthState>((set) => ({
     localStorage.removeItem("token");
     set({ token: null, user: null });
   },
-
+  isInitialized: false,
   initUserFromToken: () => {
     const token = localStorage.getItem("token");
-    if (!token) return;
+    if (!token) {
+      set({ token: null, user: null, isInitialized: true });
+      return;
+    }
 
     const { expired, decoded } = decodeToken(token);
 
     if (expired || !decoded) {
-      set({ token: null, user: null });
+      set({ token: null, user: null, isInitialized: true });
       localStorage.removeItem("token");
-    } else if (decoded.id && decoded.name && decoded.email) {
-      set({
-        user: { id: decoded.id, name: decoded.name, email: decoded.email },
-        token,
-      });
+    } else {
+      const user = {
+        id: decoded.id,
+        name: decoded.name,
+        email: decoded.email || "",
+      };
+      set({ user, token, isInitialized: true });
     }
   },
 }));

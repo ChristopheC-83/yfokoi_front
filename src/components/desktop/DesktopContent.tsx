@@ -15,7 +15,7 @@ export default function DesktopContent() {
           <h2 className="text-2xl font-bold text-amber-100">Bienvenue, {user.name} !</h2>
           <p>ton id est {user.id}</p>
           <p>ton email est {user.email}</p>
-          <p>ton token est {useAuthStore.getState().token}</p>
+          <p>ton token est {useAuthStore.getState().token?.length}</p>
         </div>
       )}
     </>

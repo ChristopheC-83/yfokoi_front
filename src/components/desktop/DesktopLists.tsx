@@ -39,7 +39,6 @@ const [lists, setLists] = useState<List[]>([]);
 
   useEffect(() => {
     fetchAllLists();
-    console.log(lists);
   }, []);
 
   return (

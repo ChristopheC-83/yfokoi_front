@@ -97,4 +97,5 @@ export function logout(): void {
   localStorage.removeItem("token");
   useAuthStore.getState().setUser(null);
   useAuthStore.getState().setToken(null);
+  
 }

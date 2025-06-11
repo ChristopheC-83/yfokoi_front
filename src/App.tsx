@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+// App.tsx
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
@@ -6,7 +7,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import ConnectedRoute from "./components/ConnectedRoute";
-import UnconnectedRoute from "./components/UnconnectedRoute";
+import NoConnectedRoute from "./components/NoConnectedRoute";
 import { useEffect } from "react";
 import { useAuthStore } from "./Context/useAuthStore";
 
@@ -19,17 +20,17 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: (
-          <UnconnectedRoute>
+          <NoConnectedRoute>
             <Login />
-          </UnconnectedRoute>
+          </NoConnectedRoute>
         ),
       },
       {
         path: "register",
         element: (
-          <UnconnectedRoute>
+          <NoConnectedRoute>
             <Register />
-          </UnconnectedRoute>
+          </NoConnectedRoute>
         ),
       },
       {
@@ -43,13 +44,17 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-function App() {
 
+function App() {
   const initUserFromToken = useAuthStore((state) => state.initUserFromToken);
+  const isInitialized = useAuthStore((state) => state.isInitialized);
 
   useEffect(() => {
     initUserFromToken();
   }, []);
+
+  if (!isInitialized) return <p>Chargement de l'utilisateur...</p>; // ⏳ attend init
+
   return <RouterProvider router={router} />;
 }
 

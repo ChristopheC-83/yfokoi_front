@@ -2,6 +2,7 @@ import { useAuthStore } from "@/Context/useAuthStore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { decodeToken } from "./authServices";
+import { toast } from "sonner";
 
 export default function useLogin() {
   const [error, setError] = useState<string | null>(null);
@@ -50,6 +51,7 @@ export default function useLogin() {
         email: decoded.email || "", 
       });
       navigate("/");
+      toast.success("Connexion réussie !");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError("Erreur : " + err.message);
