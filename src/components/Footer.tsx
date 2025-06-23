@@ -13,20 +13,20 @@ export default function Footer() {
 <footer className="bg-slate-900  text-amber-100 ">
     <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
-          <div className="mb-6 md:mb-0 flex flex-col justify-between">
+          <div className="mb-6 md:mb-0 flex flex-col justify-between text-amber-300">
               <a href="https://flowbite.com/" className="flex items-center text-2xl space-x-2">
                   <SiDiscourse />
                   <span className="self-center  font-semibold whitespace-nowrap ">Yfokoi ?</span>
               </a>
               { user && (
-                <p className="text-sm text-amber-200 mt-2">
+                <p className="text-sm  mt-2">
                   Bonjour {user.name} !
                   </p>)
                   }
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
               <div>
-                  <h2 className="mb-6 text-sm font-semibold text-amber-200 uppercase ">Resources</h2>
+                  <h2 className="mb-6 text-sm font-semibold text-amber-200 uppercase underline underline-offset-4 ">Resources</h2>
                   <ul className=" font-medium">
                       <li className="mb-4">
                           <a href="https://flowbite.com/" className="hover:underline">Flowbite</a>

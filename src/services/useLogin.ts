@@ -32,9 +32,14 @@ export default function useLogin() {
       );
 
       const data = await response.json();
+      
+        console.log(data);
+        console.log(response);
 
-      if (!response.ok)
-        throw new Error(data.message || "Erreur lors de la connexion");
+      if (!response.ok){
+        console.log(data);
+        console.log(response);
+        throw new Error(data.message || "Erreur lors de la connexion");}
       if (!data.token) throw new Error("Le token n'a pas été reçu");
 
       // stocke token et user dans Zustand
@@ -51,7 +56,7 @@ export default function useLogin() {
         email: decoded.email || "", 
       });
       navigate("/");
-      toast.success("Connexion réussie !");
+      toast.success("Connexion réussie !!!");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError("Erreur : " + err.message);

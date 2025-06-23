@@ -13,7 +13,7 @@ export default function Profile() {
     return null; 
   }
   return (
-    <div>
+    <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
       <h1>profile</h1>
       mon compte est : {user.name}
     </div>
