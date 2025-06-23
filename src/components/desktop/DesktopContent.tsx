@@ -8,7 +8,7 @@ export default function DesktopContent() {
   
 
   return (
-    <>
+    <div className="mx-auto w-full max-w-screen-xl flex flex-col">
       <div>DesktopContent</div>
       {user && (
         <div className="p-4">
@@ -18,6 +18,6 @@ export default function DesktopContent() {
           <p>ton token est {useAuthStore.getState().token?.length}</p>
         </div>
       )}
-    </>
+    </div>
   );
 }
