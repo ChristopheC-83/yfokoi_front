@@ -10,6 +10,7 @@ import ConnectedRoute from "./components/ConnectedRoute";
 import NoConnectedRoute from "./components/NoConnectedRoute";
 import { useEffect } from "react";
 import { useAuthStore } from "./Context/useAuthStore";
+import Contact from "./pages/Contact";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,12 @@ const router = createBrowserRouter([
           <ConnectedRoute>
             <Profile />
           </ConnectedRoute>
+        ),
+      },
+      {
+        path: "contact",
+        element: (
+            <Contact />
         ),
       },
     ],
