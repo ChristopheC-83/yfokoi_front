@@ -1,22 +1,18 @@
-
 import { useAuthStore } from "@/Context/useAuthStore";
-import { useUserContextStore } from "@/Context/useUserContextStore";
-import { useEffect } from "react";
 
-export default function DesktopContent() {
+type User = {
+  id: number | string;
+  name: string;
+  email: string;
+};
 
-  const user = useAuthStore((state) => state.user);
-  const userContext = useUserContextStore((state) => state.userContext);
+interface HomeConnectedProps {
+  user: User;
+}
 
-  useEffect(() => {
-    if (user) {
-      useUserContextStore.getState().createOrUpdateUserContext();
-      // console.log("userContext", userContext);
-    }
-  }, [user, userContext]);
+export default function DesktopContent({ user }: HomeConnectedProps) {
 
   
-
   return (
     <div className="mx-auto w-full max-w-screen-xl flex flex-col">
       <div>DesktopContent</div>
