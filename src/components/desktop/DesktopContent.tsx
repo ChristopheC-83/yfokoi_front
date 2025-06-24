@@ -1,9 +1,19 @@
 
 import { useAuthStore } from "@/Context/useAuthStore";
+import { useUserContextStore } from "@/Context/useUserContextStore";
+import { useEffect } from "react";
 
 export default function DesktopContent() {
 
   const user = useAuthStore((state) => state.user);
+  const userContext = useUserContextStore((state) => state.userContext);
+
+  useEffect(() => {
+    if (user) {
+      useUserContextStore.getState().createOrUpdateUserContext();
+      // console.log("userContext", userContext);
+    }
+  }, [user, userContext]);
 
   
 

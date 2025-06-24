@@ -5,6 +5,7 @@ import HomeConnected from "./HomeConnected";
 
 export default function Home() {
   const user = useAuthStore((state) => state.user);
+  
   useEffect(() => {
     if (!user) {
       // Redirection logic or any other action if user is not authenticated
