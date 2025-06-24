@@ -1,22 +1,19 @@
-import DesktopContent from "@/components/desktop/DesktopContent";
-import DesktopFriends from "@/components/desktop/DesktopFriends";
-import DesktopLists from "@/components/desktop/DesktopLists";
-import DesktopSharing from "@/components/desktop/DesktopSharing";
-import useViewport from "@/hooks/useIsDesktop";
-
+import { useAuthStore } from "@/Context/useAuthStore";
+import { useEffect } from "react";
+import HomeNoConnected from "./HomeNoConnected";
+import HomeConnected from "./HomeConnected";
 
 export default function Home() {
-  const viewport = useViewport();
-  return (
-    <section className="flex justify-between w-full">
-      {(viewport === "desktop" || viewport === "tablet") && <DesktopLists />}
-      {(viewport === "desktop" || viewport === "tablet") && <DesktopContent />}
-      {viewport === "desktop" && (
-        <section className="flex flex-col">
-          <DesktopSharing />
-          <DesktopFriends />
-        </section>
-      )}
-    </section>
-  );
+  const user = useAuthStore((state) => state.user);
+  useEffect(() => {
+    if (!user) {
+      // Redirection logic or any other action if user is not authenticated
+      console.log("User is not authenticated");
+    } else {
+      // Logic for authenticated user
+      console.log("User is authenticated:", user);
+    }
+  }, [user]);
+
+  return user ? <HomeConnected /> : <HomeNoConnected />;
 }
