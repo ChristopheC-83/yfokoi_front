@@ -42,8 +42,8 @@ export default function useRegister() {
 
       const data = await response.json();
       
-        console.log(data);
-        console.log(response);
+        // console.log(data);
+        // console.log(response);
 
       if (!response.ok) {
         toast.error("Erreur lors de l'enregistrement : " + data.message);

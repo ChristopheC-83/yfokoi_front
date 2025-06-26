@@ -1,16 +1,13 @@
 import { useAuthStore } from "@/Context/useAuthStore";
+import type { User } from "@/types/User";
 
-type User = {
-  id: number | string;
-  name: string;
-  email: string;
-};
 
-interface HomeConnectedProps {
+
+interface DesktopContentProps {
   user: User;
 }
 
-export default function DesktopContent({ user }: HomeConnectedProps) {
+export default function DesktopContent({ user }: DesktopContentProps) {
 
   
   return (

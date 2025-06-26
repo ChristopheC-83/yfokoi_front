@@ -1,49 +1,38 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import { fetchAllLists } from "@/services/lists/fetchAllLists";
+import type { List } from "@/types/List";
+import type { User } from "@/types/User";
 import { useState, useEffect } from "react";
 
-type List = {
-  id: number;
-  name: string;
-  owner_id: number;
-  created_at: string;
-  updated_at: string;
-  is_archived: number;
-};
+interface DesktopListsProps {
+  user: User;
+}
 
-export default function DesktopLists() {
-const [lists, setLists] = useState<List[]>([]);
+export default function DesktopLists({ user }: DesktopListsProps) {
+  const [lists, setLists] = useState<List[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const url = "http://localhost/YOFOKOI/yfokoi_back/api_lists/getAllLists";
-  async function fetchAllLists() {
-    setLoading(true);
-    setError(null);
 
-    try {
-      const response = await fetch(url);
-      // console.log(response);
+ async function loadLists() {
+  setLoading(true);
+  setError(null);
 
-      if (!response.ok) {
-        throw new Error("Problème lors de la récupération des données");
-      }
-      const data = await response.json();
-      
-      setLists(data);
-    } catch (err) {
-      setError("Failed to fetch lists");
-    } finally {
-      setLoading(false);
-    }
+  try {
+    const data = await fetchAllLists();
+    setLists(data);
+  } catch (err) {
+    setError("Impossible de charger les listes : " + (err instanceof Error ? err.message : "Erreur inconnue"));
+  } finally {
+    setLoading(false);
   }
+}
 
   useEffect(() => {
-    fetchAllLists();
+    loadLists();
   }, []);
 
   return (
     <div>
-      <h1>DesktopLists</h1>
+      <h1>DesktopLists de {user.name}</h1>
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
       {lists.map((list, index) => (

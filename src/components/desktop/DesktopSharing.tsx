@@ -1,9 +1,14 @@
-import React from 'react'
+import type { User } from '@/types/User';
 
-export default function DesktopSharing() {
+
+interface DesktopSharingProps {
+  user: User;
+}
+
+export default function DesktopSharing({user}: DesktopSharingProps) {
   return (
     <div>
-      DesktopSharing
+      DesktopSharing de {user.name}
     </div>
   )
 }

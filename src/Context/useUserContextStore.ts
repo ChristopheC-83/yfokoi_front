@@ -1,11 +1,12 @@
 import { create } from "zustand";
 import { useAuthStore } from "./useAuthStore";
+import type { UserContextData } from "@/types/User";
 
-interface UserContextData {
-  selectedListId: number | null;
-  favoriteListId: number | null;
-  countAskFriends: number;
-}
+// interface UserContextData {
+//   selectedListId: number | null;
+//   favoriteListId: number | null;
+//   countAskFriends: number;
+// }
 
 interface UserContextStore {
   userContext: UserContextData;
@@ -55,8 +56,8 @@ export const useUserContextStore = create<UserContextStore>((set) => ({
 
       const data = await response.json();
 
-      console.log(data);
-      console.log(response);
+      // console.log(data);
+      // console.log(response);
 
 
 

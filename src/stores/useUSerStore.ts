@@ -1,19 +1,16 @@
+import type { User } from "@/types/User";
 import { create } from "zustand";
 
-interface User {
-  id: string;
-  name: string;
-  email?: string;
-}
+
 
 interface UserStore {
   user: User | null;
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
   clearUser: () => void;
   isLoggedIn: () => boolean;
-  getUserId: () => string | null;
-  getUserName: () => string;
-  getUserEmail: () => string;
+  getUserId: () => string | number | null;
+  getUserName: () => string | null;
+  getUserEmail: () => string | undefined;
 }
 
 export const useUserStore = create<UserStore>((set, get) => ({
@@ -21,7 +18,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
   setUser: (user) => set({ user }),
   clearUser: () => set({ user: null }),
   isLoggedIn: () => !!get().user,
-  getUserId: () => get().user?.id || null,
-  getUserName: () => get().user?.name || "",
-  getUserEmail: () => get().user?.email || "",
-}));
+  getUserId: () => get().user?.id ?? null,
+  getUserName: () => get().user?.name ?? null,
+  getUserEmail: () => get().user?.email, 
+}))

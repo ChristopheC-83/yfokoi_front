@@ -1,11 +1,12 @@
 import { decodeToken } from "@/services/authServices";
+import type { User } from "@/types/User";
 import { create } from "zustand";
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
+// interface User {
+//   id: string;
+//   name: string;
+//   email: string;
+// }
 
 type NullableUser = User | null;
 type NullableToken = string | null;
