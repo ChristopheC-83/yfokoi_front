@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { decodeToken } from "./authServices";
 import { toast } from "sonner";
+import { URL_API } from "@/utils/env";
 
 export default function useLogin() {
   const [error, setError] = useState<string | null>(null);
@@ -21,7 +22,7 @@ export default function useLogin() {
 
     try {
       const response = await fetch(
-        "http://localhost/YOFOKOI/yfokoi_back/api_account/login",
+        `${URL_API}/api_account/login`,
         {
           method: "POST",
           headers: {

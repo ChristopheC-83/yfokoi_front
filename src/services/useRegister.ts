@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import useLogin from "./useLogin";
+import { URL_API } from "@/utils/env";
 
 export default function useRegister() {
   const [error, setError] = useState<string | null>(null);
@@ -30,7 +31,7 @@ export default function useRegister() {
 
     try {
       const response = await fetch(
-        "http://localhost/YOFOKOI/yfokoi_back/api_account/register",
+        `${URL_API}/api_account/register`,
         {
           method: "POST",
           headers: {

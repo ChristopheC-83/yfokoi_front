@@ -1,4 +1,5 @@
 import { useAuthStore } from "@/Context/useAuthStore";
+import { URL_API } from "@/utils/env";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -20,7 +21,7 @@ export default function useDeleteAccount() {
 
     try {
       const response = await fetch(
-        "http://localhost/YOFOKOI/yfokoi_back/api_account/delete",
+        `${URL_API}/api_account/delete`,
         {
           method: "DELETE",
           headers: {

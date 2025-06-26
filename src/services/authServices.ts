@@ -1,4 +1,5 @@
 import { useAuthStore } from "@/Context/useAuthStore";
+import { URL_API } from "@/utils/env";
 import { jwtDecode } from "jwt-decode";
 
 // Interface du contenu du token
@@ -55,7 +56,7 @@ export async function refreshToken(): Promise<string | null> {
 
   try {
     const response = await fetch(
-      "http://localhost/YOFOKOI/yfokoi_back/api_account/refresh",
+      `${URL_API}/api_account/refresh`,
       {
         method: "POST",
         headers: {
