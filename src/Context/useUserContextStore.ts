@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { useAuthStore } from "./useAuthStore";
 import type { UserContextData } from "@/types/User";
+import { URL_API } from "@/utils/env";
 
 // interface UserContextData {
 //   selectedListId: number | null;
@@ -39,39 +39,31 @@ export const useUserContextStore = create<UserContextStore>((set) => ({
     }),
 
   createOrUpdateUserContext: async () => {
-    const user = useAuthStore.getState().user;
-    if (!user) return;
-
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("Pas de token d'authentification !");
+      return;
+    }
     try {
-      const response = await fetch(
-        "http://localhost/YOFOKOI/yfokoi_back/api_account/userContext",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: user.id }),
-        }
-      );
+      const response = await fetch(`${URL_API}/api_account/userContext`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const data = await response.json();
 
-      // console.log(data);
-      // console.log(response);
-
-
-
-        if (response.ok) {
-            // Successfully created or updated user context
-            console.log("User context created or updated successfully:", data);
-        } else {
-            // Handle error response
-            console.error("Failed to create or update user context:", data);
-        }
-
-
+      if (response.ok) {
+        console.log("User context created or updated successfully:", data);
+      } else {
+        console.error("Failed to create or update user context:", data);
+      }
     } catch (error) {
       console.error("Error creating or updating user context:", error);
     }
   },
+
+
 }));

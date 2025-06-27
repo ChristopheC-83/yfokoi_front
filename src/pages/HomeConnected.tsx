@@ -24,7 +24,7 @@ export default function HomeConnected({ user }: HomeConnectedProps) {
   useEffect(() => {
     if (user) {
       useUserContextStore.getState().createOrUpdateUserContext();
-      // console.log("userContext", userContext);
+      console.log("userContext", userContext);
     }
   }, [user, userContext]);
 

@@ -1,33 +1,44 @@
-import { fetchAllLists } from "@/services/lists/fetchAllLists";
-import type { List } from "@/types/List";
+/* eslint-disable react-hooks/exhaustive-deps */
+
+import { useAuthStore } from "@/Context/useAuthStore";
+import { fetchOwnedLists } from "@/services/lists/crudOwnedLists";
+import { useListsStore } from "@/stores/useListsStore";
 import type { User } from "@/types/User";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface DesktopListsProps {
   user: User;
 }
 
 export default function DesktopLists({ user }: DesktopListsProps) {
-  const [lists, setLists] = useState<List[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+
+  const ownedLists = useListsStore((state) => state.ownedLists);
+  const accessLists = useListsStore((state) => state.accessLists);
+  const setOwnedLists = useListsStore((state) => state.setOwnedLists);
+  const setAccessLists = useListsStore((state) => state.setAccessLists);
+
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
- async function loadLists() {
-  setLoading(true);
-  setError(null);
-
-  try {
-    const data = await fetchAllLists();
-    setLists(data);
-  } catch (err) {
-    setError("Impossible de charger les listes : " + (err instanceof Error ? err.message : "Erreur inconnue"));
-  } finally {
-    setLoading(false);
-  }
-}
-
   useEffect(() => {
-    loadLists();
+    const fetchLists = async () => {
+      const token = useAuthStore.getState().token;
+      if (!token) {
+        setError("Token non trouvé, veuillez vous reconnecter");
+        return;
+      }
+
+      try {
+        const owned = await fetchOwnedLists(token);
+        setOwnedLists(owned);
+        setLoading(false);
+      } catch (err) {
+        setError("Erreur lors du chargement des listes");
+        console.error(err);
+      }
+    };
+
+    fetchLists();
   }, []);
 
   return (
@@ -35,7 +46,13 @@ export default function DesktopLists({ user }: DesktopListsProps) {
       <h1>DesktopLists de {user.name}</h1>
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
-      {lists.map((list, index) => (
+      {ownedLists?.map((list, index) => (
+        <div key={index} className="p-4 border-b border-gray-300">
+          <h2 className="text-lg font-semibold">{list.name}</h2>
+          <p className="text-gray-600">Liste de : {list.owner_id}</p>
+        </div>
+      ))}
+      {accessLists?.map((list, index) => (
         <div key={index} className="p-4 border-b border-gray-300">
           <h2 className="text-lg font-semibold">{list.name}</h2>
           <p className="text-gray-600">Liste de : {list.owner_id}</p>
