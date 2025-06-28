@@ -14,11 +14,11 @@ export async function fetchOwnedLists(token: string): Promise<OwnedList[]> {
   });
 
   if (!response.ok) {
-    console.log("fetchOwnedLists response not ok:", response);
+    // console.log("fetchOwnedLists response not ok:", response);
     throw new Error("Erreur lors de la récupération des listes personnelles.");
   }
 
   const data = await response.json();
-  console.log("fetchOwnedLists response data:", data);
+  // console.log("fetchOwnedLists response data:", data);
   return data;
 }

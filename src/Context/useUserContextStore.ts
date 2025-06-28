@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { UserContextData } from "@/types/User";
 import { URL_API } from "@/utils/env";
+import { useAuthStore } from "./useAuthStore";
 
 // interface UserContextData {
 //   selectedListId: number | null;
@@ -39,7 +40,11 @@ export const useUserContextStore = create<UserContextStore>((set) => ({
     }),
 
   createOrUpdateUserContext: async () => {
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
+
+    const token = useAuthStore.getState().token;
+    // console.log("createOrUpdateUserContext token:", token);
+
     if (!token) {
       console.error("Pas de token d'authentification !");
       return;
@@ -55,15 +60,24 @@ export const useUserContextStore = create<UserContextStore>((set) => ({
 
       const data = await response.json();
 
+      if (!response.ok) {
+        console.error(
+          "Échec lors de la création/mise à jour du contexte :",
+          data
+        );
+        return null;
+      }
+
+      set({ userContext: data }); // Si ton backend renvoie bien le contexte complet
+
       if (response.ok) {
         console.log("User context created or updated successfully:", data);
       } else {
         console.error("Failed to create or update user context:", data);
       }
+      return data;
     } catch (error) {
       console.error("Error creating or updating user context:", error);
     }
   },
-
-
 }));

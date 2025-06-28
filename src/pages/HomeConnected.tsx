@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import DesktopContent from "@/components/desktop/DesktopContent";
 import DesktopFriends from "@/components/desktop/DesktopFriends";
 import DesktopLists from "@/components/desktop/DesktopLists";
@@ -19,14 +20,12 @@ interface HomeConnectedProps {
 
 export default function HomeConnected({ user }: HomeConnectedProps) {
   const viewport = useViewport();
-  const userContext = useUserContextStore((state) => state.userContext);
 
   useEffect(() => {
     if (user) {
       useUserContextStore.getState().createOrUpdateUserContext();
-      console.log("userContext", userContext);
     }
-  }, [user, userContext]);
+  }, []);
 
   return (
     <section className="flex justify-between w-full">

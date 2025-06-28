@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { useAuthStore } from "@/Context/useAuthStore";
-import { fetchOwnedLists } from "@/services/lists/crudOwnedLists";
 import { useListsStore } from "@/stores/useListsStore";
 import type { User } from "@/types/User";
 import { useEffect, useState } from "react";
