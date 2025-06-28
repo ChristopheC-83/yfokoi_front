@@ -1,4 +1,5 @@
 import { useAuthStore } from "@/Context/useAuthStore";
+import { useListsStore } from "@/stores/useListsStore";
 import { URL_API } from "@/utils/env";
 import { jwtDecode } from "jwt-decode";
 
@@ -98,5 +99,6 @@ export function logout(): void {
   localStorage.removeItem("token");
   useAuthStore.getState().setUser(null);
   useAuthStore.getState().setToken(null);
+  useListsStore.getState().resetLists();
   
 }
