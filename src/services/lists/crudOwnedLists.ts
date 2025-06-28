@@ -19,6 +19,6 @@ export async function fetchOwnedLists(token: string): Promise<OwnedList[]> {
   }
 
   const data = await response.json();
-  // console.log("fetchOwnedLists response data:", data);
+  console.log("fetchOwnedLists response data:", data);
   return data;
 }

@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/Context/useAuthStore";
-import { useListsStore } from "@/stores/useListsStore";
+import { useListsStore } from "@/Context/useListsStore";
 import { URL_API } from "@/utils/env";
 import { jwtDecode } from "jwt-decode";
 
