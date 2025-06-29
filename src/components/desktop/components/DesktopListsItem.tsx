@@ -1,4 +1,6 @@
-
+import { useUserContextStore } from "@/Context/useUserContextStore";
+import { FaRegHeart } from "react-icons/fa6";
+import { FaHeart } from "react-icons/fa6";
 
 interface ListItemCardProps {
   id: number;
@@ -6,17 +8,37 @@ interface ListItemCardProps {
   ownerName: string | number;
   ownedList?: boolean;
   onClick?: () => void;
+  isSelected?: boolean;
 }
 
-export default function DesktopListsItem({ id, name, ownerName, onClick }: ListItemCardProps) {
+export default function DesktopListsItem({
+  id,
+  name,
+  ownerName,
+  onClick,
+  isSelected,
+}: ListItemCardProps) {
+  const favoriteListId = useUserContextStore((state) => state.favoriteListId);
+
   return (
-       <div
+    <div
       key={id}
-      className="p-4 border-b border-gray-300 cursor-pointer hover:text-amber-300 hover:bg-slate-700 duration-300"
+      className={`m-1 py-2 px-3 cursor-pointer hover:text-amber-300 hover:bg-slate-700 duration-300 rounded-lg ${
+        isSelected && "bg-slate-900"
+      }`}
       onClick={onClick}
     >
-      <h2 className="text-lg font-semibold">{name}</h2>
-      <p className="text-gray-600">Liste de : {ownerName}</p>
+      <div className="flex justify-between">
+        <h2
+          className={`text-lg font-semibold ${isSelected && "text-amber-200"}`}
+        >
+          {name}
+        </h2>
+        {favoriteListId === id ? <FaHeart /> : <FaRegHeart />}
+      </div>
+      <p className="text-gray-600">
+        Liste de : {ownerName} <span className="text-sm ml-2">(id : {id})</span>
+      </p>
     </div>
-  )
+  );
 }

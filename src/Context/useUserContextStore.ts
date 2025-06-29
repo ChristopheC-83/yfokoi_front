@@ -20,7 +20,9 @@ interface BackendUserContext {
   user_id?: string | number | null;
 }
 
-function mapBackendContextToFrontend(data: BackendUserContext): UserContextData {
+function mapBackendContextToFrontend(
+  data: BackendUserContext
+): UserContextData {
   return {
     selectedListId: data.selected_list_id ?? null,
     favoriteListId: data.favorite_list_id ?? null,
@@ -65,7 +67,10 @@ export const useUserContextStore = create<UserContextStore>((set) => ({
 
       set(mapped);
     } catch (error) {
-      console.error("⛔ Erreur lors de la mise à jour du contexte utilisateur :", error);
+      console.error(
+        "⛔ Erreur lors de la mise à jour du contexte utilisateur :",
+        error
+      );
     }
   },
 }));
