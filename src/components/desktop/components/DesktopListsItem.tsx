@@ -34,7 +34,7 @@ export default function DesktopListsItem({
         >
           {name}
         </h2>
-        {favoriteListId === id ? <FaHeart /> : <FaRegHeart />}
+        <div className="pl-3 pt-3 pr-1 pb-1 cursor-heart">{favoriteListId === id ? <FaHeart /> : <FaRegHeart />}</div>
       </div>
       <p className="text-gray-600">
         Liste de : {ownerName} <span className="text-sm ml-2">(id : {id})</span>

@@ -1,1 +1,5 @@
 /*# sourceMappingURL=custom.css.map */
+.cursor-heart:hover {
+  cursor: url('/src/assets/images/petit-coeur.png'), pointer;
+}
+
