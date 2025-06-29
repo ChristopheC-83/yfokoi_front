@@ -3,18 +3,11 @@ import type { UserContextData } from "@/types/User";
 import { fetchUserContextFromApi } from "@/services/userContext/createUserContext";
 import { useAuthStore } from "./useAuthStore";
 
-interface UserContextStore {
-  selectedListId: number | null;
-  favoriteListId: number | null;
-  countAskFriends: number;
-  lastUpdate: Date | null;
-  userId: string | number | null;
-
+interface UserContextStore extends UserContextData {
   setSelectedListId: (id: number | null) => void;
   setFavoriteListId: (id: number | null) => void;
   setCountAskFriends: (count: number) => void;
   setLastUpdate: (date: Date | null) => void;
-
   resetUserContext: () => void;
   createOrUpdateUserContext: () => Promise<void>;
 }
@@ -27,20 +20,12 @@ interface BackendUserContext {
   user_id?: string | number | null;
 }
 
-function mapBackendContextToFrontend(
-  data: BackendUserContext
-): UserContextData {
+function mapBackendContextToFrontend(data: BackendUserContext): UserContextData {
   return {
     selectedListId: data.selected_list_id ?? null,
     favoriteListId: data.favorite_list_id ?? null,
     countAskFriends: data.count_ask_friends ?? 0,
-    lastUpdate: data.last_update
-      ? (typeof data.last_update === "string"
-          ? new Date(data.last_update)
-          : data.last_update instanceof Date
-            ? data.last_update
-            : null)
-      : null,
+    lastUpdate: data.last_update ? new Date(data.last_update) : null,
     userId: data.user_id ?? null,
   };
 }
@@ -67,34 +52,20 @@ export const useUserContextStore = create<UserContextStore>((set) => ({
     }),
 
   createOrUpdateUserContext: async () => {
-  try {
-    const token = useAuthStore.getState().token;
-    if (!token) {
-      console.error("⛔ Pas de token d'authentification !");
-      return;
+    try {
+      const token = useAuthStore.getState().token;
+      if (!token) {
+        console.error("⛔ Pas de token d'authentification !");
+        return;
+      }
+
+      const data = await fetchUserContextFromApi(token);
+      const mapped = mapBackendContextToFrontend(data);
+      console.log("🔄 Contexte utilisateur mappé :", mapped);
+
+      set(mapped);
+    } catch (error) {
+      console.error("⛔ Erreur lors de la mise à jour du contexte utilisateur :", error);
     }
-
-    const data = await fetchUserContextFromApi(token);
-    console.log("🔄 Contexte utilisateur récupéré :", data);
-
-    // C’est LA ligne qui change tout :
-    const mapped = mapBackendContextToFrontend(data);
-    console.log("🔄 Contexte utilisateur mappé :", mapped);
-
-    set({
-      selectedListId: mapped.selectedListId,
-      favoriteListId: mapped.favoriteListId,
-      countAskFriends: mapped.countAskFriends,
-      lastUpdate: mapped.lastUpdate,
-      userId: mapped.userId,
-    });
-
-  } catch (error) {
-    console.error(
-      "⛔ Erreur lors de la mise à jour du contexte utilisateur :",
-      error
-    );
-  }
-},
-
+  },
 }));
