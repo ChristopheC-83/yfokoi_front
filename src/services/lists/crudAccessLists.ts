@@ -3,7 +3,7 @@ import { URL_API } from "@/utils/env";
 
 // listes partagées avec l'utilisateur connecté
 export async function fetchAccessLists(token: string): Promise<AccessList[]> {
-  console.log("fetchAccessLists called with token du crud:", token);
+  // console.log("fetchAccessLists called with token du crud:", token);
   const response = await fetch(`${URL_API}/api_lists/getAccessLists`, {
     method: "GET",
     headers: {
@@ -17,7 +17,7 @@ export async function fetchAccessLists(token: string): Promise<AccessList[]> {
   }
 
   const data = await response.json();
-  console.log("fetchaccessLists response data:", data);
+  // console.log("fetchaccessLists response data:", data);
 
 
 

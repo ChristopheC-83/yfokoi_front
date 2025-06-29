@@ -12,7 +12,7 @@ export default function DesktopListsItem({ id, name, ownerName, onClick }: ListI
   return (
        <div
       key={id}
-      className="p-4 border-b border-gray-300 cursor-pointer hover:text-amber-200 hover:bg-slate-700 duration-300"
+      className="p-4 border-b border-gray-300 cursor-pointer hover:text-amber-300 hover:bg-slate-700 duration-300"
       onClick={onClick}
     >
       <h2 className="text-lg font-semibold">{name}</h2>

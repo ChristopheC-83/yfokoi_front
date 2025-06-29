@@ -1,4 +1,5 @@
 import { useAuthStore } from "@/Context/useAuthStore";
+import { useUserContextStore } from "@/Context/useUserContextStore";
 import type { User } from "@/types/User";
 
 
@@ -9,6 +10,7 @@ interface DesktopContentProps {
 
 export default function DesktopContent({ user }: DesktopContentProps) {
 
+  const selectedListId = useUserContextStore((state) => state.selectedListId);
   
   return (
     <div className="mx-auto w-full max-w-screen-xl flex flex-col">
@@ -19,6 +21,7 @@ export default function DesktopContent({ user }: DesktopContentProps) {
           <p>ton id est {user.id}</p>
           <p>ton email est {user.email}</p>
           <p>ton token est {useAuthStore.getState().token?.length}</p>
+          <p>Ta liste a l'ID : {selectedListId}</p>
         </div>
       )}
     </div>

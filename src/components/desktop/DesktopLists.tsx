@@ -5,12 +5,16 @@ import { useListsStore } from "@/Context/useListsStore";
 import type { User } from "@/types/User";
 import { useEffect, useState } from "react";
 import DesktopListsItem from "./components/DesktopListsItem";
+import { useUserContextStore } from "@/Context/useUserContextStore";
 
 interface DesktopListsProps {
   user: User;
 }
 
 export default function DesktopLists({ user }: DesktopListsProps) {
+  const selectedListId = useUserContextStore((state) => state.selectedListId);
+  const setSelectedListId = useUserContextStore((s) => s.setSelectedListId);
+
   const ownedLists = useListsStore((state) => state.ownedLists);
   const accessLists = useListsStore((state) => state.accessLists);
   const fetchOwnedListsFromApi = useListsStore(
@@ -25,7 +29,15 @@ export default function DesktopLists({ user }: DesktopListsProps) {
 
   const token = useAuthStore.getState().token;
 
+  function changeSelectedListId(id: number) {
+    setSelectedListId(id);
+  }
   useEffect(() => {
+    console.log("selectedListId dans DesktopLists:", selectedListId);
+  }, [selectedListId]);
+
+  useEffect(() => {
+    console.log(selectedListId, "selectedListId dans DesktopLists");
     const fetchLists = async () => {
       if (!token) {
         setError("Token non trouvé, veuillez vous reconnecter");
@@ -42,7 +54,6 @@ export default function DesktopLists({ user }: DesktopListsProps) {
         setLoading(false);
       }
     };
-
     if (ownedLists.length === 0 || accessLists.length === 0) {
       setLoading(true);
       fetchLists();
@@ -52,8 +63,10 @@ export default function DesktopLists({ user }: DesktopListsProps) {
   }, []);
 
   return (
-    <div className="pt-5">
-      <h1 className="text-center bg-amber-100 text-slate-900 rounded-full px-3 py-2 text-xl font-bold">Mes Listes :</h1>
+    <div className="p-3 w-[240px] shrink-0">
+      <h1 className="text-center bg-amber-100 text-slate-900 rounded-full px-3 py-2 text-xl font-bold">
+        Mes Listes :
+      </h1>
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
       {ownedLists?.map((list) => (
@@ -62,22 +75,24 @@ export default function DesktopLists({ user }: DesktopListsProps) {
           id={list.id}
           name={list.name}
           ownerName={user.name}
-          ownedList = {true}
-          onClick={() => console.log(`Owned list clicked: ${list.name}`)}
+          ownedList={true}
+          onClick={() => changeSelectedListId(list.id)}
         />
       ))}
-      
-      <h1 className="text-center bg-amber-100 text-slate-900 rounded-full px-4 py-3 text-xl font-bold mt-5">Listes Accessibles :</h1>
+
+      <h1 className="text-center bg-amber-100 text-slate-900 rounded-full px-4 py-3 text-xl font-bold mt-5">
+        Listes Accessibles :
+      </h1>
       {accessLists?.map((list) => (
-      <DesktopListsItem
-        key={`access-${list.id}`}
-        id={list.id}
-        name={list.name}
-        ownerName={list.author_name}
-        ownedList={false}
-        onClick={() => console.log(`Access list clicked: ${list.name}`)}
-      />
-    ))}
+        <DesktopListsItem
+          key={`access-${list.id}`}
+          id={list.id}
+          name={list.name}
+          ownerName={list.author_name}
+          ownedList={false}
+          onClick={() => changeSelectedListId(list.id)}
+        />
+      ))}
     </div>
   );
 }
