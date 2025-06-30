@@ -11,7 +11,7 @@ export default function useListsManager() {
   async function createNewList(name: string) {
     setError(null);
 
-       const trimmedName = name.trim();
+    const trimmedName = name.trim();
 
     if (!trimmedName) {
       const msg = "Veuillez donner un nom à la liste";
@@ -29,7 +29,7 @@ export default function useListsManager() {
 
     try {
       const token = useAuthStore.getState().token;
-       if (!token) {
+      if (!token) {
         const msg = "⛔ Pas de token d'authentification !";
         console.error(msg);
         toast.error(msg);
@@ -42,7 +42,7 @@ export default function useListsManager() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ name :trimmedName  }),
+        body: JSON.stringify({ name: trimmedName }),
       });
 
       const data = await response.json();
@@ -52,12 +52,17 @@ export default function useListsManager() {
         console.log(response);
         throw new Error(data.message || "Erreur lors de la création");
       }
+      console.log("coucou")
+      console.log(data);
+      console.log(response);
 
-      setOwnedLists([...ownedLists, data]);
+      setOwnedLists([...ownedLists, data.newList]);
       toast.success("Liste créée avec succès !");
-      console.log("Liste créée avec succès :", data);
+      console.log("Liste créée avec succès :", data.newList);
+    return true;
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Erreur inconnue";
+      const message =
+        error instanceof Error ? error.message : "Erreur inconnue";
       setError(message);
       toast.error(message);
       console.error("⛔ Erreur lors de la création de la liste :", error);

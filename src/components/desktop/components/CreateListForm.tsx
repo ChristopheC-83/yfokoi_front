@@ -6,13 +6,16 @@ export default function CreateListForm() {
   const [newList, setNewList] = useState<string>("");
   const { createNewList, error } = useListsManager();
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (newList.trim() === "") {
       console.error("Le nom de la liste ne peut pas être vide !");
       return;
     }
-    createNewList(newList);
+    if(await createNewList(newList)){
+      setNewList(""); 
+
+    }
   }
 
   return (
