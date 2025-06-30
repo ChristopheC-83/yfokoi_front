@@ -1,4 +1,5 @@
 import { useUserContextStore } from "@/Context/useUserContextStore";
+import useListsManager from "@/services/lists/useListsManager";
 import { updateFavoriteListIdFromApi } from "@/services/userContext/updateUserContext";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa6";
@@ -26,12 +27,20 @@ export default function DesktopListsItem({
   const setFavoriteListId = useUserContextStore(
     (state) => state.setFavoriteListId
   );
+  const { deleteList } = useListsManager();
 
   async function changeFavoriteList(id: number) {
     if (await updateFavoriteListIdFromApi(id)) {
       setFavoriteListId(id);
       toast.success(`Liste favorite changée `);
       toast.info("Elle sera ta liste par défaut à ta prochaine connexion !");
+    }
+  }
+
+  async function trashList() {
+    if (await deleteList(id)) {
+      toast.info(`Liste supprimée avec succées `);
+      console.log("Suppression de la liste avec l'ID :", id);
     }
   }
 
@@ -56,7 +65,7 @@ export default function DesktopListsItem({
         <p className="text-sm text-gray-600">(id : {id})</p>
       </div>
       <div
-        className="w-6 flex justify-center items-start cursor-trash pt-2 ">
+        className="w-6 flex justify-center items-start cursor-trash pt-2 " onClick={()=> trashList()}>
         <FaRegTrashCan />
       </div>
     </div>
