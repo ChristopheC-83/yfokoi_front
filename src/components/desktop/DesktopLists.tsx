@@ -4,6 +4,7 @@ import DesktopListsItem from "./components/DesktopListsItem";
 import type { User } from "@/types/User";
 import { useInitLists } from "@/hooks/lists/useInitLists";
 import { updateSelectedListIdFromApi } from "@/services/userContext/updateUserContext";
+import CreateListForm from "./components/CreateListForm";
 
 interface DesktopListsProps {
   user: User;
@@ -23,6 +24,12 @@ export default function DesktopLists({ user }: DesktopListsProps) {
 
   return (
     <div className="p-3 w-[240px] shrink-0">
+
+
+      <h1 className="text-center bg-amber-100 text-slate-900 rounded-full px-3 py-2 text-xl font-bold">
+        Créer une Liste :
+      </h1>
+      <CreateListForm/>
       <h1 className="text-center bg-amber-100 text-slate-900 rounded-full px-3 py-2 text-xl font-bold">
         Mes Listes :
       </h1>

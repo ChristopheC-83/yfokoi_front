@@ -1,5 +1,11 @@
-/*# sourceMappingURL=custom.css.map */
 .cursor-heart:hover {
-  cursor: url('/src/assets/images/petit-coeur.png'), pointer;
+  cursor: url("/src/assets/images/petit-coeur.png"), pointer;
 }
 
+.cursor-loupe {
+  cursor: url("/src/assets/images/loupe.png"), pointer;
+}
+
+.cursor-trash {
+  cursor: url("/src/assets/images/poubelle.png"), pointer;
+}/*# sourceMappingURL=custom.css.map */
