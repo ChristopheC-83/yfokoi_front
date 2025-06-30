@@ -73,9 +73,8 @@ export default function useListsManager() {
   async function deleteList(id: number) {
     setError(null);
 
-    const idString = id.toString().trim();
 
-    if (!idString) {
+    if (!id) {
       const msg = "Veuillez fournir un ID valide pour la liste";
       setError(msg);
       toast.error(msg);
@@ -97,7 +96,7 @@ export default function useListsManager() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ id: idString }),
+        body: JSON.stringify({ id: id }),
       });
 
       const data = await response.json();
