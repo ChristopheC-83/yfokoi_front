@@ -46,6 +46,7 @@ export default function DesktopLists({ user }: DesktopListsProps) {
           ownedList={true}
           onClick={() => changeSelectedList(list.id)}
           isSelected={selectedListId === list.id}
+          isOwnedList={true}
         />
       ))}
 
@@ -62,6 +63,7 @@ export default function DesktopLists({ user }: DesktopListsProps) {
           ownedList={false}
           onClick={() => changeSelectedList(list.id)}
           isSelected={selectedListId === list.id}
+          isOwnedList={false}
         />
       ))}
     </div>

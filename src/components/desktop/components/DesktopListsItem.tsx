@@ -14,6 +14,7 @@ interface ListItemCardProps {
   ownedList?: boolean;
   onClick?: () => void;
   isSelected?: boolean;
+  isOwnedList?: boolean;
 }
 
 export default function DesktopListsItem({
@@ -22,6 +23,7 @@ export default function DesktopListsItem({
   ownerName,
   onClick,
   isSelected,
+  isOwnedList,
 }: ListItemCardProps) {
   const favoriteListId = useUserContextStore((state) => state.favoriteListId);
   const setFavoriteListId = useUserContextStore(
@@ -64,10 +66,10 @@ export default function DesktopListsItem({
         <p className="text-gray-600">Liste de : {ownerName} </p>
         <p className="text-sm text-gray-600">(id : {id})</p>
       </div>
-      <div
+      {isOwnedList && <div
         className="w-6 flex justify-center items-start cursor-trash pt-2 " onClick={()=> trashList()}>
         <FaRegTrashCan />
-      </div>
+      </div>}
     </div>
   );
 }
