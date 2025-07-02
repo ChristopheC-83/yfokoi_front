@@ -31,7 +31,7 @@ export async function fetchUserContextFromApi(token: string): Promise<ApiUserCon
   }
 
   const data = await response.json();
-  console.log("fetchUserContextFromApi response data:", data);
+  // console.log("fetchUserContextFromApi response data:", data);
 
   // Ici, on retourne *directement* userContext côté backend, sans mapping
   return data;

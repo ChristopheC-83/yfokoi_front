@@ -41,7 +41,7 @@ export async function updateSelectedListIdFromApi(
       throw new Error(errorMessage);
     }
 
-    console.log("Liste sélectionnée mise à jour avec succès :", selectedListId);
+    // console.log("Liste sélectionnée mise à jour avec succès :", selectedListId);
 
     return true;
   } catch (error) {

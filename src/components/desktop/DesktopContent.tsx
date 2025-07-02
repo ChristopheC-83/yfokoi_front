@@ -4,29 +4,35 @@ import { useUserContextStore } from "@/Context/useUserContextStore";
 import type { AccessList, OwnedList } from "@/types/List";
 import type { User } from "@/types/User";
 import { useEffect, useState } from "react";
+import ChangeListNameForm from "./components/ChangeListNameForm";
 
 interface DesktopContentProps {
   user: User;
 }
 
+
+
 export default function DesktopContent({ user }: DesktopContentProps) {
   const selectedListId = useUserContextStore((state) => state.selectedListId);
+
   const { ownedLists, accessLists } = useListsStore();
   const [currentList, setCurrentList] = useState<OwnedList | AccessList | null>(
     null
   );
+  const [changeListName, setChangeListName] = useState<boolean>(false);
 
-  console.log("accessLists:", accessLists);
-  console.log("ownedLists:", ownedLists);
+  // console.log("accessLists:", accessLists);
+  // console.log("ownedLists:", ownedLists);
 
   useEffect(() => {
+    console.log("currentList:", currentList);
     setCurrentList(
       ownedLists.find((list) => list.id === selectedListId) ||
         accessLists.find((list) => list.id === selectedListId) ||
         null
     );
 
-    console.log("currentList mis à jour :", currentList);
+    // console.log("currentList mis à jour :", currentList);
   }, [selectedListId, ownedLists, accessLists]);
 
   if (selectedListId === undefined || selectedListId === null) {
@@ -53,7 +59,24 @@ export default function DesktopContent({ user }: DesktopContentProps) {
         <h2 className="text-2xl font-bold text-amber-100 my-5">
           Bienvenue, {user.name} !
         </h2>
-        {currentList.name}
+        <div className="flex gap-3 justify-center my-3">
+          {currentList.name}
+          <span
+            onClick={() => setChangeListName(!changeListName)}
+            className={`cursor-pointer ${
+              currentList.owner_id !== user.id ? "hidden" : ""
+            }`}
+          >
+            ✏️
+          </span>
+        </div>
+        <div
+          className={`duration-700 opacity-100 transition-all ease-in-out ${
+            !changeListName && "-translate-x-[100vw] opacity-[0]"
+          }  ${currentList.owner_id !== user.id ? "hidden" : ""}`}
+        >
+          <ChangeListNameForm currentList={currentList}/>
+        </div>
       </div>
     );
   }

@@ -63,7 +63,7 @@ export const useUserContextStore = create<UserContextStore>((set) => ({
 
       const data = await fetchUserContextFromApi(token);
       const mapped = mapBackendContextToFrontend(data);
-      console.log("🔄 Contexte utilisateur mappé :", mapped);
+      // console.log("🔄 Contexte utilisateur mappé :", mapped);
 
       set(mapped);
     } catch (error) {

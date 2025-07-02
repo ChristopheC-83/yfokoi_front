@@ -18,7 +18,7 @@ export default function HomeConnected({ user }: HomeConnectedProps) {
 
   useEffect(() => {
     if (!user) return;
-    console.log("🏁 Chargement du contexte utilisateur...");
+    // console.log("🏁 Chargement du contexte utilisateur...");
     createOrUpdateUserContext();
   }, []);
 
