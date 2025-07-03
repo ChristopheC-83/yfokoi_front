@@ -3,16 +3,17 @@ import { URL_API } from "@/utils/env";
 import { useState } from "react";
 import type { AccessList, OwnedList } from "@/types/List";
 import { useListsStore } from "@/Context/useListsStore";
+import { toast } from "sonner";
 
 interface ChangeListNameFormProps {
   currentList: OwnedList | AccessList;
 }
 
 export default function useModifyNameList() {
-  const { ownedLists } = useListsStore();
   const [error, setError] = useState<string | null>(null);
   const token = useAuthStore((state) => state.token);
   const user = useAuthStore((state) => state.user);
+  const { ownedLists, setOwnedLists } = useListsStore();
 
   async function modifyNameList(
     { currentList }: ChangeListNameFormProps,
@@ -22,17 +23,17 @@ export default function useModifyNameList() {
 
     if (!token) {
       setError("Vous devez être connecté pour modifier le nom de la liste");
-      return;
+      return false;
     }
 
     if (!user) {
       setError("Utilisateur non trouvé");
-      return;
+      return false;
     }
 
     if (currentList.owner_id !== user.id) {
       setError("Vous n'êtes pas autorisé à modifier le nom de cette liste");
-      return;
+      return false;
     }
 
     const isNameUsed = ownedLists.some(
@@ -41,14 +42,14 @@ export default function useModifyNameList() {
 
     if (isNameUsed) {
       setError("Ce nom de liste est déjà utilisé");
-      return;
+      return false;
     }
 
     if (!newNameList.trim()) {
       setError("Veuillez entrer un nouveau nom pour la liste");
-      return;
+      return false;
     }
-
+    console.log("Payload envoyé :", { currentList, newNameList });
     try {
       const response = await fetch(`${URL_API}/api_lists/modifyNameList`, {
         method: "PATCH",
@@ -56,7 +57,7 @@ export default function useModifyNameList() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ newNameList }),
+        body: JSON.stringify({ currentList, newNameList }),
       });
 
       if (!response.ok) {
@@ -65,7 +66,18 @@ export default function useModifyNameList() {
 
       const data = await response.json();
       console.log("modifyNameList response data:", data);
+      toast.success(data.message);
+      if (data.updatedList) {
+        setOwnedLists(
+          ownedLists.map((list) =>
+            list.id === data.updatedList.id
+              ? { ...list, name: data.updatedList.name }
+              : list
+          )
+        );
+      }
 
+      return true;
       // Redirection ou mise à jour de l'état si nécessaire
     } catch (err: unknown) {
       if (err instanceof Error) {

@@ -13,10 +13,10 @@ export default function ChangeListNameForm({currentList}: ChangeListNameFormProp
   const [newNameList, setNewNameList] = useState("");
   const {modifyNameList, error} = useModifyNameList();
 
-  function handleModifyNameList(e: React.FormEvent) {
+  async function handleModifyNameList(e: React.FormEvent) {
     e.preventDefault();
-    modifyNameList({ currentList }, newNameList);
-    setNewNameList("")
+    if(await modifyNameList({ currentList }, newNameList)){
+    setNewNameList("")}
     }
   
   return (
