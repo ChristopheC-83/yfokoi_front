@@ -10,8 +10,6 @@ interface DesktopContentProps {
   user: User;
 }
 
-
-
 export default function DesktopContent({ user }: DesktopContentProps) {
   const selectedListId = useUserContextStore((state) => state.selectedListId);
 
@@ -34,6 +32,18 @@ export default function DesktopContent({ user }: DesktopContentProps) {
 
     // console.log("currentList mis à jour :", currentList);
   }, [selectedListId, ownedLists, accessLists]);
+
+  // On retire le formulaire si on cgange de liste
+  useEffect(() => {
+    setChangeListName(false);
+  }, [currentList]);
+
+  //  le formulaire se retire si modification de nom, on envoie cette fonction dans le composant ChangeListNameForm
+  function onCloseForm() {
+    setTimeout(() => {
+      setChangeListName(false);
+    }, 500);
+  }
 
   if (selectedListId === undefined || selectedListId === null) {
     return (
@@ -75,7 +85,10 @@ export default function DesktopContent({ user }: DesktopContentProps) {
             !changeListName && "-translate-x-[100vw] opacity-[0]"
           }  ${currentList.owner_id !== user.id ? "hidden" : ""}`}
         >
-          <ChangeListNameForm currentList={currentList}/>
+          <ChangeListNameForm
+            currentList={currentList}
+            onCloseForm={() => onCloseForm()}
+          />
         </div>
       </div>
     );
