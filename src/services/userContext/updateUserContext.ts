@@ -93,7 +93,7 @@ export async function updateFavoriteListIdFromApi(
       throw new Error(errorMessage);
     }
 
-    console.log("Liste sélectionnée mise à jour avec succès :", favoriteListId);
+    // console.log("Liste sélectionnée mise à jour avec succès :", favoriteListId);
 
     return true;
   } catch (error) {

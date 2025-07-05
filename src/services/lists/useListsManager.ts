@@ -48,17 +48,17 @@ export default function useListsManager() {
       const data = await response.json();
 
       if (!response.ok) {
-        console.log(data);
-        console.log(response);
+        // console.log(data);
+        // console.log(response);
         throw new Error(data.message || "Erreur lors de la création");
       }
-      console.log("coucou");
-      console.log(data);
-      console.log(response);
+      // console.log("coucou");
+      // console.log(data);
+      // console.log(response);
 
       setOwnedLists([...ownedLists, data.newList]);
       toast.success("Liste créée avec succès !");
-      console.log("Liste créée avec succès :", data.newList);
+      // console.log("Liste créée avec succès :", data.newList);
       return true;
     } catch (error) {
       const message =
@@ -102,19 +102,19 @@ export default function useListsManager() {
       const data = await response.json();
 
       if (!response.ok) {
-        console.log(data);
-        console.log(response);
+        // console.log(data);
+        // console.log(response);
         throw new Error(data.message || "Erreur lors de la suppression");
       }
 
-      console.log("au revoir la liste");
-      console.log(data);
-      console.log(response);
+      // console.log("au revoir la liste");
+      // console.log(data);
+      // console.log(response);
 
 
       setOwnedLists(ownedLists.filter((list) => list.id !== id));
       toast.success("Liste supprimée avec succès !");
-      console.log("Liste supprimée avec succès :", id);
+      // console.log("Liste supprimée avec succès :", id);
       return true;
 
 

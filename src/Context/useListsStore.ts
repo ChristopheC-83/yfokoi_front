@@ -24,7 +24,7 @@ export const useListsStore = create<ListsStore>((set, get) => ({
   accessLists: [],
   
   setOwnedLists: (lists) => {
-  console.log("setOwnedLists déclenché");
+  // console.log("setOwnedLists déclenché");
   set({ ownedLists: lists });
 },
 

@@ -18,7 +18,7 @@ export default function DesktopLists({ user }: DesktopListsProps) {
   async function changeSelectedList(id: number | null) {
     if (await updateSelectedListIdFromApi(id)) {
       setSelectedListId(id);
-      console.log("Liste sélectionnée changée :", id);
+      // console.log("Liste sélectionnée changée :", id);
     }
   }
 

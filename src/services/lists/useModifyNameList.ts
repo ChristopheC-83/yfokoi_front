@@ -49,7 +49,7 @@ export default function useModifyNameList() {
       setError("Veuillez entrer un nouveau nom pour la liste");
       return false;
     }
-    console.log("Payload envoyé :", { currentList, newNameList });
+    // console.log("Payload envoyé :", { currentList, newNameList });
     try {
       const response = await fetch(`${URL_API}/api_lists/modifyNameList`, {
         method: "PATCH",
@@ -65,7 +65,7 @@ export default function useModifyNameList() {
       }
 
       const data = await response.json();
-      console.log("modifyNameList response data:", data);
+      // console.log("modifyNameList response data:", data);
       toast.success(data.message);
       if (data.updatedList) {
         setOwnedLists(

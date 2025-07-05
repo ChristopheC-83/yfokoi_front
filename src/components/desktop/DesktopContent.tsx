@@ -33,12 +33,12 @@ export default function DesktopContent({ user }: DesktopContentProps) {
         accessLists.find((list) => list.id === selectedListId) ||
         null
     );
-    console.log("currentList:", currentList);
+    // console.log("currentList:", currentList);
   }, [selectedListId, ownedLists, accessLists]);
 
-    useEffect(() => {
-  console.log("🧪 currentItems:", currentItems);
-}, [currentItems]);
+//     useEffect(() => {
+//   console.log("🧪 currentItems:", currentItems);
+// }, [currentItems]);
 
   // On retire le formulaire si on change de liste
   useEffect(() => {

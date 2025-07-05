@@ -1,6 +1,6 @@
 import type { Item } from "@/types/Item";
 import type { AccessList, OwnedList } from "@/types/List";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 interface ItemsOfListProps {
   currentList: OwnedList | AccessList | null;
@@ -11,10 +11,10 @@ export default function ItemsOfList({
   currentItems,
 }: ItemsOfListProps) {
 
-useEffect(() => {
-  console.log("ItemsOfList currentList:", currentList);
-    console.log("ItemsOfList currentItems:", currentItems);
-}, [currentList, currentItems]);
+// useEffect(() => {
+//   console.log("ItemsOfList currentList:", currentList);
+//     console.log("ItemsOfList currentItems:", currentItems);
+// }, [currentList, currentItems]);
 
   return (
     <div>

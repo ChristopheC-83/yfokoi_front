@@ -40,11 +40,15 @@ export default function DesktopListsItem({
   }
 
   async function trashList() {
-    if (await deleteList(id)) {
-      toast.info(`Liste supprimée avec succées `);
-      console.log("Suppression de la liste avec l'ID :", id);
-    }
+  const confirmDelete = window.confirm("⚠️ Es-tu sûr de vouloir supprimer cette liste et ses éléments ?");
+
+  if (!confirmDelete) return;
+
+  if (await deleteList(id)) {
+    toast.info(`Liste supprimée avec succès`);
+    // console.log("Suppression de la liste avec l'ID :", id);
   }
+}
 
   return (
     <div
