@@ -5,6 +5,9 @@ import type { AccessList, OwnedList } from "@/types/List";
 import type { User } from "@/types/User";
 import { useEffect, useState } from "react";
 import ChangeListNameForm from "./components/ChangeListNameForm";
+import { useInitSelectedItems } from "@/hooks/items/useInitItems";
+import { useItemsStore } from "@/Context/useItemsStore";
+import ItemsOfList from "./components/listContent/ItemsOfList";
 
 interface DesktopContentProps {
   user: User;
@@ -18,22 +21,26 @@ export default function DesktopContent({ user }: DesktopContentProps) {
     null
   );
   const [changeListName, setChangeListName] = useState<boolean>(false);
+  const { loading, error } = useInitSelectedItems();
 
-  // console.log("accessLists:", accessLists);
-  // console.log("ownedLists:", ownedLists);
+  const currentItems = useItemsStore((state) => state.itemsByListId[selectedListId as number] );
+
+
 
   useEffect(() => {
-    console.log("currentList:", currentList);
     setCurrentList(
       ownedLists.find((list) => list.id === selectedListId) ||
         accessLists.find((list) => list.id === selectedListId) ||
         null
     );
-
-    // console.log("currentList mis à jour :", currentList);
+    console.log("currentList:", currentList);
   }, [selectedListId, ownedLists, accessLists]);
 
-  // On retire le formulaire si on cgange de liste
+    useEffect(() => {
+  console.log("🧪 currentItems:", currentItems);
+}, [currentItems]);
+
+  // On retire le formulaire si on change de liste
   useEffect(() => {
     setChangeListName(false);
   }, [currentList]);
@@ -44,6 +51,8 @@ export default function DesktopContent({ user }: DesktopContentProps) {
       setChangeListName(false);
     }, 500);
   }
+
+
 
   if (selectedListId === undefined || selectedListId === null) {
     return (
@@ -73,11 +82,11 @@ export default function DesktopContent({ user }: DesktopContentProps) {
           {currentList.name}
           <span
             onClick={() => setChangeListName(!changeListName)}
-            className={`cursor-pointer ${
+            className={`cursor-pointer  ${
               currentList.owner_id !== user.id ? "hidden" : ""
             }`}
           >
-            ✏️
+            {changeListName ? "❌" : "✏️"}
           </span>
         </div>
         <div
@@ -89,6 +98,18 @@ export default function DesktopContent({ user }: DesktopContentProps) {
             currentList={currentList}
             onCloseForm={() => onCloseForm()}
           />
+        </div>
+        <div>
+          {loading && <p className="text-slate-600 italic">Chargement...</p>}
+          {error && <p className="text-red-500">{error}</p>}
+          {!loading && !error ? (
+            <ItemsOfList
+              currentList={currentList}
+              currentItems={currentItems}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </div>
     );

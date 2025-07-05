@@ -25,6 +25,7 @@ export default function ChangeListNameForm({
   }
 
   return (
+    
     <form
       onSubmit={handleModifyNameList}
       className="flex justify-center gap-x-2"
