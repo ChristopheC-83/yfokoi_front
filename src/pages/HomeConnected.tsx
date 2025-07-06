@@ -3,8 +3,8 @@ import DesktopContent from "@/components/desktop/DesktopContent";
 import DesktopFriends from "@/components/desktop/DesktopFriends";
 import DesktopLists from "@/components/desktop/DesktopLists";
 import DesktopSharing from "@/components/desktop/DesktopSharing";
-import useViewport from "@/hooks/useIsDesktop";
-import { useUserContextStore } from "@/Context/useUserContextStore";
+import useViewport from "@/hooks/lists/useIsDesktop";
+import { useUserContextStore } from "@/stores/users/useUserContextStore";
 import { useEffect } from "react";
 import type { User } from "@/types/User";
 

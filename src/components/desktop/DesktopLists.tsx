@@ -1,10 +1,10 @@
-import { useUserContextStore } from "@/Context/useUserContextStore";
-import { useListsStore } from "@/Context/useListsStore";
-import DesktopListsItem from "./components/DesktopListsItem";
+import { useUserContextStore } from "@/stores/users/useUserContextStore";
+import { useListsStore } from "@/stores/lists/useListsStore";
+import DesktopListsItem from "./components/lists/DesktopListsItem";
 import type { User } from "@/types/User";
 import { useInitLists } from "@/hooks/lists/useInitLists";
 import { updateSelectedListIdFromApi } from "@/services/userContext/updateUserContext";
-import CreateListForm from "./components/CreateListForm";
+import CreateListForm from "./components/lists/CreateListForm";
 
 interface DesktopListsProps {
   user: User;

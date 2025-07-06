@@ -1,5 +1,5 @@
-import { useUserContextStore } from "@/Context/useUserContextStore";
-import useListsManager from "@/services/lists/useListsManager";
+import { useUserContextStore } from "@/stores/users/useUserContextStore";
+import useListsManager from "@/hooks/lists/useListsManager";
 import { updateFavoriteListIdFromApi } from "@/services/userContext/updateUserContext";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa6";

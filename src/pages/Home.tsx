@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/Context/useAuthStore";
+import { useAuthStore } from "@/stores/users/useAuthStore";
 // import { useEffect } from "react";
 import HomeNoConnected from "./HomeNoConnected";
 import HomeConnected from "./HomeConnected";

@@ -1,3 +1,4 @@
+import { useItemsStore } from "@/stores/items/useItemsStore";
 import type { Item } from "@/types/Item";
 import type { AccessList, OwnedList } from "@/types/List";
 // import { useEffect } from "react";
@@ -11,17 +12,21 @@ export default function ItemsOfList({
   currentItems,
 }: ItemsOfListProps) {
 
-// useEffect(() => {
-//   console.log("ItemsOfList currentList:", currentList);
-//     console.log("ItemsOfList currentItems:", currentItems);
-// }, [currentList, currentItems]);
+  const setItemsForList = useItemsStore((state) => state.setItemsForList);
+  console.log("🧪 setItemsForList:", setItemsForList) ;
 
   return (
     <div>
       <p className="text-center">currentList</p>
       {currentList && currentList.name}
       {currentItems?.map((item) => (
-        <p key={item.id}>{item.content}</p>
+        <div>
+          <p key={item.id}>{item.id} - {item.content} de {item.created_by}</p>
+          <p>{item.created_by}</p>
+          <p>{item.is_done}</p>
+          <p>{item.created_at instanceof Date ? item.created_at.toLocaleString() : item.created_at}</p>
+          <hr />
+        </div>
       ))}
     </div>
   );

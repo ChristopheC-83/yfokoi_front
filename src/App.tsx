@@ -9,7 +9,7 @@ import Profile from "./pages/Profile";
 import ConnectedRoute from "./components/ConnectedRoute";
 import NoConnectedRoute from "./components/NoConnectedRoute";
 import { useEffect } from "react";
-import { useAuthStore } from "./Context/useAuthStore";
+import { useAuthStore } from "./stores/users/useAuthStore";
 import Contact from "./pages/Contact";
 
 const router = createBrowserRouter([

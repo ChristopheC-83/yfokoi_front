@@ -1,5 +1,5 @@
-import { useAuthStore } from "@/Context/useAuthStore";
-import { useListsStore } from "@/Context/useListsStore";
+import { useAuthStore } from "@/stores/users/useAuthStore";
+import { useListsStore } from "@/stores/lists/useListsStore";
 import { URL_API } from "@/utils/env";
 import { useState } from "react";
 import { toast } from "sonner";

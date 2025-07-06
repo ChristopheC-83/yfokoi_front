@@ -1,4 +1,3 @@
-
 import { fetchAccessLists } from "@/services/lists/crudAccessLists";
 import { fetchOwnedLists } from "@/services/lists/crudOwnedLists";
 import type { AccessList, OwnedList } from "@/types/List";

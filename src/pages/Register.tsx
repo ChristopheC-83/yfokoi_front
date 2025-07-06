@@ -1,6 +1,6 @@
 import ButtonForm from "@/components/elements/ButtonForm";
 import InputField from "@/components/elements/InputField";
-import useRegister from "@/services/useRegister";
+import useRegister from "@/hooks/users/useRegister";
 import React, { useState } from "react";
 
 export default function Register() {

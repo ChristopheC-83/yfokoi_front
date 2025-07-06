@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { SiDiscourse } from "react-icons/si";
-import useViewport from "@/hooks/useIsDesktop";
+import useViewport from "@/hooks/lists/useIsDesktop";
 import { isAuthenticated, logout } from "@/services/authServices";
 import { toast } from "sonner";
 

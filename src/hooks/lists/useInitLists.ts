@@ -1,7 +1,7 @@
 // hooks/useInitLists.ts
 import { useEffect, useState } from "react";
-import { useAuthStore } from "@/Context/useAuthStore";
-import { useListsStore } from "@/Context/useListsStore";
+import { useAuthStore } from "@/stores/users/useAuthStore";
+import { useListsStore } from "@/stores/lists/useListsStore";
 
 export function useInitLists() {
   const {

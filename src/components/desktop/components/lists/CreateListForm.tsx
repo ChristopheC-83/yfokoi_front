@@ -1,5 +1,5 @@
 import InputField from "@/components/elements/InputField";
-import useListsManager from "@/services/lists/useListsManager";
+import useListsManager from "@/hooks/lists/useListsManager";
 import { useState } from "react";
 
 export default function CreateListForm() {

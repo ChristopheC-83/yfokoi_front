@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useListsStore } from "@/Context/useListsStore";
-import { useUserContextStore } from "@/Context/useUserContextStore";
+import { useListsStore } from "@/stores/lists/useListsStore";
+import { useUserContextStore } from "@/stores/users/useUserContextStore";
 import type { AccessList, OwnedList } from "@/types/List";
 import type { User } from "@/types/User";
 import { useEffect, useState } from "react";
-import ChangeListNameForm from "./components/ChangeListNameForm";
+import ChangeListNameForm from "./components/content/ChangeListNameForm";
 import { useInitSelectedItems } from "@/hooks/items/useInitItems";
-import { useItemsStore } from "@/Context/useItemsStore";
-import ItemsOfList from "./components/listContent/ItemsOfList";
+import { useItemsStore } from "@/stores/items/useItemsStore";
+import ItemsOfList from "./components/content/ItemsOfList";
 
 interface DesktopContentProps {
   user: User;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useItemsStore } from "@/Context/useItemsStore";
-import { useUserContextStore } from "@/Context/useUserContextStore";
-import { useAuthStore } from "@/Context/useAuthStore";
+import { useItemsStore } from "@/stores/items/useItemsStore";
+import { useUserContextStore } from "@/stores/users/useUserContextStore";
+import { useAuthStore } from "@/stores/users/useAuthStore";
 
 export function useInitSelectedItems() {
   const selectedListId = useUserContextStore((state) => state.selectedListId);

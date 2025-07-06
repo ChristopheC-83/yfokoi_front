@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "@/Context/useAuthStore";
+import { useAuthStore } from "@/stores/users/useAuthStore";
 
 export default function NoConnectedRoute({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();

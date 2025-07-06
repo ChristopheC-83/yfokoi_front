@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // components/ConnectedRoute.tsx
-import { useAuthStore } from "@/Context/useAuthStore";
+import { useAuthStore } from "@/stores/users/useAuthStore";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 

@@ -1,8 +1,8 @@
-import { useAuthStore } from "@/Context/useAuthStore";
+import { useAuthStore } from "@/stores/users/useAuthStore";
 import { URL_API } from "@/utils/env";
 import { useState } from "react";
 import type { AccessList, OwnedList } from "@/types/List";
-import { useListsStore } from "@/Context/useListsStore";
+import { useListsStore } from "@/stores/lists/useListsStore";
 import { toast } from "sonner";
 
 interface ChangeListNameFormProps {

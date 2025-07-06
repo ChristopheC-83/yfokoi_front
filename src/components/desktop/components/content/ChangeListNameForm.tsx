@@ -1,4 +1,4 @@
-import useModifyNameList from "@/services/lists/useModifyNameList";
+import useModifyNameList from "@/hooks/lists/useModifyNameList";
 import { useState } from "react";
 // import { toast } from "sonner";
 

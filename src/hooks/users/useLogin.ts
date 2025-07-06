@@ -1,7 +1,7 @@
-import { useAuthStore } from "@/Context/useAuthStore";
+import { useAuthStore } from "@/stores/users/useAuthStore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { decodeToken } from "./authServices";
+import { decodeToken } from "../../services/authServices";
 import { toast } from "sonner";
 import { URL_API } from "@/utils/env";
 

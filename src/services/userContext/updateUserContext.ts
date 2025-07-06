@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/Context/useAuthStore";
+import { useAuthStore } from "@/stores/users/useAuthStore";
 import { URL_API } from "@/utils/env";
 
 export async function updateSelectedListIdFromApi(

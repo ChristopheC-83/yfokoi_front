@@ -1,5 +1,5 @@
-import { useAuthStore } from "@/Context/useAuthStore";
-import useDeleteAccount from "@/services/useDeleteAccount";
+import { useAuthStore } from "@/stores/users/useAuthStore";
+import useDeleteAccount from "@/hooks/users/useDeleteAccount";
 import {  useNavigate } from "react-router-dom";
 
 
