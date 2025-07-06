@@ -9,6 +9,7 @@ export function useListPermissions(
 
   const can = (action: "read" | "create" | "update_own" | "update_all") =>
     userId !== undefined ? hasPermission(userId, currentList, action) : false;
+  
 
   return {
     isOwner,
