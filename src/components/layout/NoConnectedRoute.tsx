@@ -8,7 +8,7 @@ export default function NoConnectedRoute({ children }: { children: React.ReactNo
 
   useEffect(() => {
     if (user) {
-      navigate("/"); 
+      navigate("/");  
     }
   }, [user, navigate]);
 

@@ -1,5 +1,0 @@
-Si connexion -> home page 
-
-tout bon 
-
-si f5, on doit ramener le user connecté qui est perdu pour le moment

@@ -3,13 +3,11 @@ import { useListsStore } from "@/stores/lists/useListsStore";
 import { URL_API } from "@/utils/env";
 import { jwtDecode } from "jwt-decode";
 
-// Interface du contenu du token
 interface JwtPayload {
   exp: number;
   name: string;
   id: string;
   email?: string;
-  // Ajoute ici d'autres champs côté back si nécessaire
 }
 
 // Décoder le token et vérifier son expiration
@@ -56,16 +54,13 @@ export async function refreshToken(): Promise<string | null> {
   if (!token) return null;
 
   try {
-    const response = await fetch(
-      `${URL_API}/api_account/refresh`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(`${URL_API}/api_account/refresh`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!response.ok) throw new Error("Échec du rafraîchissement du token");
 
@@ -100,5 +95,4 @@ export function logout(): void {
   useAuthStore.getState().setUser(null);
   useAuthStore.getState().setToken(null);
   useListsStore.getState().resetLists();
-  
 }

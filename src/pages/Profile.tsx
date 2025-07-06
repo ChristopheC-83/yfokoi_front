@@ -2,10 +2,6 @@ import { useAuthStore } from "@/stores/users/useAuthStore";
 import useDeleteAccount from "@/hooks/users/useDeleteAccount";
 import {  useNavigate } from "react-router-dom";
 
-
-
-
-
 export default function Profile() {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
@@ -22,6 +18,7 @@ export default function Profile() {
       deleteAccount(); 
     }
   }
+  
   return (
     <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
       <h1 className="text-2xl mb-5 underline-offset-4 underline text-amber-200">Mon Profil</h1>

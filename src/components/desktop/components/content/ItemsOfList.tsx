@@ -1,11 +1,10 @@
 import { useItemsStore } from "@/stores/items/useItemsStore";
 import type { Item } from "@/types/Item";
 import type { AccessList, OwnedList } from "@/types/List";
-// import { useEffect } from "react";
 
 interface ItemsOfListProps {
   currentList: OwnedList | AccessList | null;
-  currentItems: Item[]; // Assuming Item is defined elsewhere
+  currentItems: Item[]; 
 }
 export default function ItemsOfList({
   currentList,

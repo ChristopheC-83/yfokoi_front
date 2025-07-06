@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-// components/ConnectedRoute.tsx
 import { useAuthStore } from "@/stores/users/useAuthStore";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function ConnectedRoute({
-  children,
+  children, 
 }: {
   children: React.ReactNode;
 }) {

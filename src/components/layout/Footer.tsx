@@ -7,7 +7,6 @@ export default function Footer() {
   const user = useAuthStore((state) => state.user);
 
   return (
-    // <div className="bg-slate-900  text-amber-100 text-center py-4">
       
 
 <footer className="bg-slate-900  text-amber-100 ">

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useListsStore } from "@/stores/lists/useListsStore";
 import { useUserContextStore } from "@/stores/users/useUserContextStore";
 import type { AccessList, OwnedList } from "@/types/List";
@@ -25,33 +24,23 @@ export default function DesktopContent({ user }: DesktopContentProps) {
 
   const currentItems = useItemsStore((state) => state.itemsByListId[selectedListId as number] );
 
-
-
   useEffect(() => {
     setCurrentList(
       ownedLists.find((list) => list.id === selectedListId) ||
         accessLists.find((list) => list.id === selectedListId) ||
         null
     );
-    // console.log("currentList:", currentList);
   }, [selectedListId, ownedLists, accessLists]);
 
-//     useEffect(() => {
-//   console.log("🧪 currentItems:", currentItems);
-// }, [currentItems]);
-
-  // On retire le formulaire si on change de liste
   useEffect(() => {
     setChangeListName(false);
   }, [currentList]);
 
-  //  le formulaire se retire si modification de nom, on envoie cette fonction dans le composant ChangeListNameForm
   function onCloseForm() {
     setTimeout(() => {
       setChangeListName(false);
     }, 500);
   }
-
 
 
   if (selectedListId === undefined || selectedListId === null) {

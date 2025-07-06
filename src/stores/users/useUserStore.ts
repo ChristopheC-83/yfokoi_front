@@ -1,8 +1,6 @@
 import type { User } from "@/types/User";
 import { create } from "zustand";
 
-
-
 interface UserStore {
   user: User | null;
   setUser: (user: User | null) => void;

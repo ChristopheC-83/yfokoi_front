@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // App.tsx
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
-import ConnectedRoute from "./components/ConnectedRoute";
-import NoConnectedRoute from "./components/NoConnectedRoute";
 import { useEffect } from "react";
 import { useAuthStore } from "./stores/users/useAuthStore";
 import Contact from "./pages/Contact";
+import Layout from "./components/layout/Layout";
+import NoConnectedRoute from "./components/layout/NoConnectedRoute";
+import ConnectedRoute from "./components/layout/ConnectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -60,7 +60,7 @@ function App() {
     initUserFromToken();
   }, []);
 
-  if (!isInitialized) return <p>Chargement de l'utilisateur...</p>; // ⏳ attend init
+  if (!isInitialized) return <p>Chargement de l'utilisateur...</p>; 
 
   return <RouterProvider router={router} />;
 }

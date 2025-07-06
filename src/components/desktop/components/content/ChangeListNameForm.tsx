@@ -1,6 +1,5 @@
 import useModifyNameList from "@/hooks/lists/useModifyNameList";
 import { useState } from "react";
-// import { toast } from "sonner";
 
 import type { AccessList, OwnedList } from "@/types/List";
 

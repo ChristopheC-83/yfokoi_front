@@ -32,17 +32,12 @@ export default function useLogin() {
 
       const data = await response.json();
 
-      // console.log(data);
-      // console.log(response);
 
       if (!response.ok) {
-        // console.log(data);
-        // console.log(response);
         throw new Error(data.message || "Erreur lors de la connexion");
       }
       if (!data.token) throw new Error("Le token n'a pas été reçu");
 
-      // stocke token et user dans Zustand
       setToken(data.token);
 
       const { expired, decoded } = decodeToken(data.token);

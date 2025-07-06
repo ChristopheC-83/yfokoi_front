@@ -49,7 +49,6 @@ export default function useModifyNameList() {
       setError("Veuillez entrer un nouveau nom pour la liste");
       return false;
     }
-    // console.log("Payload envoyé :", { currentList, newNameList });
     try {
       const response = await fetch(`${URL_API}/api_lists/modifyNameList`, {
         method: "PATCH",

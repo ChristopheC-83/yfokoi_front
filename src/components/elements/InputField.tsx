@@ -1,4 +1,3 @@
-// components/InputField.tsx
 interface InputFieldProps {
   label: string;
   id: string;

@@ -4,8 +4,6 @@ import type { AccessList, OwnedList } from "@/types/List";
 import { create } from "zustand";
 
 interface ListsStore {
-  // selectedListId: number | null;
-  // favoriteListId: number | null;
   ownedLists: OwnedList[];
   accessLists: AccessList[];
   setOwnedLists: (lists: OwnedList[]) => void;
@@ -17,13 +15,10 @@ interface ListsStore {
 
 
 export const useListsStore = create<ListsStore>((set, get) => ({
-  // selectedListId: null,
-  // favoriteListId: null,
   ownedLists: [],
   accessLists: [],
   
   setOwnedLists: (lists) => {
-  // console.log("setOwnedLists déclenché");
   set({ ownedLists: lists });
 },
 
@@ -31,8 +26,8 @@ export const useListsStore = create<ListsStore>((set, get) => ({
 
    fetchOwnedListsFromApi: async (token: string) => {
     const current = get().ownedLists;
-    if (current.length > 0) return; // éviter les fetchs inutiles
-
+    if (current.length > 0) return; 
+    
     try {
       const data = await fetchOwnedLists(token);
       set({ ownedLists: data });

@@ -48,17 +48,12 @@ export default function useListsManager() {
       const data = await response.json();
 
       if (!response.ok) {
-        // console.log(data);
-        // console.log(response);
         throw new Error(data.message || "Erreur lors de la création");
       }
-      // console.log("coucou");
-      // console.log(data);
-      // console.log(response);
+     
 
       setOwnedLists([...ownedLists, data.newList]);
       toast.success("Liste créée avec succès !");
-      // console.log("Liste créée avec succès :", data.newList);
       return true;
     } catch (error) {
       const message =
