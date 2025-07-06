@@ -1,31 +1,66 @@
-import { useItemsStore } from "@/stores/items/useItemsStore";
+import { useListPermissions } from "@/hooks/lists/useListPermission";
+import { useAuthStore } from "@/stores/users/useAuthStore";
 import type { Item } from "@/types/Item";
 import type { AccessList, OwnedList } from "@/types/List";
+import UniqueItems from "./uniqueItems";
+import { useEffect } from "react";
+import type { Permissions } from "@/types/Permissions";
 
 interface ItemsOfListProps {
   currentList: OwnedList | AccessList | null;
-  currentItems: Item[]; 
+  currentItems: Item[];
+  permissions: Permissions;
 }
+
 export default function ItemsOfList({
   currentList,
   currentItems,
 }: ItemsOfListProps) {
+  const userId = Number(useAuthStore((state) => state.user?.id));
+  const { canRead, canCreate, canCrudOwn, canCrudAll, isOwner } =
+    useListPermissions(userId, currentList);
 
-  const setItemsForList = useItemsStore((state) => state.setItemsForList);
-  console.log("🧪 setItemsForList:", setItemsForList) ;
+  useEffect(() => {
+    if (currentItems) {
+      console.log("currentItems", currentItems);
+      console.log("currentList", currentList);
+    }
+  }, [currentItems, currentList]);
 
   return (
     <div>
       <p className="text-center">currentList</p>
-      {currentList && currentList.name}
+      {currentList?.name}
+
+      {(isOwner || canRead) && (
+        <p className="text-green-500">
+          Vous pouvez voir des items dans cette liste
+        </p>
+      )}
+      {(isOwner || canCreate) && (
+        <p className="text-green-500">
+          Vous pouvez créer des items dans cette liste
+        </p>
+      )}
+
+      {(isOwner || canCrudOwn) && (
+        <p className="text-yellow-500">
+          Vous pouvez modifier vos propres items dans cette liste
+        </p>
+      )}
+
+      {(isOwner || canCrudAll) && (
+        <p className="text-red-500">
+          Vous pouvez modifier tous les items dans cette liste
+        </p>
+      )}
+
       {currentItems?.map((item) => (
-        <div>
-          <p key={item.id}>{item.id} - {item.content} de {item.created_by}</p>
-          <p>{item.created_by}</p>
-          <p>{item.is_done}</p>
-          <p>{item.created_at instanceof Date ? item.created_at.toLocaleString() : item.created_at}</p>
-          <hr />
-        </div>
+        <UniqueItems
+          item={item}
+          currentList={currentList}
+          permissions={{ canRead, canCreate, canCrudOwn, canCrudAll, isOwner }}
+        />
       ))}
     </div>
   );
