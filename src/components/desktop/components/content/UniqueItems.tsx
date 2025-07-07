@@ -6,6 +6,7 @@ import type { Permissions } from "@/types/Permissions";
 import { useEffect } from "react";
 import { FaPencil } from "react-icons/fa6";
 import { FaRegTrashCan } from "react-icons/fa6";
+import IsDone from "./ItemComponents/IsDone";
 
 
 
@@ -36,15 +37,15 @@ export default function UniqueItems({
       {(canRead || isOwner) && (
         <div
           key={item.id}
-          className="rounded border border-amber-200 bg-slate-700 p-1 mb-4 w-[96vw] mx-auto max-w-[800px] flex items-center justify-start"
+          className={`rounded border border-amber-200  p-1 mb-4 w-[96vw] mx-auto max-w-[800px] flex items-center justify-start ${item.is_done ? ("bg-gray-600") : ("bg-slate-700")}`}
         >
           {/*  faire un composant form pour isDone */}
-          <div className="text-2xl p-2 mr-2">{item.is_done ? "✅" : "⏹️"}</div>
+          <IsDone item={item}/>
 
           {/*  faire un composant   nom <=>  form update content*/}
 
           <div className="flex items-centerjustify-start">
-            <p className="text-lg font-semibold">{item.content} 
+            <p className={`text-lg font-semibold ${item.is_done ? ("line-through text-amber-300") : ("")}`}>{item.content} 
             {userId !== item.created_by
               && <span className="text-sm ml-1.5 text-slate-400">de {item.author_name}</span>}
 
