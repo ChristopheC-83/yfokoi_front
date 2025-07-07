@@ -44,7 +44,11 @@ export default function UniqueItems({
           {/*  faire un composant   nom <=>  form update content*/}
 
           <div className="flex items-centerjustify-start">
-            <p className="text-lg font-semibold">{item.content}</p>
+            <p className="text-lg font-semibold">{item.content} 
+            {userId !== item.created_by
+              && <span className="text-sm ml-1.5 text-slate-400">de {item.author_name}</span>}
+
+            </p>
           </div>
           {/* ici 2form, 2 composant update name et delete item */}
 

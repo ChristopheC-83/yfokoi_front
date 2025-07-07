@@ -2,14 +2,12 @@ import { useListPermissions } from "@/hooks/lists/useListPermission";
 import { useAuthStore } from "@/stores/users/useAuthStore";
 import type { Item } from "@/types/Item";
 import type { AccessList, OwnedList } from "@/types/List";
-import UniqueItems from "./uniqueItems";
 import { useEffect } from "react";
-import type { Permissions } from "@/types/Permissions";
+import UniqueItems from "./UniqueItems";
 
 interface ItemsOfListProps {
   currentList: OwnedList | AccessList | null;
   currentItems: Item[];
-  permissions: Permissions;
 }
 
 export default function ItemsOfList({
