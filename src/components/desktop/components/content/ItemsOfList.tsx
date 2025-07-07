@@ -20,8 +20,8 @@ export default function ItemsOfList({
 
   useEffect(() => {
     if (currentItems) {
-      console.log("currentItems", currentItems);
-      console.log("currentList", currentList);
+      // console.log("currentItems", currentItems);
+      // console.log("currentList", currentList);
     }
   }, [currentItems, currentList]);
 
@@ -55,6 +55,7 @@ export default function ItemsOfList({
 
       {currentItems?.map((item) => (
         <UniqueItems
+        key={item.id}
           item={item}
           currentList={currentList}
           permissions={{ canRead, canCreate, canCrudOwn, canCrudAll, isOwner }}
