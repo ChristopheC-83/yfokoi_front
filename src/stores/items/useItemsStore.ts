@@ -34,6 +34,6 @@ export const useItemsStore = create<ItemsStore>((set, get) => ({
     }
   },
 
-  resetItems: () => set({ itemsByListId: {} }),
+  resetItems: () => set({ itemsByListId: {} }), 
 }));
 

@@ -7,6 +7,7 @@ import ChangeListNameForm from "./components/content/ChangeListNameForm";
 import { useInitSelectedItems } from "@/hooks/items/useInitItems";
 import { useItemsStore } from "@/stores/items/useItemsStore";
 import ItemsOfList from "./components/content/ItemsOfList";
+import AddToList from "./components/content/ItemComponents/AddToList";
 
 interface DesktopContentProps {
   user: User;
@@ -68,7 +69,7 @@ export default function DesktopContent({ user }: DesktopContentProps) {
           Bienvenue, {user.name} !
         </h2>
         <div className="flex gap-3 justify-center my-3">
-          {currentList.name}
+          <span className="underline underline-offset-4">Liste  :</span> {currentList.name}
           <span
             onClick={() => setChangeListName(!changeListName)}
             className={`cursor-pointer  ${
@@ -87,6 +88,9 @@ export default function DesktopContent({ user }: DesktopContentProps) {
             currentList={currentList}
             onCloseForm={() => onCloseForm()}
           />
+        </div>
+        <div>
+          <AddToList currentList={currentList}/>
         </div>
         <div>
           {loading && <p className="text-slate-600 italic">Chargement...</p>}

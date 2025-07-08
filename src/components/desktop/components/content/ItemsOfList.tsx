@@ -27,10 +27,10 @@ export default function ItemsOfList({
 
   return (
     <div>
-      <p className="text-center">currentList</p>
-      {currentList?.name}
+      {/* <p className="text-center">currentList</p>
+      {currentList?.name} */}
 
-      {(isOwner || canRead) && (
+      {/* {(isOwner || canRead) && (
         <p className="text-green-500">
           Vous pouvez voir des items dans cette liste
         </p>
@@ -51,7 +51,7 @@ export default function ItemsOfList({
         <p className="text-red-500">
           Vous pouvez modifier tous les items dans cette liste
         </p>
-      )}
+      )} */}
 
       {currentItems?.map((item) => (
         <UniqueItems
