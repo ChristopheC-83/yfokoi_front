@@ -44,6 +44,7 @@ export default function Register() {
         id="password"
         value={password}
         type="password"
+  autoComplete="new-password"
         onChange={(e) => setPassword(e.target.value)}
       />
       <InputField
@@ -51,6 +52,7 @@ export default function Register() {
         id="passwordConfirmation"
         value={passwordConfirmation}
         type="password"
+  autoComplete="new-password"
         onChange={(e) => setPasswordConfirmation(e.target.value)}
       />
 

@@ -3,6 +3,7 @@ interface InputFieldProps {
   id: string;
   type: string;
   value: string;
+  autoComplete?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
 }
@@ -12,6 +13,7 @@ export default function InputField({
   id,
   type,
   value,
+  autoComplete,
   onChange,
 }: InputFieldProps) {
   return (
@@ -24,6 +26,7 @@ export default function InputField({
         type={type}
         value={value}
         onChange={onChange}
+        autoComplete={autoComplete}
         className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5`}
       />
     </div>
