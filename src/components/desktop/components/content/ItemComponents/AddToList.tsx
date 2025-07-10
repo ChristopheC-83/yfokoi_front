@@ -5,6 +5,7 @@ import { useAuthStore } from "@/stores/users/useAuthStore";
 import type { Item } from "@/types/Item";
 import type { AccessList, OwnedList } from "@/types/List";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface AddToListProps {
   currentList: OwnedList | AccessList;
@@ -19,12 +20,30 @@ export default function AddToList({ currentList }: AddToListProps) {
 
   async function handleAddItem(e: React.FormEvent) {
     e.preventDefault();
-    if (!newItem.trim()) return;
+    //  controle item non vide
+    if (!newItem.trim()) {
+      toast.error("L'élement ne peut pas être vide");
+      return;
+    }
 
+    // vérification item pas dejà dans currentList
+    const existingItems = itemsByListId[currentList.id] || [];
+    //  pour rapelle find() si on doit recupérer/réutiliser l'élément, some() pour un true/false
+    const itemExists = existingItems.some(
+      (item) =>
+        item.content.trim().toLowerCase() === newItem.trim().toLowerCase()
+    );
+
+    if (itemExists) {
+      toast.error("Cet élément existe déjà dans la liste !");
+      return;
+    }
+
+    //  creation item
     const tempId = Date.now(); // ID temporaire
     const optimisticItem: Item = {
       id: tempId,
-      content: newItem, 
+      content: newItem,
       is_done: false,
       id_list: currentList.id,
       created_at: new Date(),
@@ -33,11 +52,13 @@ export default function AddToList({ currentList }: AddToListProps) {
       author_email: user?.email ?? "inconnu@yolo.com",
     };
     console.log("Adding item:", newItem);
+    //  ajout dans le store, fonctionne même sans connexion
     setItemsForList(currentList.id, [
       ...(itemsByListId[currentList.id] || []),
       optimisticItem,
     ]);
 
+    //  traitment pour ajout en DB
     setNewItem(""); // Clear the input after adding
   }
 
