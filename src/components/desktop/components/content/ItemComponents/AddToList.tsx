@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useListPermissions } from "@/hooks/lists/useListPermission";
+import sendItemToDB from "@/services/items/sendItemToDB";
 import { useItemsStore } from "@/stores/items/useItemsStore";
 import { useAuthStore } from "@/stores/users/useAuthStore";
 import type { Item } from "@/types/Item";
 import type { AccessList, OwnedList } from "@/types/List";
+import { send } from "process";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -20,28 +22,30 @@ export default function AddToList({ currentList }: AddToListProps) {
 
   async function handleAddItem(e: React.FormEvent) {
     e.preventDefault();
-    //  controle item non vide
-    if (!newItem.trim()) {
-      toast.error("L'élement ne peut pas être vide");
-      return;
-    }
 
-    // vérification item pas dejà dans currentList
-    const existingItems = itemsByListId[currentList.id] || [];
-    //  pour rapelle find() si on doit recupérer/réutiliser l'élément, some() pour un true/false
-    const itemExists = existingItems.some(
-      (item) =>
-        item.content.trim().toLowerCase() === newItem.trim().toLowerCase()
-    );
+     // Nettoyage de la chaîne
+  const trimmedItem = newItem.trim();
 
-    if (itemExists) {
-      toast.error("Cet élément existe déjà dans la liste !");
-      return;
-    }
+  // Vérif : item non vide
+  if (!trimmedItem) {
+    toast.error("L'élément ne peut pas être vide.");
+    return;
+  }
+
+  // Vérif : item déjà présent dans la liste
+  const currentItems = itemsByListId[currentList.id] || [];
+  const alreadyExists = currentItems.some(
+    (item) => item.content.toLowerCase() === trimmedItem.toLowerCase()
+  );
+
+  if (alreadyExists) {
+    toast.warning("Cet élément existe déjà dans la liste.");
+    return;
+  }
 
     //  creation item
     const tempId = Date.now(); // ID temporaire
-    const optimisticItem: Item = {
+    const newItemToApi: Item = {
       id: tempId,
       content: newItem,
       is_done: false,
@@ -55,11 +59,12 @@ export default function AddToList({ currentList }: AddToListProps) {
     //  ajout dans le store, fonctionne même sans connexion
     setItemsForList(currentList.id, [
       ...(itemsByListId[currentList.id] || []),
-      optimisticItem,
+      newItemToApi,
     ]);
-
-    //  traitment pour ajout en DB
-    setNewItem(""); // Clear the input after adding
+    if (sendItemToDB(newItemToApi)) {
+      toast.success("Élément ajouté avec succès !");
+      setNewItem(""); // Clear the input after adding
+    }
   }
 
   useEffect(() => {
