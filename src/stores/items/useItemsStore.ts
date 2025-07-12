@@ -7,6 +7,7 @@ interface ItemsStore {
   setItemsForList: (listId: number, items: Item[]) => void;
   fetchItemsByListId: (listId: number) => Promise<void>;
   resetItems: () => void;
+  removeItemFromList: (listId: number, itemId: number) => void;
   replaceItemById: (listId: number, tempId: number, newItem: Item) => void;
 }
 
@@ -39,6 +40,20 @@ export const useItemsStore = create<ItemsStore>((set, get) => ({
   },
 
   resetItems: () => set({ itemsByListId: {} }),
+
+  removeItemFromList: (listId: number, itemId: number) => {
+    set((state) => {
+      const updatedItems = (state.itemsByListId[listId] || []).filter(
+        (item) => item.id !== itemId
+      );
+      return {
+        itemsByListId: {
+          ...state.itemsByListId,
+          [listId]: updatedItems,
+        },
+      };
+    });
+  },
 
   replaceItemById: (listId: number, tempId: number, newItem: Item) => {
     const numericListId = typeof listId === "string" ? Number(listId) : listId;

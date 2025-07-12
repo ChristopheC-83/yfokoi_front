@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/stores/users/useAuthStore";
 import type { Item } from "@/types/Item";
 import { URL_API } from "@/utils/env";
 
@@ -7,10 +8,13 @@ export default async function sendItemToDB(item: Item): Promise<boolean> {
   }
 
   try {
+    
+          const token = useAuthStore.getState().token;
     const response = await fetch(`${URL_API}/api_items/addNewItem`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(item),
     });

@@ -66,7 +66,10 @@ export default function UniqueItems({
             <div className="text-xl p-2 rounded-md border border-amber-200 bg-slate-900 hover:bg-slate-600 duration-300 cursor-pointer">
               <FaPencil />
             </div>
-            {(isOwner || canCrudAll || (canCrudOwn && item.created_by === userId)) && <DeleteItem />}
+            {(isOwner || canCrudAll || (canCrudOwn && item.created_by === userId)) && 
+            <DeleteItem itemId={item.id} 
+            currentListId={item.id_list}
+            />}
           </div>
         </div>
       )}
