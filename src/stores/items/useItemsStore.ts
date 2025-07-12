@@ -3,10 +3,11 @@ import type { Item } from "@/types/Item";
 import { fetchItemsByList } from "@/services/items/fetchItemsByList";
 
 interface ItemsStore {
-  itemsByListId: Record<number, Item[]>; 
+  itemsByListId: Record<number, Item[]>;
   setItemsForList: (listId: number, items: Item[]) => void;
-  fetchItemsByListId: (listId: number, token: string) => Promise<void>;
+  fetchItemsByListId: (listId: number) => Promise<void>;
   resetItems: () => void;
+  replaceItemById: (listId: number, tempId: number, newItem: Item) => void;
 }
 
 export const useItemsStore = create<ItemsStore>((set, get) => ({
@@ -21,19 +22,36 @@ export const useItemsStore = create<ItemsStore>((set, get) => ({
     }));
   },
 
-  fetchItemsByListId: async (listId, token) => {
+  fetchItemsByListId: async (listId) => {
     const existing = get().itemsByListId[listId];
-    if (existing) return; 
+    if (existing) return;
 
     try {
-      const items = await fetchItemsByList(listId, token);
+      const items = await fetchItemsByList(listId);
       get().setItemsForList(listId, items);
     } catch (error) {
-      console.error(`Erreur lors du fetch des items pour la liste ${listId}`, error);
+      console.error(
+        `Erreur lors du fetch des items pour la liste ${listId}`,
+        error
+      );
       throw error;
     }
   },
 
-  resetItems: () => set({ itemsByListId: {} }), 
-}));
+  resetItems: () => set({ itemsByListId: {} }),
 
+  replaceItemById: (listId: number, tempId: number, newItem: Item) => {
+    const numericListId = typeof listId === "string" ? Number(listId) : listId;
+    set((state) => {
+      const updatedItems = (state.itemsByListId[numericListId] || []).map(
+        (item) => (item.id === tempId ? newItem : item)
+      );
+      return {
+        itemsByListId: {
+          ...state.itemsByListId,
+          [numericListId]: updatedItems,
+        },
+      };
+    });
+  },
+}));

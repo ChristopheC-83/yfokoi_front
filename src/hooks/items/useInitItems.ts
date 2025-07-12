@@ -19,7 +19,7 @@ export function useInitSelectedItems() {
       setError(null);
 
       try {
-        await fetchItemsByListId(selectedListId, token);
+        await fetchItemsByListId(selectedListId);
       } catch (err) {
         console.error(err);
         setError("Erreur lors du chargement des items de la liste sélectionnée.");

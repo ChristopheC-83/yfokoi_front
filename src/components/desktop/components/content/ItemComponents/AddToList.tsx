@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useListPermissions } from "@/hooks/lists/useListPermission";
+import { fetchItemsByList } from "@/services/items/fetchItemsByList";
 import sendItemToDB from "@/services/items/sendItemToDB";
 import { useItemsStore } from "@/stores/items/useItemsStore";
 import { useAuthStore } from "@/stores/users/useAuthStore";
 import type { Item } from "@/types/Item";
 import type { AccessList, OwnedList } from "@/types/List";
-import { send } from "process";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 interface AddToListProps {
@@ -14,7 +12,8 @@ interface AddToListProps {
 }
 
 export default function AddToList({ currentList }: AddToListProps) {
-  const { itemsByListId, setItemsForList } = useItemsStore();
+  const { itemsByListId, setItemsForList } =
+    useItemsStore();
   const user = useAuthStore((state) => state.user);
   const userId = Number(useAuthStore((state) => state.user?.id));
 
@@ -23,28 +22,28 @@ export default function AddToList({ currentList }: AddToListProps) {
   async function handleAddItem(e: React.FormEvent) {
     e.preventDefault();
 
-     // Nettoyage de la chaîne
-  const trimmedItem = newItem.trim();
+    // Nettoyage de la chaîne
+    const trimmedItem = newItem.trim();
 
-  // Vérif : item non vide
-  if (!trimmedItem) {
-    toast.error("L'élément ne peut pas être vide.");
-    return;
-  }
+    // Vérif : item non vide
+    if (!trimmedItem) {
+      toast.error("L'élément ne peut pas être vide.");
+      return;
+    }
 
-  // Vérif : item déjà présent dans la liste
-  const currentItems = itemsByListId[currentList.id] || [];
-  const alreadyExists = currentItems.some(
-    (item) => item.content.toLowerCase() === trimmedItem.toLowerCase()
-  );
+    // Vérif : item déjà présent dans la liste
+    const currentItems = itemsByListId[currentList.id] || [];
+    const alreadyExists = currentItems.some(
+      (item) => item.content.toLowerCase() === trimmedItem.toLowerCase()
+    );
 
-  if (alreadyExists) {
-    toast.warning("Cet élément existe déjà dans la liste.");
-    return;
-  }
+    if (alreadyExists) {
+      toast.warning("Cet élément existe déjà dans la liste.");
+      return;
+    }
 
-    //  creation item
-    const tempId = Date.now(); // ID temporaire
+    // Création de l’item temporaire avec ID unique local
+    const tempId = Date.now();
     const newItemToApi: Item = {
       id: tempId,
       content: newItem,
@@ -55,24 +54,20 @@ export default function AddToList({ currentList }: AddToListProps) {
       author_name: user?.name ?? "Moi",
       author_email: user?.email ?? "inconnu@yolo.com",
     };
-    console.log("Adding item:", newItem);
-    //  ajout dans le store, fonctionne même sans connexion
-    setItemsForList(currentList.id, [
-      ...(itemsByListId[currentList.id] || []),
-      newItemToApi,
-    ]);
-    if (sendItemToDB(newItemToApi)) {
-      toast.success("Élément ajouté avec succès !");
-      setNewItem(""); // Clear the input after adding
-    }
-  }
 
-  useEffect(() => {
-    if (currentList) {
-      const currentItems = itemsByListId[currentList.id] || [];
-      console.log("Current items for list:", currentItems);
+    // Ajout immédiat dans le store (optimiste)
+    // setItemsForList(currentList.id, [...currentItems, newItemToApi]);
+
+    // Tentative d'envoi à la DB
+    if (await sendItemToDB(newItemToApi)) {
+      const newList = await fetchItemsByList(currentList.id);
+      // console.log("newList", newList);
+      setItemsForList(currentList.id, newList);
     }
-  }, [currentList, itemsByListId]);
+
+    toast.success("Élément ajouté avec succès !");
+    setNewItem(""); // Nettoyage du champ
+  }
 
   return (
     <form

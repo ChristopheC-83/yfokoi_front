@@ -1,10 +1,12 @@
+import { useAuthStore } from "@/stores/users/useAuthStore";
 import type { Item } from "@/types/Item";
 import { URL_API } from "@/utils/env";
 
 export async function fetchItemsByList(
-  idList: number,
-  token: string
+  idList: number
 ): Promise<Item[]> {
+  
+      const token = useAuthStore.getState().token;
   const res = await fetch(`${URL_API}/api_items/getItemsByList`, {
     method: "POST",
     headers: {
@@ -18,5 +20,8 @@ export async function fetchItemsByList(
   }
 
   const data: Item[] = await res.json();
+
+  // console.log("data")
   return data;
 }
+

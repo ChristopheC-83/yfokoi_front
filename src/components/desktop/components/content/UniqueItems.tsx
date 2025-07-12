@@ -24,9 +24,7 @@ export default function UniqueItems({
 
   // useEffect(() => {
   //   if (item) {
-  //     console.log("UniqueItems item", item);
-  //     console.log("currentList", currentList);
-  //     console.log("permissions", permissions);
+  //     console.log("UniqueItems item", item.id);
   //   }
   // }, [item, currentList, permissions]);
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useListsStore } from "@/stores/lists/useListsStore";
 import { useUserContextStore } from "@/stores/users/useUserContextStore";
 import type { AccessList, OwnedList } from "@/types/List";
@@ -8,6 +9,8 @@ import { useInitSelectedItems } from "@/hooks/items/useInitItems";
 import { useItemsStore } from "@/stores/items/useItemsStore";
 import ItemsOfList from "./components/content/ItemsOfList";
 import AddToList from "./components/content/ItemComponents/AddToList";
+import { useAuthStore } from "@/stores/users/useAuthStore";
+import { useListPermissions } from "@/hooks/lists/useListPermission";
 
 interface DesktopContentProps {
   user: User;
@@ -20,10 +23,17 @@ export default function DesktopContent({ user }: DesktopContentProps) {
   const [currentList, setCurrentList] = useState<OwnedList | AccessList | null>(
     null
   );
+
+  const userId = Number(useAuthStore((state) => state.user?.id));
+  const { canRead, canCreate, canCrudOwn, canCrudAll, isOwner } =
+    useListPermissions(userId, currentList);
+
   const [changeListName, setChangeListName] = useState<boolean>(false);
   const { loading, error } = useInitSelectedItems();
 
-  const currentItems = useItemsStore((state) => state.itemsByListId[selectedListId as number] );
+  const currentItems = useItemsStore(
+    (state) => state.itemsByListId[selectedListId as number]
+  );
 
   useEffect(() => {
     setCurrentList(
@@ -42,7 +52,6 @@ export default function DesktopContent({ user }: DesktopContentProps) {
       setChangeListName(false);
     }, 500);
   }
-
 
   if (selectedListId === undefined || selectedListId === null) {
     return (
@@ -69,7 +78,8 @@ export default function DesktopContent({ user }: DesktopContentProps) {
           Bienvenue, {user.name} !
         </h2>
         <div className="flex gap-3 justify-center my-3">
-          <span className="underline underline-offset-4">Liste  :</span> {currentList.name}
+          <span className="underline underline-offset-4">Liste :</span>{" "}
+          {currentList.name}
           <span
             onClick={() => setChangeListName(!changeListName)}
             className={`cursor-pointer  ${
@@ -89,9 +99,12 @@ export default function DesktopContent({ user }: DesktopContentProps) {
             onCloseForm={() => onCloseForm()}
           />
         </div>
-        <div>
-          <AddToList currentList={currentList}/>
-        </div>
+        {/* Si levelAccess > 1 !!! */}
+        {canCreate && (
+          <div>
+            <AddToList currentList={currentList} />
+          </div>
+        )}
         <div>
           {loading && <p className="text-slate-600 italic">Chargement...</p>}
           {error && <p className="text-red-500">{error}</p>}
