@@ -22,7 +22,6 @@ export async function deleteItemFromApi(itemId: number): Promise<boolean> {
     if (!response.ok) {
     //   const data = await response.json();
     //   console.error("API error:", data.message);
-      throw new Error("Error deleting the item");
       throw new Error(data.message || "Error deleting the item");
     }
     // console.log("Item deleted successfully:", itemId);

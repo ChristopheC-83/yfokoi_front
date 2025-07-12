@@ -10,6 +10,7 @@ import ItemsOfList from "./components/content/ItemsOfList";
 import AddToList from "./components/content/ItemComponents/AddToList";
 import { useAuthStore } from "@/stores/users/useAuthStore";
 import { useListPermissions } from "@/hooks/lists/useListPermission";
+import BtnClearChecked from "./components/content/ItemComponents/BtnClearChecked";
 
 interface DesktopContentProps {
   user: User;
@@ -27,7 +28,9 @@ export default function DesktopContent({ user }: DesktopContentProps) {
   const {
     // canRead,
     canCreate,
-    // canCrudOwn, canCrudAll, isOwner
+    // canCrudOwn,
+    canCrudAll,
+    isOwner,
   } = useListPermissions(userId, currentList);
 
   const [changeListName, setChangeListName] = useState<boolean>(false);
@@ -36,6 +39,8 @@ export default function DesktopContent({ user }: DesktopContentProps) {
   const currentItems = useItemsStore(
     (state) => state.itemsByListId[selectedListId as number]
   );
+  const items = currentItems ?? [];
+  const hasAtLeastOneDone = items?.some((item) => item.is_done) ?? false;
 
   useEffect(() => {
     setCurrentList(
@@ -43,7 +48,14 @@ export default function DesktopContent({ user }: DesktopContentProps) {
         accessLists.find((list) => list.id === selectedListId) ||
         null
     );
-  }, [selectedListId, ownedLists, accessLists]);
+    console.log("hasAtLeastOneDone", hasAtLeastOneDone);
+  }, [
+    selectedListId,
+    ownedLists,
+    accessLists,
+    currentItems,
+    hasAtLeastOneDone,
+  ]);
 
   useEffect(() => {
     setChangeListName(false);
@@ -119,6 +131,25 @@ export default function DesktopContent({ user }: DesktopContentProps) {
             ""
           )}
         </div>
+
+        {/*  Btn de suppression des items checked */}
+        {/* {(canCrudAll || isOwner) &&
+          currentItems?.length > 0 &&
+          hasAtLeastOneDone && (
+            <BtnClearChecked currentListId={currentList.id} />
+          )} */}
+
+        {(canCrudAll || isOwner) && currentItems?.length > 0 && (
+          <div
+            className={`${
+              hasAtLeastOneDone
+                ? "cursor-pointer duration-500"
+                : "opacity-5 cursor-not-allowed duration-500"
+            }`}
+          >
+            <BtnClearChecked currentListId={currentList.id} />
+          </div>
+        )}
       </div>
     );
   }
