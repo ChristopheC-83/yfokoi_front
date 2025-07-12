@@ -4,8 +4,8 @@ import type { AccessList, OwnedList } from "@/types/List";
 import type { Permissions } from "@/types/Permissions";
 // import { useEffect } from "react";
 import { FaPencil } from "react-icons/fa6";
-import { FaRegTrashCan } from "react-icons/fa6";
 import IsDone from "./ItemComponents/IsDone";
+import DeleteItem from "./ItemComponents/deleteItem";
 
 interface UniqueItemsProps {
   item: Item;
@@ -17,9 +17,13 @@ export default function UniqueItems({
   item,
   // currentList,
   // permissions,
-  permissions: { 
-    // canCreate, canCrudOwn, canCrudAll,
-     canRead, isOwner },
+  permissions: {
+    // canCreate, 
+    canCrudOwn,
+    canCrudAll,
+    canRead,
+    isOwner,
+  },
 }: UniqueItemsProps) {
   const userId = Number(useAuthStore((state) => state.user?.id));
 
@@ -38,7 +42,6 @@ export default function UniqueItems({
             item.is_done ? "bg-gray-600" : "bg-slate-700"
           }`}
         >
-          {/*  faire un composant form pour isDone */}
           <IsDone item={item} />
 
           {/*  faire un composant   nom <=>  form update content*/}
@@ -63,9 +66,7 @@ export default function UniqueItems({
             <div className="text-xl p-2 rounded-md border border-amber-200 bg-slate-900 hover:bg-slate-600 duration-300 cursor-pointer">
               <FaPencil />
             </div>
-            <div className="text-xl p-2 rounded-md border border-amber-200 bg-slate-900 hover:bg-slate-600 duration-300 cursor-pointer">
-              <FaRegTrashCan />
-            </div>
+            {(isOwner || canCrudAll || (canCrudOwn && item.created_by === userId)) && <DeleteItem />}
           </div>
         </div>
       )}
