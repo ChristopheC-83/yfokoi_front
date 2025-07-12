@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useListsStore } from "@/stores/lists/useListsStore";
 import { useUserContextStore } from "@/stores/users/useUserContextStore";
 import type { AccessList, OwnedList } from "@/types/List";
@@ -25,8 +24,11 @@ export default function DesktopContent({ user }: DesktopContentProps) {
   );
 
   const userId = Number(useAuthStore((state) => state.user?.id));
-  const { canRead, canCreate, canCrudOwn, canCrudAll, isOwner } =
-    useListPermissions(userId, currentList);
+  const {
+    // canRead,
+    canCreate,
+    // canCrudOwn, canCrudAll, isOwner
+  } = useListPermissions(userId, currentList);
 
   const [changeListName, setChangeListName] = useState<boolean>(false);
   const { loading, error } = useInitSelectedItems();

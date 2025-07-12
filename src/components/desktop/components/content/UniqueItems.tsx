@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useAuthStore } from "@/stores/users/useAuthStore";
 import type { Item } from "@/types/Item";
 import type { AccessList, OwnedList } from "@/types/List";
 import type { Permissions } from "@/types/Permissions";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { FaPencil } from "react-icons/fa6";
 import { FaRegTrashCan } from "react-icons/fa6";
 import IsDone from "./ItemComponents/IsDone";
@@ -16,9 +15,11 @@ interface UniqueItemsProps {
 
 export default function UniqueItems({
   item,
-  currentList,
-  permissions,
-  permissions: { canCreate, canCrudOwn, canCrudAll, canRead, isOwner },
+  // currentList,
+  // permissions,
+  permissions: { 
+    // canCreate, canCrudOwn, canCrudAll,
+     canRead, isOwner },
 }: UniqueItemsProps) {
   const userId = Number(useAuthStore((state) => state.user?.id));
 
