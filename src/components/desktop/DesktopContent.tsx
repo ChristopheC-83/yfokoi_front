@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useListsStore } from "@/stores/lists/useListsStore";
 import { useUserContextStore } from "@/stores/users/useUserContextStore";
 import type { AccessList, OwnedList } from "@/types/List";
@@ -41,6 +42,7 @@ export default function DesktopContent({ user }: DesktopContentProps) {
   );
   const items = currentItems ?? [];
   const hasAtLeastOneDone = items?.some((item) => item.is_done) ?? false;
+  const allRights = canCrudAll || isOwner;
 
   useEffect(() => {
     setCurrentList(
@@ -49,6 +51,7 @@ export default function DesktopContent({ user }: DesktopContentProps) {
         null
     );
     // console.log("hasAtLeastOneDone", hasAtLeastOneDone);
+    // console.log("allRights", allRights);
   }, [
     selectedListId,
     ownedLists,
@@ -147,7 +150,7 @@ export default function DesktopContent({ user }: DesktopContentProps) {
                 : "opacity-5 cursor-not-allowed duration-500"
             }`}
           >
-            <BtnClearChecked currentListId={currentList.id} />
+            <BtnClearChecked currentListId={currentList.id} allRights={allRights}/>
           </div>
         )}
       </div>

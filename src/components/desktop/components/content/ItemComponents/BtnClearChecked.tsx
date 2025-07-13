@@ -2,26 +2,40 @@
 import { deleteCheckedItemsFromApi } from "@/services/items/deleteCheckItems";
 import { fetchItemsByList } from "@/services/items/fetchItemsByList";
 import { useItemsStore } from "@/stores/items/useItemsStore";
+import { useAuthStore } from "@/stores/users/useAuthStore";
+// import type { Item } from "@/types/Item";
+import { useEffect } from "react";
 import { toast } from "sonner";
 
 interface BtnClearCheckedProps {
   currentListId: number;
+  allRights: boolean;
 }
 
 export default function BtnClearChecked({
   currentListId,
+  allRights,
 }: BtnClearCheckedProps) {
   const { setItemsForList } = useItemsStore.getState();
 
+  const userId = Number(useAuthStore((state) => state.user?.id));
+  // const [checkedItems, setCheckedItems] = useState<Item[]>([]);
+  const items = useItemsStore.getState().itemsByListId[currentListId];
+
+
   async function deleteCheckedItems() {
     // suppression du store
-    const items = useItemsStore.getState().itemsByListId[currentListId];
+    
+
     if (!items) return;
 
-    const checkedItems = items.filter((item) => item.is_done);
-    if (checkedItems.length === 0) return;
+    const checked = allRights
+    ? items.filter((item) => item.is_done)
+    : items.filter((item) => item.is_done && item.created_by === userId);
 
-    checkedItems.forEach((item, i) => {
+  if (checked.length === 0) return;
+
+    checked.forEach((item, i) => {
       setTimeout(() => {
         useItemsStore.getState().removeItemFromList(currentListId, item.id);
       }, i * 150); // ✅ décalage progressif
@@ -39,12 +53,14 @@ export default function BtnClearChecked({
     }
   }
 
+  
+
   return (
     <div
       className={`rounded border border-amber-200  py-3 mb-4 w-[96vw] mx-auto max-w-[800px] flex items-center justify-center  bg-blue-500  hover:bg-blue-600 duration-300 hover:border-amber-300 text-amber-100 hover:text-amber-200`}
       onClick={deleteCheckedItems}
     >
-      <p className="text-center">Supprimer les éléments cochés</p>
+      <p className="text-center">Supprimer {allRights ? "les" : "mes"} éléments cochés</p>
     </div>
   );
 }
