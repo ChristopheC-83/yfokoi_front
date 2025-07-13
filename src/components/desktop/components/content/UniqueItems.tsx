@@ -3,9 +3,13 @@ import type { Item } from "@/types/Item";
 import type { AccessList, OwnedList } from "@/types/List";
 import type { Permissions } from "@/types/Permissions";
 // import { useEffect } from "react";
-import { FaPencil } from "react-icons/fa6";
+import { LuPencil } from "react-icons/lu";
+import { LuPencilOff } from "react-icons/lu";
+
 import IsDone from "./ItemComponents/IsDone";
-import DeleteItem from "./ItemComponents/deleteItem";
+import DeleteItem from "./ItemComponents/DeleteItem";
+import { useState } from "react";
+import ChangeItem from "./ItemComponents/ChangeItem";
 
 interface UniqueItemsProps {
   item: Item;
@@ -18,7 +22,7 @@ export default function UniqueItems({
   // currentList,
   // permissions,
   permissions: {
-    // canCreate, 
+    // canCreate,
     canCrudOwn,
     canCrudAll,
     canRead,
@@ -33,6 +37,8 @@ export default function UniqueItems({
   //   }
   // }, [item, currentList, permissions]);
 
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
   return (
     <>
       {(canRead || isOwner) && (
@@ -46,49 +52,54 @@ export default function UniqueItems({
 
           {/*  faire un composant   nom <=>  form update content*/}
 
-          <div className="flex items-center justify-start">
-            <p
-              className={`text-lg font-semibold ${
-                item.is_done ? "line-through text-amber-300" : ""
-              }`}
-            >
-              {item.content}
-            </p>
-            {userId !== item.created_by && (
-              <p className="text-sm ml-1.5 text-slate-400 no-line-through">
-                de {item.author_name}
+          {isEditing &&
+          (isOwner ||
+            canCrudAll ||
+            (canCrudOwn && item.created_by === userId)) ? (
+            <ChangeItem item={item} />
+          ) : (
+            <div className="flex items-center justify-start">
+              <p
+                className={`text-lg font-semibold ${
+                  item.is_done ? "line-through text-amber-300" : ""
+                }`}
+              >
+                {item.content}
               </p>
-            )}
-          </div>
-          {/* ici 2form, 2 composant update name et delete item */}
-
-          <div className="ml-auto flex items-center justify-center gap-x-3 mr-2">
-            <div className="text-xl p-2 rounded-md border border-amber-200 bg-slate-900 hover:bg-slate-600 duration-300 cursor-pointer">
-              <FaPencil />
+              {userId !== item.created_by && (
+                <p className="text-sm ml-1.5 text-slate-400 no-line-through">
+                  de {item.author_name}
+                </p>
+              )}
             </div>
-            {(isOwner || canCrudAll || (canCrudOwn && item.created_by === userId)) && 
-            <DeleteItem itemId={item.id} 
-            currentListId={item.id_list}
-            />}
+          )}
+
+          {/* ici 2form, 2 composant update name et delete item */}
+          <div
+            className={`ml-auto flex items-center justify-center gap-x-3 mr-2 `}
+          >
+            {(isOwner ||
+              canCrudAll ||
+              (canCrudOwn && item.created_by === userId)) && (
+              <div
+                className={`text-xl p-2 rounded-md border border-amber-200 duration-300 cursor-pointer ${
+                  isEditing
+                    ? "bg-red-600 hover:bg-red-700"
+                    : "bg-slate-900 hover:bg-slate-600"
+                }`}
+                onClick={() => setIsEditing(!isEditing)}
+              >
+                {isEditing ? <LuPencilOff /> : <LuPencil />}
+              </div>
+            )}
+            {(isOwner ||
+              canCrudAll ||
+              (canCrudOwn && item.created_by === userId)) && (
+              <DeleteItem itemId={item.id} currentListId={item.id_list} />
+            )}
           </div>
         </div>
       )}
     </>
   );
-}
-
-{
-  /* // <div key={item.id}>
-//   <p>
-//     {item.id} - {item.content} de {item.created_by}
-//   </p>
-//   <p>{item.created_by}</p>
-//   <p>{item.is_done}</p>
-//   <p>
-//     {item.created_at instanceof Date
-//       ? item.created_at.toLocaleString()
-//       : item.created_at}
-//   </p>
-//   <hr />
-// </div> */
 }
