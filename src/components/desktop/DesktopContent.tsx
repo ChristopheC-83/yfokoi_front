@@ -28,7 +28,7 @@ export default function DesktopContent({ user }: DesktopContentProps) {
   const {
     // canRead,
     canCreate,
-    // canCrudOwn,
+    canCrudOwn,
     canCrudAll,
     isOwner,
   } = useListPermissions(userId, currentList);
@@ -48,7 +48,7 @@ export default function DesktopContent({ user }: DesktopContentProps) {
         accessLists.find((list) => list.id === selectedListId) ||
         null
     );
-    console.log("hasAtLeastOneDone", hasAtLeastOneDone);
+    // console.log("hasAtLeastOneDone", hasAtLeastOneDone);
   }, [
     selectedListId,
     ownedLists,
@@ -139,7 +139,7 @@ export default function DesktopContent({ user }: DesktopContentProps) {
             <BtnClearChecked currentListId={currentList.id} />
           )} */}
 
-        {(canCrudAll || isOwner) && currentItems?.length > 0 && (
+        {(canCrudOwn || canCrudAll || isOwner) && currentItems?.length > 0 && (
           <div
             className={`${
               hasAtLeastOneDone
