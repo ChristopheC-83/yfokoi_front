@@ -9,15 +9,15 @@ interface PropsEditing {
 }
 
 export default function ChangeItem({ item }: PropsEditing) {
-    const { itemsByListId, setItemsForList } =  useItemsStore();
-    //   const User = useAuthStore((state) => state.user);
-      const userId = Number(useAuthStore((state) => state.user?.id));
+  const { itemsByListId, setItemsForList } = useItemsStore();
+  //   const User = useAuthStore((state) => state.user);
+  const userId = Number(useAuthStore((state) => state.user?.id));
 
   const [newContent, setNewContent] = useState<string>(item.content);
 
   async function handleChangeItem(e: React.FormEvent) {
     e.preventDefault();
-
+    console.log("handleChangeItem", item.id, newContent);
     const trimmedContent = newContent.trim();
     // Vérif : contenu non vide
     if (!trimmedContent) {
