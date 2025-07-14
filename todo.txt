@@ -1,4 +1,5 @@
-Dans Desktop content 
-AddToList à limiter si accessLevel > 1 
+Supprimer mes éléments cochés
+activer à tort
+sur une liste tiers si que elements pas own checked
 
-
+#########################################################################################

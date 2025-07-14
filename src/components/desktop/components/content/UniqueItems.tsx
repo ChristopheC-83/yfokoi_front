@@ -46,7 +46,7 @@ export default function UniqueItems({
 
           {/* Bloc nom ou formulaire de modification */}
           {isEditing && canEdit ? (
-            <ChangeItem item={item} />
+            <ChangeItem item={item} onFinishEdit={onToggleEdit} />
           ) : (
             <div className="flex items-center justify-start">
               <p

@@ -1,3 +1,4 @@
+import ChangeItemToDB from "@/services/items/chanteItemToDB";
 import { useItemsStore } from "@/stores/items/useItemsStore";
 import { useAuthStore } from "@/stores/users/useAuthStore";
 import type { Item } from "@/types/Item";
@@ -6,9 +7,10 @@ import { toast } from "sonner";
 
 interface PropsEditing {
   item: Item;
+  onFinishEdit: () => void;
 }
 
-export default function ChangeItem({ item }: PropsEditing) {
+export default function ChangeItem({ item, onFinishEdit }: PropsEditing) {
   const { itemsByListId, setItemsForList } = useItemsStore();
   //   const User = useAuthStore((state) => state.user);
   const userId = Number(useAuthStore((state) => state.user?.id));
@@ -17,7 +19,9 @@ export default function ChangeItem({ item }: PropsEditing) {
 
   async function handleChangeItem(e: React.FormEvent) {
     e.preventDefault();
+
     console.log("handleChangeItem", item.id, newContent);
+
     const trimmedContent = newContent.trim();
     // Vérif : contenu non vide
     if (!trimmedContent) {
@@ -26,18 +30,25 @@ export default function ChangeItem({ item }: PropsEditing) {
       return;
     }
 
-    setItemsForList(item.id_list, [
-      ...itemsByListId[item.id_list].map((i) =>
-        i.id === item.id
-          ? {
-              ...i,
-              content: trimmedContent,
-              updated_at: new Date(),
-              updated_by: userId,
-            }
-          : i
-      ),
-    ]);
+    if (await ChangeItemToDB(item.id, trimmedContent)) {
+      setItemsForList(item.id_list, [
+        ...itemsByListId[item.id_list].map((i) =>
+          i.id === item.id
+            ? {
+                ...i,
+                content: trimmedContent,
+                updated_at: new Date(),
+                updated_by: userId,
+              }
+            : i
+        ),
+      ]);
+      toast.success("Élément modifié avec succès.");
+      setNewContent("");
+      onFinishEdit();
+    } else {
+      toast.error("Erreur lors de la modification.");
+    }
   }
 
   return (
