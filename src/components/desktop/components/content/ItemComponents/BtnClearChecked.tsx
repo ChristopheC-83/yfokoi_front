@@ -3,8 +3,6 @@ import { deleteCheckedItemsFromApi } from "@/services/items/deleteCheckItems";
 import { fetchItemsByList } from "@/services/items/fetchItemsByList";
 import { useItemsStore } from "@/stores/items/useItemsStore";
 import { useAuthStore } from "@/stores/users/useAuthStore";
-// import type { Item } from "@/types/Item";
-import { useEffect } from "react";
 import { toast } from "sonner";
 
 interface BtnClearCheckedProps {
@@ -24,9 +22,7 @@ export default function BtnClearChecked({
 
 
   async function deleteCheckedItems() {
-    // suppression du store
     
-
     if (!items) return;
 
     const checked = allRights
@@ -60,7 +56,7 @@ export default function BtnClearChecked({
       className={`rounded border border-amber-200  py-3 mb-4 w-[96vw] mx-auto max-w-[800px] flex items-center justify-center  bg-blue-500  hover:bg-blue-600 duration-300 hover:border-amber-300 text-amber-100 hover:text-amber-200`}
       onClick={deleteCheckedItems}
     >
-      <p className="text-center">Supprimer {allRights ? "les" : "mes"} éléments cochés</p>
+      <p className="text-center">Supprimer {allRights ? "TOUS les" : "MES"} éléments cochés</p>
     </div>
   );
 }

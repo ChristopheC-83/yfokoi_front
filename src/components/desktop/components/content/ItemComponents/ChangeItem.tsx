@@ -21,6 +21,10 @@ export default function ChangeItem({ item, onFinishEdit }: PropsEditing) {
     e.preventDefault();
 
     console.log("handleChangeItem", item.id, newContent);
+    if (newContent === item.content) {
+      onFinishEdit();
+      return;
+    }
 
     const trimmedContent = newContent.trim();
     // Vérif : contenu non vide
@@ -63,6 +67,7 @@ export default function ChangeItem({ item, onFinishEdit }: PropsEditing) {
           className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded block  w-full p-2"
           placeholder="Modifier l'élément"
           onChange={(e) => setNewContent(e.target.value)}
+          autoFocus
         />
         <button type="submit" className="text-4xl  cursor-pointer mb-1 ml-2">
           ✅
