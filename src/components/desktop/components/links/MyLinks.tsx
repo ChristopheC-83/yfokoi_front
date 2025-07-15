@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import { useUserLinksStore } from "@/stores/links/usersLinksStore";
 import OneLink from "./OneLink";

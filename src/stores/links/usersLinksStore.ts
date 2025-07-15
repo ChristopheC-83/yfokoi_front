@@ -2,7 +2,7 @@ import { create } from "zustand";
 import {
   fetchFriends,
   fetchSentRequests,
-  // fetchReceivedRequests,
+  fetchReceivedRequests,
   // sendFriendRequest,
   // acceptFriendRequest,
   // declineFriendRequest,
@@ -11,8 +11,8 @@ import type { Friends } from "@/types/Friends";
 
 interface UserLinksState {
   friends: Friends;
-  pendingSentRequests : Friends;
-  // receivedRequests: User[];
+  pendingSentRequests: Friends;
+  receivedRequests: Friends;
   isLoading: boolean;
 
   fetchUserLinks: () => Promise<void>;
@@ -23,26 +23,22 @@ interface UserLinksState {
 
 export const useUserLinksStore = create<UserLinksState>((set) => ({
   friends: [],
-  pendingSentRequests : [],
-  // receivedRequests: [],
+  pendingSentRequests: [],
+  receivedRequests: [],
   isLoading: false,
 
   fetchUserLinks: async () => {
     set({ isLoading: true });
     try {
-      const [
-        friends,
-        sent,
-        // received
-      ] = await Promise.all([
+      const [friends, sent, received] = await Promise.all([
         await fetchFriends(),
         await fetchSentRequests(),
-        // await fetchReceivedRequests(),
+        await fetchReceivedRequests(),
       ]);
       set({
-        friends : friends,
-        pendingSentRequests : sent,
-        //  receivedRequests: received
+        friends: friends,
+        pendingSentRequests: sent,
+        receivedRequests: received,
       });
     } catch (error) {
       console.error("Failed to fetch user links:", error);

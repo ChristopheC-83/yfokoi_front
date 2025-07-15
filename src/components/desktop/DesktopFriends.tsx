@@ -16,14 +16,20 @@ export default function DesktopFriends({ user }: DesktopFriendsProps) {
       <h1 className="text-center bg-amber-100 text-slate-900 rounded-full px-3 py-2 text-xl font-bold">
         Mes Liens :
       </h1>
+
+      
       {/* recherche utilisateurs */}
       <SearchLinks />
+
+
       {/* Demandes reçues en attente */}
-
       <SentRequests />
-      {/* Demandes envoyées en attente */}
 
+
+      {/* Demandes envoyées en attente */}
       <ReceivedRequests />
+
+
       {/*  Mes liens validés */}
       <MyLinks />
     </div>

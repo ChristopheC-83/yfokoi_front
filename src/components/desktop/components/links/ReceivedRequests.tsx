@@ -17,17 +17,19 @@ export default function ReceivedRequests() {
   }, [fetchUserLinks]);
   return (
     <div>
-      <h2>Mes Demandes Reçues</h2>
       {isLoading ? (
         <p>Chargement...</p>
       ) : pendingSentRequests.length === 0 ? (
         <p>Tu n’as pas de lien.</p>
       ) : (
-        <div className="flex flex-col gap-2">
-          {pendingSentRequests.map((friend) => (
-            <OneSent key={friend.id} friend={friend} />
-          ))}
-        </div>
+        <>
+          <h2>Mes Demandes Envoyées</h2>
+          <div className="flex flex-col gap-2">
+            {pendingSentRequests.map((friend) => (
+              <OneSent key={friend.id} friend={friend} />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

@@ -36,10 +36,14 @@ export const fetchSentRequests = async (): Promise<Friends> => {
   return pendingSentRequests;
 };
 
-// export const fetchReceivedRequests = async (): Promise<User[]> => {
-//   const res = await fetchWithAuth(`${URL_API}/api_links/receivedRequest`);
-//   return res.json();
-// };
+export const fetchReceivedRequests = async (): Promise<Friends> => {
+  const res = await fetchWithAuth(`${URL_API}/api_links/receivedRequest`, {
+    method: "GET",
+  });
+  const pendingSentRequests = await res.json();
+  console.log("Received friends:", pendingSentRequests);
+  return pendingSentRequests;
+};
 
 // export const sendFriendRequest = async (toId: number): Promise<void> => {
 //   await fetchWithAuth(`${URL_API}/api_links/request`, {
