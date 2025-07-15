@@ -1,14 +1,17 @@
-import type { User } from '@/types/User';
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import type { User } from "@/types/User";
 
 interface DesktopSharingProps {
   user: User;
 }
 
-export default function DesktopSharing({user}: DesktopSharingProps) {
+export default function DesktopSharing({ user }: DesktopSharingProps) {
   return (
-    <div>
-      DesktopSharing de {user.name}
+    <div className="p-3 w-[240px] shrink-0">
+      {" "}
+      <h1 className="text-center bg-amber-100 text-slate-900 rounded-full px-3 py-2 text-xl font-bold">
+        Mes Partages :
+      </h1>
     </div>
-  )
+  );
 }

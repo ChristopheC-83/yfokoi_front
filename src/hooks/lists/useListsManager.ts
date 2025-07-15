@@ -108,7 +108,7 @@ export default function useListsManager() {
 
 
       setOwnedLists(ownedLists.filter((list) => list.id !== id));
-      toast.success("Liste supprimée avec succès !");
+      // toast.info("Liste supprimée avec succès !");
       // console.log("Liste supprimée avec succès :", id);
       return true;
 
