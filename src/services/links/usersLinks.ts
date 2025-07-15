@@ -23,7 +23,7 @@ export const fetchFriends = async (): Promise<Friends> => {
     method: "GET",
   });
   const friends = await res.json();
-  console.log("Received friends:", friends);
+  // console.log("Received friends:", friends);
   return friends;
 };
 
@@ -32,7 +32,7 @@ export const fetchSentRequests = async (): Promise<Friends> => {
     method: "GET",
   });
   const pendingSentRequests = await res.json();
-  console.log("Received friends:", pendingSentRequests);
+  // console.log("Received friends:", pendingSentRequests);
   return pendingSentRequests;
 };
 
@@ -41,7 +41,7 @@ export const fetchReceivedRequests = async (): Promise<Friends> => {
     method: "GET",
   });
   const pendingSentRequests = await res.json();
-  console.log("Received friends:", pendingSentRequests);
+  // console.log("Received friends:", pendingSentRequests);
   return pendingSentRequests;
 };
 

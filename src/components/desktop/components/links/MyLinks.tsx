@@ -12,10 +12,10 @@ export default function MyLinks() {
     // Appel asynchrone dans une fonction interne
     const fetchData = async () => {
       await fetchUserLinks();
-      console.log("Fetching users links for:", friends);
+      // console.log("Fetching users links for:", friends);
     };
     fetchData();
-    console.log("friends:", friends);
+    // console.log("friends:", friends);
   }, [fetchUserLinks]);
 
   return (

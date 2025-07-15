@@ -10,10 +10,10 @@ export default function ReceivedRequests() {
   useEffect(() => {
     const fetchData = async () => {
       await fetchUserLinks();
-      console.log("Fetching pending sent requests:", pendingSentRequests);
+      // console.log("Fetching pending sent requests:", pendingSentRequests);
     };
     fetchData();
-    console.log("pendingSentRequests:", pendingSentRequests);
+    // console.log("pendingSentRequests:", pendingSentRequests);
   }, [fetchUserLinks]);
   return (
     <div>
