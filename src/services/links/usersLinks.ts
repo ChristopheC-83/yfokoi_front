@@ -45,36 +45,38 @@ export const fetchReceivedRequests = async (): Promise<Friends> => {
   return pendingSentRequests;
 };
 
-// export const sendFriendRequest = async (toId: number): Promise<void> => {
-//   await fetchWithAuth(`${URL_API}/api_links/request`, {
-//     method: "POST",
-//     body: JSON.stringify({ to_id: toId }),
-//   });
-// };
+
+export const sendFriendRequest = async (to_id: number): Promise<boolean> => {
+  await fetchWithAuth(`${URL_API}/api_handle_links/sendFriendRequest`, {
+    method: "POST",
+    body: JSON.stringify({ to_id: to_id }),
+  });
+  return true;
+};
 
 // export const acceptFriendRequest = async (fromId: number): Promise<void> => {
-//   await fetchWithAuth(`${URL_API}/api_links/accept`, {
+//   await fetchWithAuth(`${URL_API}/api_handle_links/accept`, {
 //     method: "POST",
 //     body: JSON.stringify({ from_id: fromId }),
 //   });
 // };
 
 // export const declineFriendRequest = async (fromId: number): Promise<void> => {
-//   await fetchWithAuth(`${URL_API}/api_links/decline`, {
+//   await fetchWithAuth(`${URL_API}/api_handle_links/decline`, {
 //     method: "POST",
 //     body: JSON.stringify({ from_id: fromId }),
 //   });
 // };
 
 // export const cancelRequest = async (fromId: number): Promise<void> => {
-//   await fetchWithAuth(`${URL_API}/api_links/cancelRequest`, {
+//   await fetchWithAuth(`${URL_API}/api_handle_links/cancelRequest`, {
 //     method: "POST",
 //     body: JSON.stringify({ from_id: fromId }),
 //   });
 // };
 
 // export const breakLink = async (fromId: number): Promise<void> => {
-//   await fetchWithAuth(`${URL_API}/api_links/breakLink`, {
+//   await fetchWithAuth(`${URL_API}/api_handle_links/breakLink`, {
 //     method: "POST",
 //     body: JSON.stringify({ from_id: fromId }),
 //   });

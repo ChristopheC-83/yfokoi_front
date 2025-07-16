@@ -1,5 +1,6 @@
 import { nameSearchedInDb } from "@/services/links/searchLinks";
 import { useState } from "react";
+import OneSearchResult from "./OneSearchResult";
 
 type NameResult = { id: number; name: string }[];
 
@@ -17,6 +18,18 @@ export default function SearchLinks() {
     setHasSearched(true);
     setNameSearched("");
   }
+
+  function handleRequestSent(userId: number) {
+  setNamesResult((prev) => prev.filter((user) => user.id !== userId));
+}
+
+  function resetSearch() {
+    setNamesResult([]);
+    setHasSearched(false);
+    setNameSearched("");
+  }
+
+
 
   return (
     <div>
@@ -39,16 +52,24 @@ export default function SearchLinks() {
         <div className="mt-4">
           {namesResult.length > 0 ? (
             <>
-              <h3>Résultats de la recherche :</h3>
-              <ul className="list-disc pl-5">
+              <h3 className="mt-4 mb-2">Résultats de la recherche :</h3>
+              {/* <ul className="list-disc pl-5">
                 {namesResult.map((result) => (
                   <li key={result.id}>{result.name}</li>
                 ))}
-              </ul>
+              </ul> */}
+              <div className="flex flex-col  gap-2">
+                {namesResult.map((result) => (
+  <OneSearchResult key={result.id} result={result} onRequestSent={handleRequestSent} />
+                ))}
+              </div>
             </>
           ) : (
             <p>Aucun résultat trouvé.</p>
           )}
+          <div onClick={resetSearch} className="cursor-pointer py-2 flex justify-center items-center hover:text-amber-200 duration-300">
+            ❌ Effacer les résultats
+          </div>
         </div>
       )}
     </div>

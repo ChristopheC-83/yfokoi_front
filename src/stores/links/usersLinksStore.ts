@@ -3,6 +3,7 @@ import {
   fetchFriends,
   fetchSentRequests,
   fetchReceivedRequests,
+  sendFriendRequest,
   // sendFriendRequest,
   // acceptFriendRequest,
   // declineFriendRequest,
@@ -16,7 +17,7 @@ interface UserLinksState {
   isLoading: boolean;
 
   fetchUserLinks: () => Promise<void>;
-  // sendRequest: (userId: number) => Promise<void>;
+  sendRequest: (userId: number, name:string) => Promise<void>;
   // acceptRequest: (fromId: number) => Promise<void>;
   // declineRequest: (fromId: number) => Promise<void>;
   // cancelRequest: (fromId: number) => Promise<void>;
@@ -49,10 +50,21 @@ export const useUserLinksStore = create<UserLinksState>((set) => ({
     }
   },
 
-  // sendRequest: async (userId: number) => {
-  //   await sendFriendRequest(userId);
-  //   await get().fetchUserLinks();
-  // },
+  sendRequest: async (userId: number, name: string) => {
+  try {
+    await sendFriendRequest(userId);
+    // Ajouter directement le user dans le state pendingSentRequests
+    set((state) => ({
+      pendingSentRequests: [
+        ...state.pendingSentRequests,
+        { id: userId, name }, // Tu peux ajouter avatar si dispo
+      ],
+    }));
+  } catch (error) {
+    console.error("Erreur lors de l'envoi de la demande :", error);
+  }
+},
+
 
   // acceptRequest: async (fromId: number) => {
   //   await acceptFriendRequest(fromId);

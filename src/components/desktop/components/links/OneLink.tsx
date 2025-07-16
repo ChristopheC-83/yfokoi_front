@@ -12,7 +12,7 @@ export default function OneLink({friend}: OneLinkProps) {
           <p className="text-amber-100">{friend.name}</p>
           <p className='text-xs text-gray-200'>{friend.email}</p>
       </div>
-    <div className="text-2xl p-2 text-red-300 hover:text-red-500 cursor-pointer transition-colors duration-300">
+    <div className="text-2xl p-2 pr-1 text-red-300 hover:text-red-500 cursor-pointer transition-colors duration-300">
         <TiUserDelete />
     </div>
 
