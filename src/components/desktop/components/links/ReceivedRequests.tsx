@@ -1,10 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import { useUserLinksStore } from "@/stores/links/usersLinksStore";
-import OneSent from "./OneSent";
+import OneReceived from "./OneReceived";
 
 export default function ReceivedRequests() {
-  const { pendingSentRequests, isLoading, fetchUserLinks } =
+  const { receivedRequests, isLoading, fetchUserLinks } =
     useUserLinksStore();
 
   useEffect(() => {
@@ -15,18 +14,19 @@ export default function ReceivedRequests() {
     fetchData();
     // console.log("pendingSentRequests:", pendingSentRequests);
   }, [fetchUserLinks]);
+
   return (
     <div>
       {isLoading ? (
         <p>Chargement...</p>
-      ) : pendingSentRequests.length === 0 ? (
+      ) : receivedRequests.length === 0 ? (
         <p>Tu n’as pas de lien.</p>
       ) : (
         <>
-          <h2>Mes Demandes Envoyées</h2>
+          <h2  className="mt-4 mb-2">Mes Demandes à Valider</h2>
           <div className="flex flex-col gap-2">
-            {pendingSentRequests.map((friend) => (
-              <OneSent key={friend.id} friend={friend} />
+            {receivedRequests.map((friend) => (
+              <OneReceived key={friend.id} friend={friend} />
             ))}
           </div>
         </>

@@ -65,3 +65,17 @@ export const fetchReceivedRequests = async (): Promise<Friends> => {
 //     body: JSON.stringify({ from_id: fromId }),
 //   });
 // };
+
+// export const cancelRequest = async (fromId: number): Promise<void> => {
+//   await fetchWithAuth(`${URL_API}/api_links/cancelRequest`, {
+//     method: "POST",
+//     body: JSON.stringify({ from_id: fromId }),
+//   });
+// };
+
+// export const breakLink = async (fromId: number): Promise<void> => {
+//   await fetchWithAuth(`${URL_API}/api_links/breakLink`, {
+//     method: "POST",
+//     body: JSON.stringify({ from_id: fromId }),
+//   });
+// };

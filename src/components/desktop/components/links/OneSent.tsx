@@ -11,7 +11,7 @@ export default function OneSent({ friend }: OneLinkProps) {
       
       <div className="flex flex-col">
         <p className="text-amber-100">{friend.name}</p>
-        <p className="text-xs text-gray-200">{friend.email}</p>
+        
       </div>
       <div className="text-2xl p-2 text-red-300 hover:text-red-500 cursor-pointer transition-colors duration-300">
         <MdCancel />

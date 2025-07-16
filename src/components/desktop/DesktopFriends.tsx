@@ -21,13 +21,13 @@ export default function DesktopFriends({ user }: DesktopFriendsProps) {
       {/* recherche utilisateurs */}
       <SearchLinks />
 
+      {/* Demandes envoyées en attente */}
+      <ReceivedRequests />
+
 
       {/* Demandes reçues en attente */}
       <SentRequests />
 
-
-      {/* Demandes envoyées en attente */}
-      <ReceivedRequests />
 
 
       {/*  Mes liens validés */}

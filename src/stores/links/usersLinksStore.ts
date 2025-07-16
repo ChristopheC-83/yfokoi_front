@@ -19,6 +19,8 @@ interface UserLinksState {
   // sendRequest: (userId: number) => Promise<void>;
   // acceptRequest: (fromId: number) => Promise<void>;
   // declineRequest: (fromId: number) => Promise<void>;
+  // cancelRequest: (fromId: number) => Promise<void>;
+  // breakLink: (fromId: number) => Promise<void>;
 }
 
 export const useUserLinksStore = create<UserLinksState>((set) => ({
@@ -59,6 +61,16 @@ export const useUserLinksStore = create<UserLinksState>((set) => ({
 
   // declineRequest: async (fromId: number) => {
   //   await declineFriendRequest(fromId);
+  //   await get().fetchUserLinks();
+  // },
+
+  // cancelRequest: async (fromId: number) => {
+  //   await cancelRequest(fromId);
+  //   await get().fetchUserLinks();
+  // },
+  
+  // breakLink: async (fromId: number) => {
+  //   await breakLink(fromId);
   //   await get().fetchUserLinks();
   // },
 }));

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import { useUserLinksStore } from "@/stores/links/usersLinksStore";
 import OneLink from "./OneLink";
@@ -19,8 +18,8 @@ export default function MyLinks() {
   }, [fetchUserLinks]);
 
   return (
-      <div>
-        <h2>Mes Liens actifs</h2>
+      <div >
+        <h2 className="mt-4 mb-2">Mes Liens actifs</h2>
         {isLoading ? (
           <p>Chargement...</p>
         ) : friends.length === 0 ? (
