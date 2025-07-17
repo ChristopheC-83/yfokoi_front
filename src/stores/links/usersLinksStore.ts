@@ -25,7 +25,7 @@ interface UserLinksState {
   // breakLink: (fromId: number) => Promise<void>;
 }
 
-export const useUserLinksStore = create<UserLinksState>((set, get) => ({
+export const useUserLinksStore = create<UserLinksState>((set) => ({
   friends: [],
   pendingSentRequests: [],
   receivedRequests: [],
