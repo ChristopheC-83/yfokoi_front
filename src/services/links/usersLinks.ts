@@ -68,12 +68,12 @@ export const sendFriendRequest = async (to_id: number): Promise<boolean> => {
 //   });
 // };
 
-// export const cancelRequest = async (fromId: number): Promise<void> => {
-//   await fetchWithAuth(`${URL_API}/api_handle_links/cancelRequest`, {
-//     method: "POST",
-//     body: JSON.stringify({ from_id: fromId }),
-//   });
-// };
+export const cancelRequest = async (id: number): Promise<void> => {
+  await fetchWithAuth(`${URL_API}/api_handle_links/cancelRequest`, {
+    method: "POST",
+    body: JSON.stringify({ id: id }),
+  });
+};
 
 // export const breakLink = async (fromId: number): Promise<void> => {
 //   await fetchWithAuth(`${URL_API}/api_handle_links/breakLink`, {
