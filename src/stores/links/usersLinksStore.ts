@@ -5,6 +5,7 @@ import {
   fetchReceivedRequests,
   sendFriendRequest,
   cancelRequest,
+  breakLink,
   // sendFriendRequest,
   // acceptFriendRequest,
   // declineFriendRequest,
@@ -22,7 +23,7 @@ interface UserLinksState {
   // acceptRequest: (fromId: number) => Promise<void>;
   // declineRequest: (fromId: number) => Promise<void>;
   cancelRequest: (fromId: number) => Promise<void>;
-  // breakLink: (fromId: number) => Promise<void>;
+  breakLink: (fromId: number) => Promise<void>;
 }
 
 export const useUserLinksStore = create<UserLinksState>((set) => ({
@@ -89,8 +90,17 @@ export const useUserLinksStore = create<UserLinksState>((set) => ({
       console.error("Erreur lors de l'annulation de la demande :", error);
     }
   },
-  // breakLink: async (fromId: number) => {
-  //   await breakLink(fromId);
-  //   await get().fetchUserLinks();
-  // },
+  breakLink: async (fromId: number) => {
+     try {
+      await breakLink(fromId);
+
+      set((state) => ({
+        friends: state.friends.filter(
+          (request) => request.id !== fromId
+        ),
+      }));
+    } catch (error) {
+      console.error("Erreur lors de l'annulation de la demande :", error);
+    }
+  },
 }));
