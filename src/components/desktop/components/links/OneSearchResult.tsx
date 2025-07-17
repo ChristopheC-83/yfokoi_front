@@ -4,11 +4,12 @@ import { BsFillSendPlusFill } from "react-icons/bs";
 
 
 type ResultProps = {
-  result: { id: number; name: string; avatar?: string };
+  result: { id: number; name: string; avatar?: string  };
   onRequestSent: (userId: number) => void; // nouvelle prop
+  resetSearch: () => void; // fonction pour réinitialiser la recherche
 };
 
-export default function OneSearchResult({ result, onRequestSent }: ResultProps) {
+export default function OneSearchResult({ result, onRequestSent, resetSearch }: ResultProps) {
   const sendRequest = useUserLinksStore((state) => state.sendRequest);
 
   const handleSendRequest = async () => {
@@ -16,6 +17,7 @@ export default function OneSearchResult({ result, onRequestSent }: ResultProps) 
       await sendRequest(result.id, result.name);
       onRequestSent(result.id); // on prévient le parent
       toast.success(`Demande envoyée à ${result.name}`);
+      resetSearch();
     } catch {
       toast.error(`Échec de l'envoi de la demande à ${result.name}`);
     }

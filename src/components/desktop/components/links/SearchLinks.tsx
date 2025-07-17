@@ -20,16 +20,15 @@ export default function SearchLinks() {
   }
 
   function handleRequestSent(userId: number) {
-  setNamesResult((prev) => prev.filter((user) => user.id !== userId));
-}
+    setNamesResult((prev) => prev.filter((user) => user.id !== userId));
+  }
+
 
   function resetSearch() {
     setNamesResult([]);
     setHasSearched(false);
     setNameSearched("");
   }
-
-
 
   return (
     <div>
@@ -60,14 +59,22 @@ export default function SearchLinks() {
               </ul> */}
               <div className="flex flex-col  gap-2">
                 {namesResult.map((result) => (
-  <OneSearchResult key={result.id} result={result} onRequestSent={handleRequestSent} />
+                  <OneSearchResult
+                    key={result.id}
+                    result={result}
+                    onRequestSent={handleRequestSent}
+                    resetSearch={resetSearch}
+                  />
                 ))}
               </div>
             </>
           ) : (
             <p>Aucun résultat trouvé.</p>
           )}
-          <div onClick={resetSearch} className="cursor-pointer py-2 flex justify-center items-center hover:text-amber-200 duration-300">
+          <div
+            onClick={resetSearch}
+            className="cursor-pointer py-2 flex justify-center items-center hover:text-amber-200 duration-300"
+          >
             ❌ Effacer les résultats
           </div>
         </div>
