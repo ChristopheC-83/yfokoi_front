@@ -6,9 +6,8 @@ import {
   sendFriendRequest,
   cancelRequest,
   breakLink,
-  // sendFriendRequest,
-  // acceptFriendRequest,
-  // declineFriendRequest,
+  acceptFriendRequest,
+  declineFriendRequest,
 } from "@/services/links/usersLinks";
 import type { Friends } from "@/types/Friends";
 
@@ -20,8 +19,8 @@ interface UserLinksState {
 
   fetchUserLinks: () => Promise<void>;
   sendRequest: (userId: number, name: string) => Promise<void>;
-  // acceptRequest: (fromId: number) => Promise<void>;
-  // declineRequest: (fromId: number) => Promise<void>;
+  acceptRequest: (fromId: number) => Promise<void>;
+  declineRequest: (fromId: number) => Promise<void>;
   cancelRequest: (fromId: number) => Promise<void>;
   breakLink: (fromId: number) => Promise<void>;
 }
@@ -67,15 +66,36 @@ export const useUserLinksStore = create<UserLinksState>((set) => ({
     }
   },
 
-  // acceptRequest: async (fromId: number) => {
-  //   await acceptFriendRequest(fromId);
-  //   await get().fetchUserLinks();
-  // },
+ acceptRequest: async (fromId: number) => {
+  try {
+    await acceptFriendRequest(fromId);
 
-  // declineRequest: async (fromId: number) => {
-  //   await declineFriendRequest(fromId);
-  //   await get().fetchUserLinks();
-  // },
+    set((state) => {
+      const acceptedUser = state.receivedRequests.find(u => u.id === fromId);
+      if (!acceptedUser) return {};
+
+      return {
+        receivedRequests: state.receivedRequests.filter(user => user.id !== fromId),
+        friends: [...state.friends, acceptedUser],
+      };
+    });
+  } catch (error) {
+    console.error("Erreur lors de l'acceptation de la demande :", error);
+  }
+},
+
+declineRequest: async (fromId: number) => {
+  try {
+    await declineFriendRequest(fromId);
+
+    set((state) => ({
+      receivedRequests: state.receivedRequests.filter(user => user.id !== fromId),
+    }));
+  } catch (error) {
+    console.error("Erreur lors du refus de la demande :", error);
+  }
+},
+
 
   cancelRequest: async (fromId: number) => {
     try {

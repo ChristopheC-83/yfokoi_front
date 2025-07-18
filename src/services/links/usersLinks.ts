@@ -54,19 +54,19 @@ export const sendFriendRequest = async (to_id: number): Promise<boolean> => {
   return true;
 };
 
-// export const acceptFriendRequest = async (fromId: number): Promise<void> => {
-//   await fetchWithAuth(`${URL_API}/api_handle_links/accept`, {
-//     method: "POST",
-//     body: JSON.stringify({ from_id: fromId }),
-//   });
-// };
+export const acceptFriendRequest = async (id: number): Promise<void> => {
+  await fetchWithAuth(`${URL_API}/api_handle_links/acceptRequest`, {
+    method: "POST",
+    body: JSON.stringify({ id }),
+  });
+};
 
-// export const declineFriendRequest = async (fromId: number): Promise<void> => {
-//   await fetchWithAuth(`${URL_API}/api_handle_links/decline`, {
-//     method: "POST",
-//     body: JSON.stringify({ from_id: fromId }),
-//   });
-// };
+export const declineFriendRequest = async (id: number): Promise<void> => {
+  await fetchWithAuth(`${URL_API}/api_handle_links/declineRequest`, {
+    method: "POST",
+    body: JSON.stringify({ id }),
+  });
+};
 
 export const cancelRequest = async (id: number): Promise<void> => {
   await fetchWithAuth(`${URL_API}/api_handle_links/cancelRequest`, {
