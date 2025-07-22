@@ -5,6 +5,7 @@ import MyLinks from "./components/links/MyLinks";
 import ReceivedRequests from "./components/links/ReceivedRequests";
 import SentRequests from "./components/links/SentRequests";
 import SearchLinks from "./components/links/SearchLinks";
+import BlockedUsers from "./components/links/BlockedUsers";
 
 interface DesktopFriendsProps {
   user: User;
@@ -32,6 +33,9 @@ export default function DesktopFriends({ user }: DesktopFriendsProps) {
 
       {/*  Mes liens validés */}
       <MyLinks />
+
+      {/*  liens bloqués */}
+      <BlockedUsers />
     </div>
   );
 }

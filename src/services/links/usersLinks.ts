@@ -45,7 +45,6 @@ export const fetchReceivedRequests = async (): Promise<Friends> => {
   return pendingSentRequests;
 };
 
-
 export const sendFriendRequest = async (to_id: number): Promise<boolean> => {
   await fetchWithAuth(`${URL_API}/api_handle_links/sendFriendRequest`, {
     method: "POST",
@@ -80,4 +79,12 @@ export const breakLink = async (id: number): Promise<void> => {
     method: "POST",
     body: JSON.stringify({ id: id }),
   });
+};
+
+export const fetchBlockedUsers = async (): Promise<Friends> => {
+  const res = await fetchWithAuth(`${URL_API}/api_handle_links/blockedUsers`, {
+    method: "GET",
+  });
+  const blockedUsers = await res.json();
+  return blockedUsers;
 };

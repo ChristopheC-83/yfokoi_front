@@ -3,6 +3,7 @@ import {
   fetchFriends,
   fetchSentRequests,
   fetchReceivedRequests,
+  fetchBlockedUsers,
   sendFriendRequest,
   cancelRequest,
   breakLink,
@@ -15,6 +16,7 @@ interface UserLinksState {
   friends: Friends;
   pendingSentRequests: Friends;
   receivedRequests: Friends;
+  blockedUsers: Friends;
   isLoading: boolean;
 
   fetchUserLinks: () => Promise<void>;
@@ -23,26 +25,30 @@ interface UserLinksState {
   declineRequest: (fromId: number) => Promise<void>;
   cancelRequest: (fromId: number) => Promise<void>;
   breakLink: (fromId: number) => Promise<void>;
+  unblockUser: (fromId: number) => Promise<void>;
 }
 
 export const useUserLinksStore = create<UserLinksState>((set) => ({
   friends: [],
   pendingSentRequests: [],
   receivedRequests: [],
+  blockedUsers: [],
   isLoading: false,
 
   fetchUserLinks: async () => {
     set({ isLoading: true });
     try {
-      const [friends, sent, received] = await Promise.all([
+      const [friends, sent, received, blocked] = await Promise.all([
         await fetchFriends(),
         await fetchSentRequests(),
         await fetchReceivedRequests(),
+        await fetchBlockedUsers(),
       ]);
       set({
         friends: friends,
         pendingSentRequests: sent,
         receivedRequests: received,
+        blockedUsers: blocked,
       });
     } catch (error) {
       console.error("Failed to fetch user links:", error);
@@ -66,36 +72,41 @@ export const useUserLinksStore = create<UserLinksState>((set) => ({
     }
   },
 
- acceptRequest: async (fromId: number) => {
-  try {
-    await acceptFriendRequest(fromId);
+  acceptRequest: async (fromId: number) => {
+    try {
+      await acceptFriendRequest(fromId);
 
-    set((state) => {
-      const acceptedUser = state.receivedRequests.find(u => u.id === fromId);
-      if (!acceptedUser) return {};
+      set((state) => {
+        const acceptedUser = state.receivedRequests.find(
+          (u) => u.id === fromId
+        );
+        if (!acceptedUser) return {};
 
-      return {
-        receivedRequests: state.receivedRequests.filter(user => user.id !== fromId),
-        friends: [...state.friends, acceptedUser],
-      };
-    });
-  } catch (error) {
-    console.error("Erreur lors de l'acceptation de la demande :", error);
-  }
-},
+        return {
+          receivedRequests: state.receivedRequests.filter(
+            (user) => user.id !== fromId
+          ),
+          friends: [...state.friends, acceptedUser],
+        };
+      });
+    } catch (error) {
+      console.error("Erreur lors de l'acceptation de la demande :", error);
+    }
+  },
 
-declineRequest: async (fromId: number) => {
-  try {
-    await declineFriendRequest(fromId);
+  declineRequest: async (fromId: number) => {
+    try {
+      await declineFriendRequest(fromId);
 
-    set((state) => ({
-      receivedRequests: state.receivedRequests.filter(user => user.id !== fromId),
-    }));
-  } catch (error) {
-    console.error("Erreur lors du refus de la demande :", error);
-  }
-},
-
+      set((state) => ({
+        receivedRequests: state.receivedRequests.filter(
+          (user) => user.id !== fromId
+        ),
+      }));
+    } catch (error) {
+      console.error("Erreur lors du refus de la demande :", error);
+    }
+  },
 
   cancelRequest: async (fromId: number) => {
     try {
@@ -111,16 +122,23 @@ declineRequest: async (fromId: number) => {
     }
   },
   breakLink: async (fromId: number) => {
-     try {
+    try {
       await breakLink(fromId);
 
       set((state) => ({
-        friends: state.friends.filter(
-          (request) => request.id !== fromId
-        ),
+        friends: state.friends.filter((request) => request.id !== fromId),
       }));
     } catch (error) {
       console.error("Erreur lors de l'annulation de la demande :", error);
     }
   },
+  unblockUser: async (fromId: number) => {
+  try {
+    await breakLink(fromId);
+    const updatedBlockedUsers = await fetchBlockedUsers();
+    set({ blockedUsers: updatedBlockedUsers });
+  } catch (error) {
+    console.error("Erreur lors du déblocage :", error);
+  }
+}
 }));
