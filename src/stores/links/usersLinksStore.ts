@@ -111,6 +111,7 @@ export const useUserLinksStore = create<UserLinksState>((set) => ({
   cancelRequest: async (fromId: number) => {
     try {
       await cancelRequest(fromId);
+      
 
       set((state) => ({
         pendingSentRequests: state.pendingSentRequests.filter(
