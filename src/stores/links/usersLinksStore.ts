@@ -18,6 +18,7 @@ interface UserLinksState {
   receivedRequests: Friends;
   blockedUsers: Friends;
   isLoading: boolean;
+  hasFetched: boolean;
 
   fetchUserLinks: () => Promise<void>;
   sendRequest: (userId: number, name: string) => Promise<void>;
@@ -34,9 +35,13 @@ export const useUserLinksStore = create<UserLinksState>((set) => ({
   receivedRequests: [],
   blockedUsers: [],
   isLoading: false,
+  hasFetched: false,
 
   fetchUserLinks: async () => {
-    set({ isLoading: true });
+    set((state) => {
+      if (state.hasFetched) return state;
+      return { isLoading: true };
+    });
     try {
       const [friends, sent, received, blocked] = await Promise.all([
         await fetchFriends(),
@@ -49,6 +54,7 @@ export const useUserLinksStore = create<UserLinksState>((set) => ({
         pendingSentRequests: sent,
         receivedRequests: received,
         blockedUsers: blocked,
+        hasFetched: true,
       });
     } catch (error) {
       console.error("Failed to fetch user links:", error);
@@ -98,11 +104,19 @@ export const useUserLinksStore = create<UserLinksState>((set) => ({
     try {
       await declineFriendRequest(fromId);
 
-      set((state) => ({
-        receivedRequests: state.receivedRequests.filter(
-          (user) => user.id !== fromId
-        ),
-      }));
+      set((state) => {
+        const declinedUser = state.receivedRequests.find(
+          (user) => user.id === fromId
+        );
+        if (!declinedUser) return {};
+
+        return {
+          receivedRequests: state.receivedRequests.filter(
+            (user) => user.id !== fromId
+          ),
+          blockedUsers: [...state.blockedUsers, declinedUser],
+        };
+      });
     } catch (error) {
       console.error("Erreur lors du refus de la demande :", error);
     }
@@ -111,7 +125,6 @@ export const useUserLinksStore = create<UserLinksState>((set) => ({
   cancelRequest: async (fromId: number) => {
     try {
       await cancelRequest(fromId);
-      
 
       set((state) => ({
         pendingSentRequests: state.pendingSentRequests.filter(
@@ -134,12 +147,13 @@ export const useUserLinksStore = create<UserLinksState>((set) => ({
     }
   },
   unblockUser: async (fromId: number) => {
-  try {
-    await breakLink(fromId);
-    const updatedBlockedUsers = await fetchBlockedUsers();
-    set({ blockedUsers: updatedBlockedUsers });
-  } catch (error) {
-    console.error("Erreur lors du déblocage :", error);
-  }
-}
+    try {
+      await breakLink(fromId);
+      set((state) => ({
+        blockedUsers: state.blockedUsers.filter((user) => user.id !== fromId),
+      }));
+    } catch (error) {
+      console.error("Erreur lors du déblocage :", error);
+    }
+  },
 }));

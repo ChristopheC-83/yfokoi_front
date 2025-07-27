@@ -1,19 +1,19 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { useUserLinksStore } from "@/stores/links/usersLinksStore";
 import OneReceived from "./OneReceived";
 
 export default function ReceivedRequests() {
-  const { receivedRequests, isLoading, fetchUserLinks } =
+  const { receivedRequests, isLoading } =
     useUserLinksStore();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchUserLinks();
-      // console.log("Fetching pending sent requests:", pendingSentRequests);
-    };
-    fetchData();
-    // console.log("pendingSentRequests:", pendingSentRequests);
-  }, [fetchUserLinks]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await fetchUserLinks();
+  //     // console.log("Fetching pending sent requests:", pendingSentRequests);
+  //   };
+  //   fetchData();
+  //   // console.log("pendingSentRequests:", pendingSentRequests);
+  // }, [fetchUserLinks]);
 
   return (
     <div>

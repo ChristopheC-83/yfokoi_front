@@ -6,6 +6,7 @@ import ReceivedRequests from "./components/links/ReceivedRequests";
 import SentRequests from "./components/links/SentRequests";
 import SearchLinks from "./components/links/SearchLinks";
 import BlockedUsers from "./components/links/BlockedUsers";
+import UserLinksLoader from "./components/links/UserLinksLoader";
 
 interface DesktopFriendsProps {
   user: User;
@@ -18,24 +19,22 @@ export default function DesktopFriends({ user }: DesktopFriendsProps) {
         Mes Liens :
       </h1>
 
-      
-      {/* recherche utilisateurs */}
-      <SearchLinks />
+      <UserLinksLoader>
+        {/* recherche utilisateurs */}
+        <SearchLinks />
 
-      {/* Demandes envoyées en attente */}
-      <ReceivedRequests />
+        {/* Demandes envoyées en attente */}
+        <ReceivedRequests />
 
+        {/* Demandes reçues en attente */}
+        <SentRequests />
 
-      {/* Demandes reçues en attente */}
-      <SentRequests />
+        {/*  Mes liens validés */}
+        <MyLinks />
 
-
-
-      {/*  Mes liens validés */}
-      <MyLinks />
-
-      {/*  liens bloqués */}
-      <BlockedUsers />
+        {/*  liens bloqués */}
+        <BlockedUsers />
+      </UserLinksLoader>
     </div>
   );
 }

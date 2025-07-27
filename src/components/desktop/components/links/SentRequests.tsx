@@ -1,18 +1,16 @@
-import { useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+// import { useEffect } from "react";
 import { useUserLinksStore } from "@/stores/links/usersLinksStore";
 import OneSent from "./OneSent";
 
 export default function SentRequests() {
-  const { pendingSentRequests, isLoading, fetchUserLinks } = useUserLinksStore();
+  const { pendingSentRequests, isLoading } = useUserLinksStore();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchUserLinks();
-      // console.log("Fetching pending sent requests:", receivedRequests);
-    };
-    fetchData();
-    // console.log("pendingSentRequests:", receivedRequests);
-  }, [fetchUserLinks]);
+  // useEffect(() => {
+  //   if (!hasFetched) {
+  //     fetchUserLinks();
+  //   }
+  // }, [hasFetched]);
 
   return (
     <div>

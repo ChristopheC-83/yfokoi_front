@@ -1,21 +1,21 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { useUserLinksStore } from "@/stores/links/usersLinksStore";
 import OneLink from "./OneLink";
 
 
 
 export default function MyLinks() {
-  const { friends, isLoading, fetchUserLinks } = useUserLinksStore();
+  const { friends, isLoading } = useUserLinksStore();
 
-  useEffect(() => {
-    // Appel asynchrone dans une fonction interne
-    const fetchData = async () => {
-      await fetchUserLinks();
-      // console.log("Fetching users links for:", friends);
-    };
-    fetchData();
-    // console.log("friends:", friends);
-  }, [fetchUserLinks]);
+  // useEffect(() => {
+  //   // Appel asynchrone dans une fonction interne
+  //   const fetchData = async () => {
+  //     await fetchUserLinks();
+  //     // console.log("Fetching users links for:", friends);
+  //   };
+  //   fetchData();
+  //   // console.log("friends:", friends);
+  // }, [fetchUserLinks]);
 
   return (
       <div >

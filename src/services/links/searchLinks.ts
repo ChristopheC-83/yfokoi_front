@@ -38,7 +38,7 @@ export async function nameSearchedInDb(
       })
     );
 
-    console.log("Résultats de la recherche:", results);
+    // console.log("Résultats de la recherche:", results);
 
     return results;
   } catch (error) {

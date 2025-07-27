@@ -13,7 +13,7 @@ interface OneBlockedUserProps {
 }
 
 export default function OneBlockedUser({ blockedUser }: OneBlockedUserProps) {
-  const breakLink = useUserLinksStore((state) => state.breakLink);
+  const unblockUser = useUserLinksStore((state) => state.unblockUser);
 
   const handleBreakReject = async () => {
     const confirmDelete = window.confirm(
@@ -23,7 +23,7 @@ export default function OneBlockedUser({ blockedUser }: OneBlockedUserProps) {
     if (!confirmDelete) return;
 
     try {
-      await breakLink(blockedUser.id);
+      await unblockUser(blockedUser.id);
       toast.success(`Lien avec ${blockedUser.name} supprimé`);
     } catch (error) {
       console.error(error);
