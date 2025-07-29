@@ -67,22 +67,23 @@ export default function Header() {
                     className="block py-2 px-3 hover:text-amber-300 duration-300"
                     aria-current="page"
                   >
-                    Les Amis
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="#"
-                    className="block py-2 px-3 hover:text-amber-300 duration-300"
-                    aria-current="page"
-                  >
                     Gestion des Partages
                   </NavLink>
                 </li>{" "}
               </div>
             )}
 
-            {isAuthenticated() ? ( <>
+            {isAuthenticated() ? (
+              <>
+              <li>
+                  <NavLink
+                    to="links"
+                    className="block py-2 px-3 hover:text-amber-300 duration-300"
+                    aria-current="page"
+                  >
+                    Mes Liens
+                  </NavLink>
+                </li>
                 <li>
                   <NavLink
                     to="profil"
@@ -94,7 +95,7 @@ export default function Header() {
                 </li>
                 <li>
                   <div
-                  onClick={handleLogout}
+                    onClick={handleLogout}
                     className="block py-2 px-3 hover:text-amber-300 duration-300 cursor-pointer"
                     aria-current="page"
                   >
@@ -123,7 +124,6 @@ export default function Header() {
                   </NavLink>
                 </li>
               </>
-             
             )}
           </ul>
         </div>

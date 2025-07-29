@@ -11,6 +11,7 @@ import Contact from "./pages/Contact";
 import Layout from "./components/layout/Layout";
 import NoConnectedRoute from "./components/layout/NoConnectedRoute";
 import ConnectedRoute from "./components/layout/ConnectedRoute";
+import Links from "./pages/Links";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,14 @@ const router = createBrowserRouter([
         element: (
           <ConnectedRoute>
             <Profile />
+          </ConnectedRoute>
+        ),
+      },
+      {
+        path: "links",
+        element: (
+          <ConnectedRoute>
+            <Links />
           </ConnectedRoute>
         ),
       },
