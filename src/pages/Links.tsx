@@ -1,4 +1,9 @@
-import UserLinksLoader from "@/components/desktop/components/links/UserLinksLoader";
+import BlockedUsers from "./LinksPageComponents/BlockedUsers";
+import MyLinks from "./LinksPageComponents/MyLinks";
+import ReceivedRequests from "./LinksPageComponents/ReceivedRequests";
+import SearchLinks from "./LinksPageComponents/SearchLinks";
+import SentRequests from "./LinksPageComponents/SentRequests";
+import UserLinksLoader from "./LinksPageComponents/UserLinksLoader";
 
 export default function Links() {
   return (
@@ -7,19 +12,24 @@ export default function Links() {
         Gestion des liens.
       </h2>
 
-    {/* UserLinksLoader => recréer un composant dédié dans un autre dossier pour organisation */}
-      <UserLinksLoader>  
+      {/* UserLinksLoader => recréer un composant dédié dans un autre dossier pour organisation */}
+      <UserLinksLoader>
         <h1>Mes liens</h1>
 
         {/* recherche utilisateurs */}
-        
+        <SearchLinks />
+
         {/* Demandes envoyées en attente */}
-        
+        <ReceivedRequests />
+
         {/* Demandes reçues en attente */}
-        
+        <SentRequests />
+
         {/*  Mes liens validés */}
-        
+        <MyLinks />
+
         {/*  liens bloqués */}
+        <BlockedUsers />
       </UserLinksLoader>
     </div>
   );
