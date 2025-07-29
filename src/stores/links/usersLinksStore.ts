@@ -19,7 +19,7 @@ interface UserLinksState {
   blockedUsers: Friends;
   isLoading: boolean;
   hasFetched: boolean;
-
+  
   fetchUserLinks: () => Promise<void>;
   sendRequest: (userId: number, name: string) => Promise<void>;
   acceptRequest: (fromId: number) => Promise<void>;
@@ -27,6 +27,7 @@ interface UserLinksState {
   cancelRequest: (fromId: number) => Promise<void>;
   breakLink: (fromId: number) => Promise<void>;
   unblockUser: (fromId: number) => Promise<void>;
+  reset(): void;
 }
 
 export const useUserLinksStore = create<UserLinksState>((set) => ({
@@ -56,12 +57,23 @@ export const useUserLinksStore = create<UserLinksState>((set) => ({
         blockedUsers: blocked,
         hasFetched: true,
       });
+      console.log("fetchUserLinks");
     } catch (error) {
       console.error("Failed to fetch user links:", error);
     } finally {
       set({ isLoading: false });
+      console.log("fetchUserLinks2");
     }
   },
+  reset: () =>
+    set({
+      friends: [],
+      pendingSentRequests: [],
+      receivedRequests: [],
+      blockedUsers: [],
+      isLoading: false,
+      hasFetched: false,
+    }),
 
   sendRequest: async (userId: number, name: string) => {
     try {

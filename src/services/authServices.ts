@@ -2,6 +2,7 @@ import { useAuthStore } from "@/stores/users/useAuthStore";
 import { useListsStore } from "@/stores/lists/useListsStore";
 import { URL_API } from "@/utils/env";
 import { jwtDecode } from "jwt-decode";
+import { useUserLinksStore } from "@/stores/links/usersLinksStore";
 
 interface JwtPayload {
   exp: number;
@@ -95,4 +96,5 @@ export function logout(): void {
   useAuthStore.getState().setUser(null);
   useAuthStore.getState().setToken(null);
   useListsStore.getState().resetLists();
+  useUserLinksStore.getState().reset();
 }

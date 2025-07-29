@@ -12,10 +12,10 @@ export default function useLogin() {
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
 
-
   async function login(name: string, password: string) {
     setError(null);
 
+    useAuthStore.getState().logout();
     if (!name || !password) {
       setError("Veuillez remplir tous les champs");
       return;
@@ -31,7 +31,6 @@ export default function useLogin() {
       });
 
       const data = await response.json();
-
 
       if (!response.ok) {
         throw new Error(data.message || "Erreur lors de la connexion");
@@ -50,9 +49,8 @@ export default function useLogin() {
         email: decoded.email || "",
       });
 
-    
-       navigate("/");
-        toast.success("Connexion réussie !!!");
+      navigate("/");
+      toast.success("Connexion réussie !!!");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError("Erreur : " + err.message);
