@@ -48,34 +48,31 @@ export default function Header() {
         </button>
         <div className="hidden w-full lg:block lg:w-auto" id="navbar-default">
           <ul className="font-medium flex flex-col p-4 lg:p-0 mt-4   lg:flex-row lg:space-x-8  lg:mt-0">
-            {viewport === "mobile" && (
-              <li>
-                <NavLink
-                  to="#"
-                  className="block py-2 px-3 hover:text-amber-300 duration-300"
-                  aria-current="page"
-                >
-                  Mes Listes
-                </NavLink>
-              </li>
-            )}
-            {viewport !== "desktop" && (
-              <div className="flex space-x-8 flex-col lg:flex-row">
-                <li>
-                  <NavLink
-                    to="#"
-                    className="block py-2 px-3 hover:text-amber-300 duration-300"
-                    aria-current="page"
-                  >
-                    Gestion des Partages
-                  </NavLink>
-                </li>{" "}
-              </div>
-            )}
-
             {isAuthenticated() ? (
               <>
-              <li>
+                {viewport !== "desktop" && (
+                  <li className="flex space-x-8 flex-col lg:flex-row">
+                    <NavLink
+                      to="#"
+                      className="block py-2 px-3 hover:text-amber-300 duration-300"
+                      aria-current="page"
+                    >
+                      Gestion des Partages
+                    </NavLink>
+                  </li>
+                )}
+                {viewport === "mobile" && (
+                  <li>
+                    <NavLink
+                      to="#"
+                      className="block py-2 px-3 hover:text-amber-300 duration-300"
+                      aria-current="page"
+                    >
+                      Mes Listes
+                    </NavLink>
+                  </li>
+                )}
+                <li>
                   <NavLink
                     to="links"
                     className="block py-2 px-3 hover:text-amber-300 duration-300"

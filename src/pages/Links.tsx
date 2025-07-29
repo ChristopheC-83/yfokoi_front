@@ -1,4 +1,4 @@
-import React from "react";
+import UserLinksLoader from "@/components/desktop/components/links/UserLinksLoader";
 
 export default function Links() {
   return (
@@ -6,6 +6,21 @@ export default function Links() {
       <h2 className="text-2xl font-bold text-amber-100 my-5">
         Gestion des liens.
       </h2>
+
+    {/* UserLinksLoader => recréer un composant dédié dans un autre dossier pour organisation */}
+      <UserLinksLoader>  
+        <h1>Mes liens</h1>
+
+        {/* recherche utilisateurs */}
+        
+        {/* Demandes envoyées en attente */}
+        
+        {/* Demandes reçues en attente */}
+        
+        {/*  Mes liens validés */}
+        
+        {/*  liens bloqués */}
+      </UserLinksLoader>
     </div>
   );
 }
