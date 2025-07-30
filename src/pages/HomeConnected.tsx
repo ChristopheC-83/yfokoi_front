@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import DesktopContent from "@/components/desktop/DesktopContent";
-import DesktopFriends from "@/components/desktop/DesktopFriends";
 import DesktopLists from "@/components/desktop/DesktopLists";
 import DesktopSharing from "@/components/desktop/DesktopSharing";
 import useViewport from "@/hooks/lists/useIsDesktop";
@@ -29,7 +28,6 @@ export default function HomeConnected({ user }: HomeConnectedProps) {
       {viewport === "desktop" && (
         <section className="flex flex-col">
           <DesktopSharing user={user} />
-          <DesktopFriends user={user} />
         </section>
       )}
     </section>
