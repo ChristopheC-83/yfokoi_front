@@ -3,8 +3,7 @@ import { useUserLinksStore } from "@/stores/links/usersLinksStore";
 import OneReceived from "./OneReceived";
 
 export default function ReceivedRequests() {
-  const { receivedRequests, isLoading } =
-    useUserLinksStore();
+  const { receivedRequests, isLoading } = useUserLinksStore();
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -16,20 +15,22 @@ export default function ReceivedRequests() {
   // }, [fetchUserLinks]);
 
   return (
-    <div>
+    <div className="w-full mb-10">
       {isLoading ? (
         <p>Chargement...</p>
-      ) : receivedRequests.length === 0 ? (
-        <p>Tu n’as pas de lien.</p>
       ) : (
-        <>
-          <h2  className="mt-4 mb-2">Mes Demandes à Valider</h2>
-          <div className="flex flex-col gap-2">
-            {receivedRequests.map((friend) => (
-              <OneReceived key={friend.id} friend={friend} />
-            ))}
-          </div>
-        </>
+        receivedRequests.length !== 0 && (
+          <>
+            <h2 className="mt-4 mb-2 font-bold underline underline-offset-4">
+              Mes Demandes à Valider
+            </h2>
+            <div className="flex flex-wrap gap-3">
+              {receivedRequests.map((friend) => (
+                <OneReceived key={friend.id} friend={friend} />
+              ))}
+            </div>
+          </>
+        )
       )}
     </div>
   );
