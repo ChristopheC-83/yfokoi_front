@@ -28,8 +28,8 @@ export default function OneLink({ friend }: OneLinkProps) {
 
 
   return (
-    <div className="rounded-lg shadow border-2 border-amber-100 bg-slate-700 p-2 flex items-center justify-between hover:bg-slate-600 transition-colors duration-300">
-      <div className="flex flex-col">
+    <div className="rounded-lg shadow border-2 border-amber-100 bg-slate-700 p-2 flex items-center justify-between hover:bg-slate-600 transition-colors duration-300 w-[90%] max-w-[250px]">
+      <div className="flex flex-col justify-start overflow-hidden grow">
         <p className="text-amber-100">{friend.name}</p>
         <p className="text-xs text-gray-200">{friend.email}</p>
       </div>

@@ -13,13 +13,15 @@ export default function BlockedUsers() {
   // }, [fetchUserLinks]);
 
   return (
-    <div>
+    <div className="w-full mb-10">
       {isLoading ? (
         <p>Chargement...</p>
       ) : blockedUsers.length !== 0 && (
         <>
-          <h2 className="mt-4 mb-2">Les Utilisateurs que j'ai bloqués :</h2>
-          <div className="flex flex-col gap-2">
+          <h2 className="mt-4 mb-2 font-bold underline underline-offset-4">
+            Les Utilisateurs que j'ai bloqués :
+          </h2>
+            <div className="flex flex-wrap gap-3 max-md:justify-center">
             {blockedUsers.map((blockedUser) => (
               <OneBlockedUser key={blockedUser.id} blockedUser={blockedUser} />
             ))}
