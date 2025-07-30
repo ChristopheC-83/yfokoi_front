@@ -31,8 +31,8 @@ export default function SearchLinks() {
   }
 
   return (
-    <div>
-      <h2 className="mt-4 mb-2">Rechercher</h2>
+    <div className="w-full mb-10">
+      <h2 className="mt-4 mb-2 font-bold underline underline-offset-4">Rechercher :</h2>
 
       <form onSubmit={handleSearchName} className="flex justify-center gap-x-2">
         <input
