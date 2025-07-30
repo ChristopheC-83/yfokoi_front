@@ -22,9 +22,9 @@ export default function ReceivedRequests() {
         receivedRequests.length !== 0 && (
           <>
             <h2 className="mt-4 mb-2 font-bold underline underline-offset-4">
-              Mes Demandes à Valider
+              Mes Demandes à Valider :
             </h2>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 max-md:justify-center">
               {receivedRequests.map((friend) => (
                 <OneReceived key={friend.id} friend={friend} />
               ))}
