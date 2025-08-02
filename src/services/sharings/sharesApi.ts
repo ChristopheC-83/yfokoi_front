@@ -1,60 +1,63 @@
+import { useAuthStore } from "@/stores/users/useAuthStore";
 import type { ListShare } from "@/types/ListShare";
+import { URL_API } from "@/utils/env";
 
 
 //  toutes ces fonctions sont à revoir !
 
 
+const getToken = () => useAuthStore.getState().token;
+
+const fetchSharesWithAuth = async (url: string, options: RequestInit = {}) => {
+  const token = getToken();
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+    ...(options.headers || {}),
+  }; const res = await fetch(url, { ...options, headers });
+
+  if (!res.ok) throw new Error(`Failed request: ${url} – ${res.status}`);
+  return res;
+};
 // fonction pour récupérer tous les partages
-export async function fetchShares(): Promise<ListShare[]> {
-  return fetch("/api/shares")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to fetch shares");
-      }
-      return response.json();
-    })
-    .catch((error) => {
-      console.error("Error fetching shares:", error);
-      throw error;
+export async function fetchAllSharesFromApi(): Promise<ListShare[]> {
+  const res = await fetchSharesWithAuth(`${URL_API}/api_shares/getAllShares`, {
+      method: "GET",
     });
+    const friends = await res.json();
+    return friends;
 }
 
 // fonction pour créer un partage
 export async function createShare(share: Omit<ListShare, "author_name">): Promise<void> {
-  const response = await fetch("/api/shares", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(share),
-    });
-    if (!response.ok) {
-        throw new Error("Failed to create share");
-    }
+  await fetchSharesWithAuth(`${URL_API}/api_shares/createShare`, {
+    method: "POST",
+    body: JSON.stringify(share),
+  });
 }
 
 // fonction pour mettre à jour un partage
 export async function updateShare(listId: number, userId: number, access: number): Promise<void> {
-  return fetch(`/api/shares/${listId}/${userId}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ access_level: access }),
-  }).then((response) => {
-    if (!response.ok) {
-      throw new Error("Failed to update share");
-    }
+  await fetchSharesWithAuth(`${URL_API}/api_shares/updateShare`, {
+    method: "POST",
+    body: JSON.stringify({
+      list_id: listId,
+      user_id: userId,
+      access_level: access,
+    }),
   });
 }
 
+
+
+
 // fonction pour supprimer un partage
 export async function removeShare(listId: number, userId: number): Promise<void> {
-  return fetch(`/api/shares/${listId}/${userId}`, {
-    method: "DELETE",
-  }).then((response) => {
-    if (!response.ok) {
-      throw new Error("Failed to remove share");
-    }
+  await fetchSharesWithAuth(`${URL_API}/api_shares/removeShare`, {
+    method: "POST",
+    body: JSON.stringify({
+      list_id: listId,
+      user_id: userId,
+    }),
   });
 }

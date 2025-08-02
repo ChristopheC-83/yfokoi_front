@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import type { ListShare } from "@/types/ListShare";
 import {
-  fetchShares,
+  fetchAllSharesFromApi,
   createShare,
   updateShare,
   removeShare,
@@ -13,7 +13,7 @@ interface ShareState {
   isLoading: boolean;
   hasFetched: boolean;
 
-  fetchShares: () => Promise<void>;
+  fetchAllShares: () => Promise<void>;
   addShare: (share: Omit<ListShare, "author_name">) => Promise<void>;
   updateShare: (listId: number, userId: number, access: number) => Promise<void>;
   removeShare: (listId: number, userId: number) => Promise<void>;
@@ -25,12 +25,12 @@ export const useSharesStore = create<ShareState>((set, get) => ({
   isLoading: false,
   hasFetched: false,
 
-  fetchShares: async () => {
+  fetchAllShares: async () => {
     const { hasFetched } = get();
     if (hasFetched) return;
     set({ isLoading: true });
     try {
-      const shares = await fetchShares(); 
+      const shares = await fetchAllSharesFromApi(); 
       set({ shares, hasFetched: true });
     } catch (err) {
       console.error("Erreur lors du fetch des partages :", err);
