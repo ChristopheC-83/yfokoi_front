@@ -10,15 +10,26 @@ interface ActivSharingsProps {
 export default function ActivSharings({ share }: ActivSharingsProps) {
   const [accessLevel, setAccessLevel] = useState(share.access_level);
 
-  const { updateShare } = useSharesStore();
+  const { updateShare,removeShare } = useSharesStore();
 
-  async function handleShareUpdate(newLevel: 1 | 2 | 3 | 4) {
-    try {
-      await updateShare(share.list_id, share.user_id, newLevel);
-      toast.success("Partage mis à jour avec succès");
-    } catch (error) {
-      toast.error("Erreur lors de la mise à jour du partage");
-      console.error(error);
+  async function handleShareUpdate(newLevel: 1 | 2 | 3 | 4 | 5) {
+    if (newLevel === 5) {
+      console.log("Suppression du partage");
+      try {
+        await removeShare(share.list_id, share.user_id);
+        toast.success("Partage supprimé avec succès");
+      } catch (error) {
+        toast.error("Erreur lors de la suppression du partage");
+        console.error(error);
+      }
+    } else {
+      try {
+        await updateShare(share.list_id, share.user_id, newLevel);
+        toast.success("Partage mis à jour avec succès");
+      } catch (error) {
+        toast.error("Erreur lors de la mise à jour du partage");
+        console.error(error);
+      }
     }
   }
 
@@ -40,6 +51,7 @@ export default function ActivSharings({ share }: ActivSharingsProps) {
           <option value="2">et ajouter des notes</option>
           <option value="3">et modifier ses notes</option>
           <option value="4">et toutes les notes</option>
+          <option value="5">ne plus partager</option>
         </select>
       </form>
     </div>

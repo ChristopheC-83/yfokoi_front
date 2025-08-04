@@ -51,7 +51,7 @@ export async function updateShareFromApi(listId: number, userId: number, access:
 // fonction pour supprimer un partage
 export async function removeShareFromApi(listId: number, userId: number): Promise<void> {
   await fetchSharesWithAuth(`${URL_API}/api_shares/removeShare`, {
-    method: "POST",
+    method: "DELETE",
     body: JSON.stringify({
       list_id: listId,
       user_id: userId,
