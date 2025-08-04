@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/stores/users/useAuthStore";
-import type { ListShare } from "@/types/ListShare";
+import type { activListShare, ListShare } from "@/types/ListShare";
 import { URL_API } from "@/utils/env";
 
 
@@ -20,7 +20,7 @@ const fetchSharesWithAuth = async (url: string, options: RequestInit = {}) => {
   return res;
 };
 // fonction pour récupérer tous les partages
-export async function fetchAllSharesFromApi(): Promise<ListShare[]> {
+export async function fetchAllSharesFromApi(): Promise<activListShare[]> {
   const res = await fetchSharesWithAuth(`${URL_API}/api_shares/getAllShares`, {
       method: "GET",
     });
@@ -29,7 +29,7 @@ export async function fetchAllSharesFromApi(): Promise<ListShare[]> {
 }
 
 // fonction pour créer un partage
-export async function createShare(share: Omit<ListShare, "author_name">): Promise<void> {
+export async function createShareFromApi(share: Omit<ListShare, "author_name">): Promise<void> {
   await fetchSharesWithAuth(`${URL_API}/api_shares/createShare`, {
     method: "POST",
     body: JSON.stringify(share),
@@ -37,9 +37,9 @@ export async function createShare(share: Omit<ListShare, "author_name">): Promis
 }
 
 // fonction pour mettre à jour un partage
-export async function updateShare(listId: number, userId: number, access: number): Promise<void> {
+export async function updateShareFromApi(listId: number, userId: number, access: number): Promise<void> {
   await fetchSharesWithAuth(`${URL_API}/api_shares/updateShare`, {
-    method: "POST",
+    method: "PATCH",
     body: JSON.stringify({
       list_id: listId,
       user_id: userId,
@@ -48,11 +48,8 @@ export async function updateShare(listId: number, userId: number, access: number
   });
 }
 
-
-
-
 // fonction pour supprimer un partage
-export async function removeShare(listId: number, userId: number): Promise<void> {
+export async function removeShareFromApi(listId: number, userId: number): Promise<void> {
   await fetchSharesWithAuth(`${URL_API}/api_shares/removeShare`, {
     method: "POST",
     body: JSON.stringify({

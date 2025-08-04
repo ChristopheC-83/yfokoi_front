@@ -1,5 +1,5 @@
 export interface ListShare {
-  id_list: number;
+  list_id: number;
   author_id: number;
   author_name: string;
   user_id: number;
@@ -10,3 +10,14 @@ export interface ListShare {
 //  2 lecture et ajouter des notes
 //  3 lecture, ajouter des notes et modifier ses notes
 //  4 : lecture, ajouter des notes et modifier toutes les notes 
+
+export interface activListShare {
+  id: number;
+  author_id: number;
+  author_name: string;
+  user_id: number;
+  list_id: number;
+  access_level: 1 | 2 | 3 | 4; 
+  list_name: string;
+  user_name: string;
+}

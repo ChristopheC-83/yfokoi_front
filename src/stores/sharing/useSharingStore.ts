@@ -1,20 +1,20 @@
 import { create } from "zustand";
-import type { ListShare } from "@/types/ListShare";
+import type { activListShare  } from "@/types/ListShare";
 import {
   fetchAllSharesFromApi,
-  createShare,
-  updateShare,
-  removeShare,
+  createShareFromApi,
+  updateShareFromApi,
+  removeShareFromApi,
 } from "@/services/sharings/sharesApi";
 import { useAuthStore } from "../users/useAuthStore";
 
 interface ShareState {
-  shares: ListShare[];
+  shares: activListShare [];
   isLoading: boolean;
   hasFetched: boolean;
 
   fetchAllShares: () => Promise<void>;
-  addShare: (share: Omit<ListShare, "author_name">) => Promise<void>;
+  addShare: (share: activListShare) => Promise<void>;
   updateShare: (listId: number, userId: number, access: number) => Promise<void>;
   removeShare: (listId: number, userId: number) => Promise<void>;
   reset: () => void;
@@ -30,7 +30,7 @@ export const useSharesStore = create<ShareState>((set, get) => ({
     if (hasFetched) return;
     set({ isLoading: true });
     try {
-      const shares = await fetchAllSharesFromApi(); 
+      const shares: activListShare[] = await fetchAllSharesFromApi(); 
       set({ shares, hasFetched: true });
     } catch (err) {
       console.error("Erreur lors du fetch des partages :", err);
@@ -49,7 +49,7 @@ export const useSharesStore = create<ShareState>((set, get) => ({
       author_name: user.name,
     };
 
-    await createShare(shareToAdd);
+    await createShareFromApi(shareToAdd);
 
     set((state) => ({
       shares: [...state.shares, shareToAdd],
@@ -61,11 +61,11 @@ export const useSharesStore = create<ShareState>((set, get) => ({
 
   updateShare: async (listId, userId, access) => {
   try {
-    await updateShare(listId, userId, access);
+    await updateShareFromApi(listId, userId, access);
 
     set((state) => ({
       shares: state.shares.map((s) => {
-        if (s.id_list === listId && s.user_id === userId) {
+        if (s.list_id === listId && s.user_id === userId) {
           return {
             ...s,
             access_level: access as 1 | 2 | 3 | 4, 
@@ -82,10 +82,10 @@ export const useSharesStore = create<ShareState>((set, get) => ({
 
   removeShare: async (listId, userId) => {
     try {
-      await removeShare(listId, userId);
+      await removeShareFromApi(listId, userId);
       set((state) => ({
         shares: state.shares.filter(
-          (s) => !(s.id_list === listId && s.user_id === userId)
+          (s) => !(s.list_id === listId && s.user_id === userId)
         ),
       }));
     } catch (err) {
