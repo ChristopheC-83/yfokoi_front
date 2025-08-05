@@ -21,3 +21,9 @@ export interface activListShare {
   list_name: string;
   user_name: string;
 }
+
+export type ShareToCreate = {
+  list_id: number;
+  user_id: number;
+  author_id: number;
+};

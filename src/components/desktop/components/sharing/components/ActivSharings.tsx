@@ -14,7 +14,7 @@ export default function ActivSharings({ share }: ActivSharingsProps) {
 
   async function handleShareUpdate(newLevel: 1 | 2 | 3 | 4 | 5) {
     if (newLevel === 5) {
-      console.log("Suppression du partage");
+      // console.log("Suppression du partage");
       try {
         await removeShare(share.list_id, share.user_id);
         toast.success("Partage supprimé avec succès");

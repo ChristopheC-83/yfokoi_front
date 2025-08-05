@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { activListShare  } from "@/types/ListShare";
+import type { activListShare } from "@/types/ListShare";
 import {
   fetchAllSharesFromApi,
   createShareFromApi,
@@ -9,13 +9,17 @@ import {
 import { useAuthStore } from "../users/useAuthStore";
 
 interface ShareState {
-  shares: activListShare [];
+  shares: activListShare[];
   isLoading: boolean;
   hasFetched: boolean;
 
   fetchAllShares: () => Promise<void>;
-  addShare: (share: activListShare) => Promise<void>;
-  updateShare: (listId: number, userId: number, access: number) => Promise<void>;
+  addShare: (listId: number, userId: number) => Promise<void>;
+  updateShare: (
+    listId: number,
+    userId: number,
+    access: number
+  ) => Promise<void>;
   removeShare: (listId: number, userId: number) => Promise<void>;
   reset: () => void;
 }
@@ -30,7 +34,7 @@ export const useSharesStore = create<ShareState>((set, get) => ({
     if (hasFetched) return;
     set({ isLoading: true });
     try {
-      const shares: activListShare[] = await fetchAllSharesFromApi(); 
+      const shares: activListShare[] = await fetchAllSharesFromApi();
       set({ shares, hasFetched: true });
     } catch (err) {
       console.error("Erreur lors du fetch des partages :", err);
@@ -39,46 +43,54 @@ export const useSharesStore = create<ShareState>((set, get) => ({
     }
   },
 
-  addShare: async (share) => {
+addShare: async (userId: number, listId: number) => {
   try {
-    const user = useAuthStore.getState().user!; 
+    const user = useAuthStore.getState().user!;
 
     const shareToAdd = {
-      ...share,
+      list_id: listId,
+      user_id: userId,
       author_id: Number(user.id),
-      author_name: user.name,
     };
 
-    await createShareFromApi(shareToAdd);
+    const response = await createShareFromApi(shareToAdd);
 
     set((state) => ({
-      shares: [...state.shares, shareToAdd],
+      shares: [
+        ...state.shares,
+        {
+          ...shareToAdd,
+          ...response, // ici ça fonctionne
+          author_name: user.name,
+        },
+      ],
     }));
   } catch (err) {
     console.error("Erreur lors du partage :", err);
   }
 },
 
+
+
   updateShare: async (listId, userId, access) => {
-  try {
-    await updateShareFromApi(listId, userId, access);
+    try {
+      await updateShareFromApi(listId, userId, access);
 
-    set((state) => ({
-      shares: state.shares.map((s) => {
-        if (s.list_id === listId && s.user_id === userId) {
-          return {
-            ...s,
-            access_level: access as 1 | 2 | 3 | 4, 
-          };
-        }
-        return s;
-      }),
-    }));
-  } catch (err) {
-    console.error("Erreur lors de la mise à jour du partage :", err);
-  }
-},
-
+      set((state) => ({
+        shares: state.shares.map((s) => {
+          if (s.list_id === listId && s.user_id === userId) {
+            return {
+              ...s,
+              access_level: access as 1 | 2 | 3 | 4,
+            };
+          }
+          return s;
+        }),
+      }));
+    } catch (err) {
+      console.error("Erreur lors de la mise à jour du partage :", err);
+    }
+  },
 
   removeShare: async (listId, userId) => {
     try {
