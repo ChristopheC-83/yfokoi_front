@@ -52,13 +52,13 @@ export default function DesktopListsItem({
 
   return (
     <div
-      className={`flex items-stretch  m-1 py-1   hover:text-amber-300 hover:bg-slate-700 duration-300 rounded-lg  ${
+      className={`flex items-stretch  my-4 py-1   hover:text-amber-300 hover:bg-slate-700 duration-300 rounded-lg  ${
         isSelected && "bg-slate-900"
       }`}
       key={id}
     >
       <div
-        className="flex justify-center items-start pt-2 cursor-heart w-10 text-2xl"
+        className={`flex justify-center items-start  cursor-heart w-10 text-2xl ${!isOwnedList && "pt-1"}`}
         onClick={() => changeFavoriteList(id)}
       >
         {favoriteListId === id ? <FaHeart /> : <FaRegHeart />}
@@ -67,11 +67,12 @@ export default function DesktopListsItem({
         <h2 className={`font-semibold ${isSelected && "text-amber-200"}`}>
           {name}
         </h2>
-        <p className="text-gray-600">Liste de : {ownerName} </p>
-        <p className="text-sm text-gray-600">(id : {id})</p>
+        {!isOwnedList && 
+            <p className="text-gray-600">Liste de : {ownerName} </p>
+        }
       </div>
       {isOwnedList && <div
-        className="w-6 flex justify-center items-start cursor-trash pt-2 " onClick={()=> trashList()}>
+        className="w-6 flex justify-center items-start cursor-trash  text-xl pt-0.5" onClick={()=> trashList()}>
         <FaRegTrashCan />
       </div>}
     </div>
