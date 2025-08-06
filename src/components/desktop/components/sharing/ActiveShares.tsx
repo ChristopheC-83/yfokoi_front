@@ -7,6 +7,7 @@ import ActivSharings from "./components/ActivSharings";
 import InactivSharings from "./components/InactivSharings";
 import { useUserLinksStore } from "@/stores/links/usersLinksStore";
 import type { Friends } from "@/types/Friends";
+import { useListsStore } from "@/stores/lists/useListsStore";
 
 export default function ActiveShares() {
   const { shares, isLoading, fetchAllShares } = useSharesStore();
@@ -14,6 +15,8 @@ export default function ActiveShares() {
   const { selectedListId } = useUserContextStore();
   const [activSharings, setActiveSharings] = useState<activListShare[]>([]);
   const [inActivSharings, setInActiveSharings] = useState<Friends>([]);
+  const {ownedLists} = useListsStore();
+  const [isOwnerList, setIsOwnerList] = useState<boolean>(false);
 
   useEffect(() => {
     fetchAllShares();
@@ -24,6 +27,8 @@ export default function ActiveShares() {
     if (!hasFetched) {
       fetchUserLinks();
     }
+  
+
   }, [hasFetched]);
 
   function processSharings(
@@ -70,7 +75,17 @@ export default function ActiveShares() {
     );
     setActiveSharings(activSharings);
     setInActiveSharings(inActivSharings);
+
+    const isOwner =
+    selectedListId !== null &&
+    ownedLists.some((list) => list.id === selectedListId);
+    setIsOwnerList(isOwner);
   }, [shares, selectedListId, friends]);
+
+
+  if(!isOwnerList){
+    return <div className="text-center my-4">Vous n'êtes pas autorisé à partager cette liste.</div>;
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
